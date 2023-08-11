@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>EmojiCraft</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background-color: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      zoom: 100%;
+      transform-origin: top left;
+      font-family: 'Lato', sans-serif;
+      
+      overflow: hidden;
+      user-select: none;
+    }
+
+    .corner {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      color: white;
+      font-size: 20px;
+      white-space: pre-wrap;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .hover-text {
+      position: absolute;
+      display: none;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 5px;
+      border-radius: 3px;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    .corner:hover + .hover-text {
+      display: block;
+    }
+
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(100, 30px);
+      gap: 1px;
+    }
+
+    .cell {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 40px;
+      font-size: 30px;
+      color: white;
+      background-color: #222;
+      border-radius: 5px;
+    }
+
+    .viewport {
+      width: calc(50% + 200px);
+      height: calc(50% + 200px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    #inputBox {
+      position: absolute;
+      top: 1%;
+      background-color: #222;
+      border: 2px transparent;
+      border-radius: 10px;
+      color: #333;
+    }
+
+    #emojiGrid {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: grid;
+      grid-template-columns: repeat(9, 45px);
+      grid-template-rows: repeat(9, 45px);
+      background-color: transparent;
+      border: none;
+      outline: none;
+      cursor: pointer;
+    }
+
+    #foodHealth {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 20px;
+      white-space: pre-wrap;
+      z-index: 1;
+    }
+    
+    #bossHealth {
+      position: absolute;
+      top: 10px;
+      right: 50%;
+      font-size: 20px;
+      white-space: pre-wrap;
+      z-index: 1;
+    }
+    
+    #sunmoon {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      font-size: 20px;
+      z-index: 1;
+      color: white;
+    }
+
+    .inventory {
+      display: grid;
+      grid-template-columns: repeat(100, 30px);
+      gap: 15px;
+      position: relative;
+    }
+
+    .inv-item {
+      width: 45px;
+      height: 870px;
+      font-size: 30px;
+      color: white;
+      display: grid;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .inv-number {
+      position: absolute;
+      width: 45px;
+      height: 870px;
+      font-size: 20px;
+      color: white;
+      display: flex;
+      padding: 15px;
+      gap: 15px;
+      justify-content: center;
+      align-items: center;
+      transform: translateY(15px);
+    }
+    
+    .tooltip {
+      position: absolute;
+      top: 1%;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 5px;
+      font-size: 16px;
+      border-radius: 5px;
+      pointer-events: none;  
+      text-align: center;
+    }
+  </style>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,400i,700">
+</head>
+<body>
+
+  <!-- Health, Food, and Inventory Bars -->
+  <input type="text" id="inputBox" autocorrect="off" autocapitalize="off" onclick="this.setSelectionRange(0, this.value.length)"></input>
+  <div class="corner" id="healthBar">❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️</div>
+  <div class="hover-text">Text to display</div>
+  
+    <div class="corner" id="bossHealth"></div>
+  <div id="foodHealth"></div>
+  <div class="viewport" id="viewport">
+    <div class="grid" id="emojiGrid"></div>
+    <div class="inventory" id="inventoryBar">
+      <div class="inv-item" id="slot1"> <span class="inv-number" id="s1"></span>🗡️</div>
+      <div class="inv-item" id="slot2"> <span class="inv-number" id="s2"></span>⛏️</div>
+      <div class="inv-item" id="slot3"> <span class="inv-number" id="s3"></span>🪓</div>
+      <div class="inv-item" id="slot4"></div>
+      <div class="inv-item" id="slot5"></div>
+      <div class="inv-item" id="slot6"></div>
+      <div class="inv-item" id="slot7"></div>
+      <div class="inv-item" id="slot8"></div>
+      <div class="inv-item" id="slot9"></div>
+
+      <div class="inv-number" id="s4"></div>
+      <div class="inv-number" id="s5"></div>
+      <div class="inv-number" id="s6"></div>
+      <div class="inv-number" id="s7"></div>
+      <div class="inv-number" id="s8"></div>
+      <div class="inv-number" id="s9"></div>
+    </div>
+  </div>
+  
+  <div class="tooltip" id="tooltip"></div>
+  <div id="sunmoon">☀</div>
+  <script src="script.js"></script>
+</body>
+
+</html>
