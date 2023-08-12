@@ -24,12 +24,16 @@ document.addEventListener("DOMContentLoaded", function () {
   
   var sandboxMode = false;
   let divisor;
+  let wings;
   if (navigator.userAgent.indexOf("Chromebook") !== -1) {
     divisor = 26;
+    wings = "🪽";
   } else if (navigator.userAgent.indexOf("Windows") !== -1) {
     divisor = 30;
+    wings = "𓆩𓆪";
   } else {
     divisor = 30;
+    wings = "🪽";
   }
 
   var GRID_NUMBER = 9;
@@ -54,6 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var bossHealth = MAX_BOSS_HEALTH;
   var boss_mode = false;
   var boss_move = true;
+  var dragonDefeated = false;
   var win = false;
   var speed = 500;
   var damageTick = 1000;
@@ -106,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var showInv = "";
 
   var Inventory = [
-    ["🗡️", "⛏️", "🪓", "", "", "", "", "", ""],
+    ["🗡️", "⛏️", "🪓", "", "", "", "", "🧨", "🔮"],
     ["", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", ""],
@@ -115,7 +120,7 @@ document.addEventListener("DOMContentLoaded", function () {
   ];
 
   var inventoryValue = [
-    [" ", " ", " ", "", "", "", "", "", ""],
+    [" ", " ", " ", "", "", "", "", "4", " "],
     ["", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", ""],
@@ -135,24 +140,11 @@ document.addEventListener("DOMContentLoaded", function () {
   corner.addEventListener('mousemove', (event) => {
     hoverText.style.left = `${event.clientX}px`;
     hoverText.style.top = `${event.clientY + 10}px`;
-
-    updateHoverText(event); // Call the function on mouse move
-  });
-
-  corner.addEventListener('mouseenter', () => {
-    hoverText.style.left = '0'; // Reset the hover text position
-    hoverText.style.top = '0';
-  });
-
-  corner.addEventListener('mouseleave', () => {
-    hoverText.style.left = '-9999px';
-  });
-
-  // Function to update hover text content based on Inventory
-  function updateHoverText() {
+    
+    // Hover Text
     const clickArea = document.getElementById('healthBar');
-    const mouseX = event.clientX - clickArea.getBoundingClientRect().left ?? "";
-    const mouseY = event.clientY - clickArea.getBoundingClientRect().top ?? "";
+    const mouseX = event.clientX - clickArea.getBoundingClientRect().left;
+    const mouseY = event.clientY - clickArea.getBoundingClientRect().top;
 
     let s1Row = parseInt(Math.round((mouseY - 30) / divisor)); // Make sure divisor is defined
     let s1Col = parseInt(Math.round((mouseX - 3) / divisor)); // Make sure divisor is defined
@@ -173,12 +165,16 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     } else {hover = "";}
     hoverText.textContent = hover;
-    setTimeout(updateHoverText, 1000);
-  }
+  });
 
-  // Initial call to start updating hover text
-  updateHoverText();
+  corner.addEventListener('mouseenter', () => {
+    hoverText.style.left = '0';
+    hoverText.style.top = '0';
+  });
 
+  corner.addEventListener('mouseleave', () => {
+    hoverText.style.left = '-9999px';
+  });
 
   var objectProperties = {
     "🌊": {
@@ -234,6 +230,83 @@ document.addEventListener("DOMContentLoaded", function () {
       toolRequired: "👊",
       loot: ""
     },
+    "𓇠": {
+      name: "Tomato Seed",
+      canBeWalkedOn: true,
+      durability: 8,
+      toolRequired: "👊",
+      loot: "𓇠"
+    },
+    "𓇢": {
+      name: "Corn Seed",
+      canBeWalkedOn: true,
+      durability: 8,
+      toolRequired: "👊",
+      loot: "𓇢"
+    },
+    "𓄺": {
+      name: "Potato Seed",
+      canBeWalkedOn: true,
+      durability: 8,
+      toolRequired: "👊",
+      loot: "𓄺"
+    },
+    "⌁": {
+      name: "Lettuce Seed",
+      canBeWalkedOn: true,
+      durability: 8,
+      toolRequired: "👊",
+      loot: "⌁"
+    },
+    "❦": {
+      name: "Grape Seed",
+      canBeWalkedOn: true,
+      durability: 8,
+      toolRequired: "👊",
+      loot: "❦"
+    },
+    "𓇼": {
+      name: "Sand Seed",
+      canBeWalkedOn: true,
+      durability: 8,
+      toolRequired: "👊",
+      loot: "𓇼"
+    },
+    "𓇡": {
+      name: "Bean Seed",
+      canBeWalkedOn: true,
+      durability: 8,
+      toolRequired: "👊",
+      loot: "𓇡"
+    },
+    ".": {
+      name: "Wheat Seed",
+      canBeWalkedOn: true,
+      durability: 8,
+      toolRequired: "👊",
+      loot: "."
+    },
+    ":･": {
+      name: "Melon Seed",
+      canBeWalkedOn: true,
+      durability: 8,
+      toolRequired: "👊",
+      loot: ":･"
+    },
+    "˖": {
+      name: "Tree Sapling",
+      canBeWalkedOn: true,
+      durability: 8,
+      toolRequired: "👊",
+      loot: "˖"
+    },
+    "↟": {
+      name: "Spruce Sapling",
+      canBeWalkedOn: true,
+      durability: 8,
+      toolRequired: "👊",
+      loot: "↟"
+    },
     "☘️": {
       name: "Shamrock",
       canBeWalkedOn: true,
@@ -254,6 +327,20 @@ document.addEventListener("DOMContentLoaded", function () {
       durability: 3,
       toolRequired: "👊",
       loot: "🌷"
+    },
+    "🧨": {
+      name: "Dynamite",
+      canBeWalkedOn: true,
+      durability: 10,
+      toolRequired: "👊",
+      loot: "🧨"
+    },
+    "💣": {
+      name: "Bomb",
+      canBeWalkedOn: true,
+      durability: 10,
+      toolRequired: "👊",
+      loot: "💣"
     },
     "🪨": {
       name: "Stone",
@@ -594,21 +681,38 @@ document.addEventListener("DOMContentLoaded", function () {
       toolRequired: "🗡️",
       loot: "🌈"
     },
+    "🧞": {
+      name: "Genie",
+      description: "I'll grant you 3 wishes...",
+      isAnimal: true,
+      canBeWalkedOn: false,
+      durability: 7,
+      toolRequired: "🗡️",
+      loot: "🫖"
+    },
     "🪬": {
       name: "Hamsa",
       description: "He sees all...",
       canBeWalkedOn: false,
-      durability: 2,
-      toolRequired: "🗡️",
-      loot: ""
+      durability: 5,
+      toolRequired: "⛏",
+      loot: "🪬"
     },
     "🤡": {
       name: "The Joker",
       description: "???",
       canBeWalkedOn: false,
-      durability: 2,
-      toolRequired: "🗡️",
-      loot: ""
+      durability: 5,
+      toolRequired: "⛏",
+      loot: "🤡"
+    },
+    "🐲": {
+      name: "Dragonic",
+      description: "Do not awaken from its slumber",
+      canBeWalkedOn: false,
+      durability: 10,
+      toolRequired: "⛏",
+      loot: "🐲"
     },
     "☄": {
       name: "Comet",
@@ -622,8 +726,8 @@ document.addEventListener("DOMContentLoaded", function () {
       name: "UFO",
       description: "Unidentified Flying Object",
       canBeWalkedOn: false,
-      durability: 10,
-      toolRequired: "⛏️",
+      durability: 7,
+      toolRequired: "🗡",
       loot: "🌠"
     },
     "🌾": {
@@ -667,6 +771,13 @@ document.addEventListener("DOMContentLoaded", function () {
       durability: 2,
       toolRequired: "👊",
       loot: "🥔"
+    },
+    "🍇": {
+      name: "Grapes",
+      canBeWalkedOn: true,
+      durability: 2,
+      toolRequired: "👊",
+      loot: "🍇"
     },
     "🏠": {
       name: "House",
@@ -1057,7 +1168,7 @@ document.addEventListener("DOMContentLoaded", function () {
       amountsNeeded: [2,1],
       required: "🍳",
     },
-    "𓆩𓆪": {
+    "𓆩𓆪​": {
       name: "Wings",
       itemsNeeded: ["🪶"],
       amountsNeeded: [4],
@@ -1172,7 +1283,7 @@ document.addEventListener("DOMContentLoaded", function () {
       qrequired: ["🍔"],
       output: "🤖",
       currentQuest: 2,
-      quest2: ["You want to get into space, eh? If you give the materials, I think I could make that happen","🚀","🔩","🔩","🔩","🔩","🔩","🔩","🔩","🪙","🪙","🪙","🪙","🪙","🌌"],
+      quest2: ["You want to get into space, eh? If you give the materials, I think I could make that happen","🚀","🔩","🔩","🔩","🔩","🔩","🔩","⚙","🪙","🪙","🪙","🪙","🪙","🌌"],
       quest3: ["Is it true that there's alien life out there? If you can get me some UFO parts, I'll see what I can make","👽","🌠","🌠","🌠","🌠","🌠"],
     },
     "👷‍♂️": {
@@ -1435,32 +1546,32 @@ document.addEventListener("DOMContentLoaded", function () {
  ];
 
   var cave_map = [
-   [ "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨" ],
-   [ "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨" ],
-   [ "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨" ],
-   [ "🪨", "🪨", "🪨", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "🪨", "🪨", "🪨" ],
-   [ "🪨", "🪨", "🪨", "⬛", "🪨", "🪨", "🪨", " ", " ", " ", " ", "🪨", "🪨", "🪨", " ", " ", " ", " ", " ", "🪨", "🪨", "🪨", "⬛", "🪨", "🪨", "🪨" ],
-   [ "🪨", "🪨", "🪨", "⬛", "🪨", " ", "🪨", " ", "🪨", "🪨", " ", " ", " ", " ", " ", " ", "🪨", "🪨", " ", " ", "🪨", "🪨", "⬛", "🪨", "🪨", "🪨" ],
-   [ "🪨", "🪨", "🪨", "⬛", "🪨", " ", " ", " ", " ", "🪨", "🪨", " ", " ", " ", "🪨", "🪨", "🪨", "🪨", "🪨", " ", "🕸️", "🪨", "⬛", "🪨", "🪨", "🪨" ],
-   [ "🪨", "🪨", "🪨", "⬛", " ", " ", " ", " ", "🍄", " ", "🪨", "🪨", " ", "🪨", "🪨", "🕸️", " ", "🪨", "🪨", " ", "🍄", "🪨", "⬛", "🪨", "🪨", "🪨" ],
-   [ "🪨", "🪨", "🪨", "⬛", " ", "🏚️", "🪨", " ", " ", "🍄", " ", "🪨", "🪨", "🪨", " ", " ", "🍄", "🪨", " ", " ", " ", " ", "⬛", "🪨", "🪨", "🪨" ],
-   [ "🪨", "🪨", "🪨", "⬛", " ", "🪨", "🪨", "🪨", "🍄", " ", " ", "🪨", "🪨", " ", " ", " ", " ", "🪨", "🪨", " ", " ", "🍄", "⬛", "🪨", "🪨", "🪨" ],
-   [ "🪨", "🪨", "🪨", "⬛", " ", " ", " ", "🪨", "🪨", "🕸️", "🪨", "🪨", " ", "🪨", " ", " ", " ", " ", "🪨", "🪨", " ", " ", "⬛", "🪨", "🪨", "🪨" ],
-   [ "🪨", "🪨", "🪨", "⬛", " ", " ", " ", " ", "🪨", "🪨", "🪨", " ", " ", "🪨", "🪨", " ", " ", " ", " ", " ", " ", " ", "⬛", "🪨", "🪨", "🪨" ],
-   [ "🪨", "🪨", "🪨", "⬛", "🪨", " ", "🪜", " ", "🪨", "🪨", " ", " ", " ", "🪨", "🪨", "🪨", " ", " ", "🪨", "🍄", " ", " ", "⬛", "🪨", "🪨", "🪨" ],
-   [ "🪨", "🪨", "🪨", "⬛", "🪨", " ", " ", " ", " ", " ", " ", " ", " ", "🪨", " ", " ", " ", "🪨", "🪨", " ", "🍄", " ", "⬛", "🪨", "🪨", "🪨" ],
-   [ "🪨", "🪨", "🪨", "⬛", "🪨", " ", " ", " ", "🪨", "🪨", "🪨", " ", "🪨", " ", " ", " ", "🪨", "🪨", " ", "🪨", "🪨", " ", "⬛", "🪨", "🪨", "🪨" ],
-   [ "🪨", "🪨", "🪨", "⬛", "🪨", "🪨", " ", " ", " ", " ", "🪨", " ", " ", "🕷️", "🏰", " ", "🪨", "🪜", " ", "🪨", " ", " ", "⬛", "🪨", "🪨", "🪨" ],
-   [ "🪨", "🪨", "🪨", "⬛", "🪨", " ", " ", "🪨", " ", " ", "🪨", " ", " ", " ", " ", " ", " ", " ", " ", "🪨", " ", " ", "⬛", "🪨", "🪨", "🪨" ],
-   [ "🪨", "🪨", "🪨", "⬛", " ", " ", "🪨", "🪨", " ", "🪨", "🪨", "🪨", "🕸️", " ", " ", " ", " ", "🪨", "🪨", "🪨", " ", " ", "⬛", "🪨", "🪨", "🪨" ],
-   [ "🪨", "🪨", "🪨", "⬛", "🪨", " ", "🪨", " ", " ", " ", " ", "🪨", "🪨", " ", " ", "🪨", " ", "🪨", " ", " ", "🌋", " ", "⬛", "🪨", "🪨", "🪨" ],
-   [ "🪨", "🪨", "🪨", "⬛", " ", " ", " ", " ", " ", " ", " ", " ", "🪨", "🪨", " ", " ", "🪨", "🪨", "🪨", " ", " ", " ", "⬛", "🪨", "🪨", "🪨" ],
-   [ "🪨", "🪨", "🪨", "⬛", " ", " ", " ", "🍄", "🪨", "🪨", " ", " ", " ", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", " ", " ", "🪨", "⬛", "🪨", "🪨", "🪨" ],
-   [ "🪨", "🪨", "🪨", "⬛", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🕸️", " ", " ", " ", " ", " ", " ", " ", " ", " ", "🪨", "🪨", "⬛", "🪨", "🪨", "🪨" ],
-   [ "🪨", "🪨", "🪨", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "🪨", "🪨", "🪨" ],
-   [ "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨" ],
-   [ "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨" ],
-   [ "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨" ]
+   [ "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛" ],
+   [ "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛" ],
+   [ "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛" ],
+   [ "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛" ],
+   [ "⬛", "⬛", "⬛", "⬛", "🪨", "🪨", "🪨", " ", " ", " ", " ", "🪨", "🪨", "🪨", " ", " ", " ", " ", " ", "🪨", "🪨", "🪨", "⬛", "⬛", "⬛", "⬛" ],
+   [ "⬛", "⬛", "⬛", "⬛", "🪨", " ", "🪨", " ", "🪨", "🪨", " ", " ", " ", " ", " ", " ", "🪨", "🪨", " ", " ", "🪨", "🪨", "⬛", "⬛", "⬛", "⬛" ],
+   [ "⬛", "⬛", "⬛", "⬛", "🪨", " ", " ", " ", " ", "🪨", "🪨", " ", " ", " ", "🪨", "🪨", "🪨", "🪨", "🪨", " ", "🕸️", "🪨", "⬛", "⬛", "⬛", "⬛" ],
+   [ "⬛", "⬛", "⬛", "⬛", " ", " ", " ", " ", "🍄", " ", "🪨", "🪨", " ", "🪨", "🪨", "🕸️", " ", "🪨", "🪨", " ", "🍄", "🪨", "⬛", "⬛", "⬛", "⬛" ],
+   [ "⬛", "⬛", "⬛", "⬛", " ", "🏚️", "🪨", " ", " ", "🍄", " ", "🪨", "🪨", "🪨", " ", " ", "🍄", "🪨", " ", " ", " ", " ", "⬛", "⬛", "⬛", "⬛" ],
+   [ "⬛", "⬛", "⬛", "⬛", " ", "🪨", "🪨", "🪨", "🍄", " ", " ", "🪨", "🪨", " ", " ", " ", " ", "🪨", "🪨", " ", " ", "🍄", "⬛", "⬛", "⬛", "⬛" ],
+   [ "⬛", "⬛", "⬛", "⬛", " ", " ", " ", "🪨", "🪨", "🕸️", "🪨", "🪨", " ", "🪨", " ", " ", " ", " ", "🪨", "🪨", " ", " ", "⬛", "⬛", "⬛", "⬛" ],
+   [ "⬛", "⬛", "⬛", "⬛", " ", " ", " ", " ", "🪨", "🪨", "🪨", " ", " ", "🪨", "🪨", " ", " ", " ", " ", " ", " ", " ", "⬛", "⬛", "⬛", "⬛" ],
+   [ "⬛", "⬛", "⬛", "⬛", "🪨", " ", "🪜", " ", "🪨", "🪨", " ", " ", " ", "🪨", "🪨", "🪨", " ", " ", "🪨", "🍄", " ", " ", "⬛", "⬛", "⬛", "⬛" ],
+   [ "⬛", "⬛", "⬛", "⬛", "🪨", " ", " ", " ", " ", " ", " ", " ", " ", "🪨", " ", " ", " ", "🪨", "🪨", " ", "🍄", " ", "⬛", "⬛", "⬛", "⬛" ],
+   [ "⬛", "⬛", "⬛", "⬛", "🪨", " ", " ", " ", "🪨", "🪨", "🪨", " ", "🪨", " ", " ", " ", "🪨", "🪨", " ", "🪨", "🪨", " ", "⬛", "⬛", "⬛", "⬛" ],
+   [ "⬛", "⬛", "⬛", "⬛", "🪨", "🪨", " ", " ", " ", " ", "🪨", " ", " ", "🕷️", "🏰", " ", "🪨", "🪜", " ", "🪨", " ", " ", "⬛", "⬛", "⬛", "⬛" ],
+   [ "⬛", "⬛", "⬛", "⬛", "🪨", " ", " ", "🪨", " ", " ", "🪨", " ", " ", " ", " ", " ", " ", " ", " ", "🪨", " ", " ", "⬛", "⬛", "⬛", "⬛" ],
+   [ "⬛", "⬛", "⬛", "⬛", " ", " ", "🪨", "🪨", " ", "🪨", "🪨", "🪨", "🕸️", " ", " ", " ", " ", "🪨", "🪨", "🪨", " ", " ", "⬛", "⬛", "⬛", "⬛" ],
+   [ "⬛", "⬛", "⬛", "⬛", "🪨", " ", "🪨", " ", " ", " ", "🪨", "🪨", "🪨", " ", " ", "🪨", " ", "🪨", " ", " ", "🌋", " ", "⬛", "⬛", "⬛", "⬛" ],
+   [ "⬛", "⬛", "⬛", "⬛", " ", " ", " ", " ", " ", " ", " ", " ", "🪨", "🪨", " ", " ", "🪨", "🪨", "🪨", " ", " ", " ", "⬛", "⬛", "⬛", "⬛" ],
+   [ "⬛", "⬛", "⬛", "⬛", " ", " ", " ", "🍄", "🪨", "🪨", " ", " ", " ", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", " ", " ", "🪨", "⬛", "⬛", "⬛", "⬛" ],
+   [ "⬛", "⬛", "⬛", "⬛", "🪨", "🪨", "🪨", "🪨", "🪨", "🪨", "🕸️", " ", " ", " ", " ", " ", " ", " ", " ", " ", "🪨", "🪨", "⬛", "⬛", "⬛", "⬛" ],
+   [ "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛" ],
+   [ "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛" ],
+   [ "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛" ],
+   [ "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛" ]
  ];
   
   var house_map = [
@@ -2206,7 +2317,7 @@ var dungeon_map = [
     }
     
     // Surface related events
-    if (time > 250 && Math.random() < 0.1 && current_map == terrain_map) {
+    if (time > 250 && Math.random() < 0.08 && current_map == terrain_map) {
       let rng = Math.floor(Math.random() * 4);
       switch (rng) {
         case 0:
@@ -2227,7 +2338,7 @@ var dungeon_map = [
       moveMob(terrain_map,"🐓");
     }
     
-    if (Math.random() < 0.6 && current_map == dungeon_map) {
+    if (Math.random() < 0.4 && current_map == dungeon_map) {
       let rng = Math.floor(Math.random() * 4);
       switch (rng) {
         case 0:
@@ -2272,7 +2383,7 @@ var dungeon_map = [
     
     // Sky related events
     if (Math.random() < 0.2 && current_map == sky_map) {
-      let rng = Math.floor(Math.random() * 6);
+      let rng = Math.floor(Math.random() * 7);
       switch (rng) {
         case 0:
           summonMob(sky_map,"👼"); break;
@@ -2286,6 +2397,9 @@ var dungeon_map = [
           summonMob(sky_map,"🌪"); break;
         case 5:
           summonMob(sky_map,"🦄"); break;
+        case 6:
+          if (dragonDefeated) {summonMob(sky_map,"🧞");}
+          break;
       }
     }
     
@@ -2296,6 +2410,7 @@ var dungeon_map = [
       moveMob(sky_map,"🕊️");
       moveMob(sky_map,"🌪");
       moveMob(sky_map,"🦄");
+      if (dragonDefeated) {moveMob(sky_map,"🧞");}
     }
     
     // Space related events
@@ -2421,6 +2536,7 @@ var dungeon_map = [
       if (regeneration % 10 == 0 && playerHealth < MAX_PLAYER_HEALTH) {
         playerHealth++;
       }
+      if (regeneration == 1) {HEART_EMOJI = "❤"};
     }
     
     // Game Over / Death
@@ -2435,7 +2551,7 @@ var dungeon_map = [
         FOOD_HEALTH ++;
       }
     }
-    if (playerHealth == 10 && PLAYER_EMOJI == "🤕") {
+    if (playerHealth == 10 && (PLAYER_EMOJI == "🤕" || PLAYER_EMOJI == "💀")) {
       PLAYER_EMOJI = "😄";
     }
     
@@ -2503,7 +2619,11 @@ var dungeon_map = [
     multiple("🧱​",8,"🧱");
     multiple("➶​",8,"➶");
     multiple("•​",10,"•");
+    multiple("𓆩𓆪​",1,wings);
 
+    if (testFor("",2)) {
+      removeInventory("");
+    }
   }
   
   function dim() {
@@ -2642,6 +2762,7 @@ var dungeon_map = [
           if (current_map[moveY + y][moveX + x] in farmCrops) {
             const objectName = farmCrops[map[moveY + y][moveX + x]].seed;
             map[moveY + y][moveX + x] = objectName;
+            durability = 0;
           } else {map[moveY + y][moveX + x] = " ";}
 
         } else {
@@ -2766,9 +2887,7 @@ var dungeon_map = [
               }
             }
             addInventory(possible[posIndex]);
-            canCraft.splice(canCraft.indexOf(possible[posIndex]),1);
-            possible.splice(possible.indexOf(possible[posIndex]),1);
-            console.log(possible[posIndex])
+            tooltip.innerHTML = `${possible[posIndex]} crafted!`;
             success = true;
             break;
           }
@@ -2991,12 +3110,12 @@ var dungeon_map = [
     
     // Moving Up and Down between maps
       else if (event.shiftKey && event.code === "Space" && !boss_mode) {
-      if (testFor("𓆩𓆪",1) && level >= 0 && level < 2) {level--;}
+      if (testFor(wings,1) && level >= 0 && level < 2) {level--;}
       else if (testFor("🚀",1) && level > 0 && level < 3) {level--;}
       else if (testFor("🕹️",1) && level > -2 && level < 3) {level--;}
     }
     else if (event.keyCode === 32 || event.code === "Space") {
-      if (testFor("𓆩𓆪",1) && level >= 0 && level < 2) {level++;}
+      if (testFor(wings,1) && level >= 0 && level < 1) {level++;}
       else if (testFor("🚀",1) && level >= 0 && level < 2) {level++;}
       else if (testFor("🕹️",1) && level >= -2 && level < 2) {level++;}
     }
@@ -3079,6 +3198,8 @@ var dungeon_map = [
             } else if (s1Row >= 7) {
               s1Row -=7;
               ifBox(s2Row,s2Col,s1Row,s1Col);
+            } else {
+              ifBox(s1Row,s1Col,s2Row,s2Col);
             }
           }
           openInventory();
@@ -3157,6 +3278,8 @@ var dungeon_map = [
               addInventory(thing.output);
               
               replaceItem("⚔️☘️"," ","⚔️","☘️");
+              replaceItem("⚔️❄"," ","⚔️","❄");
+              replaceItem("⚔️🔥"," ","⚔️","🔥");
               
               if (`quest${thing.currentQuest}` in thing) {
                 objectProperties[item].description = thing[`quest${thing.currentQuest}`][0];
@@ -3172,7 +3295,7 @@ var dungeon_map = [
       }
       
       // Eating
-      if (HAND_EMOJI in foodProperties && saturation < MAX_SATURATION && FOOD_HEALTH < MAX_FOOD_HEALTH) {
+      if (HAND_EMOJI in foodProperties && saturation < MAX_SATURATION && FOOD_HEALTH < MAX_FOOD_HEALTH && !adjacent.includes("🧑‍🌾")) {
         hunger(foodProperties[HAND_EMOJI].nutrition);
         removeInventory(HAND_EMOJI);
         
@@ -3200,6 +3323,7 @@ var dungeon_map = [
             armor[slot] = HAND_EMOJI;
             removeInventory(HAND_EMOJI);
           }
+          if (showInv != "") {openInventory();}
         }
       }
       
@@ -3299,6 +3423,10 @@ var dungeon_map = [
     } else if (playerTile == "🌎") {
       goBack();
       level = 1;
+    } else if (playerTile == "🧨") {
+      damage(4);
+      setBlock(dim(),3,4,"🧨","💥");
+      setTimeout(function(){setBlock(dim(),3,4,"💥"," ");},2000)
     }
     // Tractor-things
     else if (playerTile == "🚜") {
