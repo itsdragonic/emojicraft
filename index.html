@@ -66,7 +66,7 @@
     }
 
     .viewport {
-      width: calc(50% + 190px);
+      width: calc(50% + 205px);
       height: calc(50% + 200px);
       position: relative;
       overflow: hidden;
@@ -163,6 +163,19 @@
       pointer-events: none;  
       text-align: center;
     }
+    
+    #item-name {
+      position: absolute;
+      width: 379px;
+      height: 925px;
+      font-size: 16px;
+      color: white;
+      display: flex;
+      padding: 15px;
+      gap: 15px;
+      justify-content: center;
+      align-items: center;
+    }
   </style>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,400i,700">
 </head>
@@ -194,6 +207,8 @@
       <div class="inv-number" id="s7"></div>
       <div class="inv-number" id="s8"></div>
       <div class="inv-number" id="s9"></div>
+      
+      <div id="item-name"></div>
     </div>
   </div>
   
