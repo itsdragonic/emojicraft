@@ -11,9 +11,9 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   if (isSmartphone()) {
-    document.body.style.zoom = "110%";
+    document.body.style.zoom = "88%";
     document.querySelector(".viewport").style.width = "calc(50% + 190px)";
-    document.querySelector(".viewport").style.height = "calc(50% + 300px)";
+    document.querySelector(".viewport").style.height = "calc(50% + 270px)";
     document.querySelector(".corner").style.fontSize = "12px";
     document.querySelector("#foodHealth").style.fontSize = "12px";
     document.querySelector("#sunmoon").style.bottom = "115px";
@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
     //document.getElementById("inputBox").style.display = "none";
   }
   
-  var sandboxMode = true;
+  var sandboxMode = false;
   let divisor;
   let wings;
   if (navigator.userAgent.indexOf("Chromebook") !== -1) {
@@ -75,6 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var direction = "left";
   var Jpress = false;
   var durability = 0;
+  var raisedShield = false;
   
   var moveX = 5;
   var moveY = 5;
@@ -93,6 +94,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var fishing = maxFishing;
   var tractorMode = false;
   var regeneration = 0;
+  var fireRes = 0;
 
   // Generate Slots
   const slot1 = document.getElementById("slot1");
@@ -113,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var showInv = "";
 
   var Inventory = [
-    ["🗡️", "⛏️", "🪓", "", "", "", "", "", ""],
+    ["🗡️", "⛏️", "🪓", "", "", "", "", "💩", "🥚"],
     ["", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", ""],
@@ -122,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
   ];
 
   var inventoryValue = [
-    [" ", " ", " ", "", "", "", "", "", ""],
+    [" ", " ", " ", "", "", "", "", " ", " "],
     ["", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", ""],
@@ -194,7 +196,7 @@ document.addEventListener("DOMContentLoaded", function () {
       loot: "🪵"
     },
     "🌲": {
-      name: "Spruce Tree",
+      name: "Evergreen Tree",
       description: "Cut down for wood",
       canBeWalkedOn: false,
       durability: 6,
@@ -303,7 +305,7 @@ document.addEventListener("DOMContentLoaded", function () {
       loot: "˖"
     },
     "↟": {
-      name: "Spruce Sapling",
+      name: "Evergreen Sapling",
       canBeWalkedOn: true,
       durability: 8,
       toolRequired: "👊",
@@ -452,13 +454,21 @@ document.addEventListener("DOMContentLoaded", function () {
       toolRequired: "👊",
       loot: "⚡"
     },
-    "❄": {
+    "❄️": {
       name: "Snowflake",
       description: "Chilly",
       canBeWalkedOn: true,
       durability: 5,
       toolRequired: "👊",
-      loot: "❄"
+      loot: "❄️"
+    },
+    "🥚": {
+      name: "Egg",
+      description: "Yummy",
+      canBeWalkedOn: true,
+      durability: 5,
+      toolRequired: "👊",
+      loot: "🥚"
     },
     "🏆": {
       name: "Trophy",
@@ -493,14 +503,14 @@ document.addEventListener("DOMContentLoaded", function () {
       name: "Purple Wall",
       canBeWalkedOn: false,
       durability: 40,
-      toolRequired: "⛏️",
+      toolRequired: "",
       loot: "🟪"
     },
     "♒": {
       name: "Chiseled Purple Wall",
       canBeWalkeedOn: false,
       durability: 40,
-      toolRequired: "⛏️",
+      toolRequired: "",
       loot: "♒"
     },
     "🟥": {
@@ -600,6 +610,51 @@ document.addEventListener("DOMContentLoaded", function () {
       toolRequired: "🗡️",
       loot: "🍗"
     },
+    "🐔": {
+      name: "Chicken",
+      description: "Cluck cluck!",
+      isAnimal: true,
+      canBeWalkedOn: false,
+      durability: 3,
+      toolRequired: "🗡️",
+      loot: "🍗"
+    },
+    "🐕": {
+      name: "Dog",
+      description: "Aww..",
+      isAnimal: true,
+      canBeWalkedOn: true,
+      durability: 7,
+      toolRequired: "🗡️",
+      loot: ""
+    },
+    "🐈": {
+      name: "Cat",
+      description: "Aww..",
+      isAnimal: true,
+      canBeWalkedOn: true,
+      durability: 7,
+      toolRequired: "🗡️",
+      loot: ""
+    },
+    "🐶": {
+      name: "Doggy",
+      description: "Aww..",
+      isAnimal: true,
+      canBeWalkedOn: true,
+      durability: 7,
+      toolRequired: "🗡️",
+      loot: ""
+    },
+    "🐱": {
+      name: "Kitty",
+      description: "Aww..",
+      isAnimal: true,
+      canBeWalkedOn: true,
+      durability: 7,
+      toolRequired: "🗡️",
+      loot: ""
+    },
     "🧟‍♂️": {
       name: "Zombie Man",
       description: "Brains...",
@@ -616,7 +671,7 @@ document.addEventListener("DOMContentLoaded", function () {
       canBeWalkedOn: false,
       durability: 3,
       toolRequired: "🗡️",
-      loot: "🍖"
+      loot: "🦴"
     },
     "🧛": {
       name: "Vampire",
@@ -716,6 +771,15 @@ document.addEventListener("DOMContentLoaded", function () {
       durability: 7,
       toolRequired: "🗡️",
       loot: "🫖"
+    },
+    "🧚": {
+      name: "Fairy",
+      description: ":3",
+      isAnimal: true,
+      canBeWalkedOn: false,
+      durability: 6,
+      toolRequired: "🗡️",
+      loot: "✨"
     },
     "🪬": {
       name: "Hamsa",
@@ -846,6 +910,13 @@ document.addEventListener("DOMContentLoaded", function () {
       durability: 2,
       toolRequired: "👊",
       loot: "🍇"
+    },
+    "🍈": {
+      name: "Melon",
+      canBeWalkedOn: true,
+      durability: 4,
+      toolRequired: "👊",
+      loot: "🍉"
     },
     "🏠": {
       name: "House",
@@ -1022,6 +1093,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }, "🍇": {
       name: "Grapes",
       nutrition: 2,
+    }, "🍉": {
+      name: "Melon",
+      nutrition: 2,
     }, "🥛": {
       name: "Milk",
       nutrition: 1,
@@ -1093,11 +1167,14 @@ document.addEventListener("DOMContentLoaded", function () {
       name: "Bandage",
       nutrition: 0,
       effect: "health2",
-    },
-    "🧪": {
-      name: "Vial",
-      nutrition: 1,
+    }, "🧪": {
+      name: "Regeneration Potion",
+      nutrition: 0,
       effect: "regeneration",
+    }, "🌡️": {
+      name: "Fire Potion",
+      nutrition: 0,
+      effect: "fireres",
     },
   };
   
@@ -1222,6 +1299,12 @@ document.addEventListener("DOMContentLoaded", function () {
       amountsNeeded: [1,2],
       required: "⚗️",
     },
+    ":･": {
+      name: "Melon Seeds",
+      itemsNeeded: ["🍉"],
+      amountsNeeded: [1],
+      required: "",
+    },
     "⚗️": {
       name: "Brewery",
       itemsNeeded: ["🪟"],
@@ -1241,9 +1324,15 @@ document.addEventListener("DOMContentLoaded", function () {
       required: "⚗️",
     },
     "🧪": {
-      name: "Health Pill",
-      itemsNeeded: ["🍄","🩸"],
-      amountsNeeded: [1,3],
+      name: "Regeneration Potion",
+      itemsNeeded: ["🍄","🩸","🪟"],
+      amountsNeeded: [1,3,1],
+      required: "⚗️",
+    },
+    "🌡️": {
+      name: "Fire Potion",
+      itemsNeeded: ["🍄","🔥","🪟"],
+      amountsNeeded: [1,3,1],
       required: "⚗️",
     },
     "🩹": {
@@ -1255,7 +1344,13 @@ document.addEventListener("DOMContentLoaded", function () {
     "🏹": {
       name: "Bow",
       itemsNeeded: ["🪵","🕸"],
-      amountsNeeded: [3,3],
+      amountsNeeded: [3,4],
+      required: "🧰",
+    },
+    "🎣": {
+      name: "Fishing Rod",
+      itemsNeeded: ["🪵","🕸"],
+      amountsNeeded: [4,3],
       required: "🧰",
     },
     "🍪": {
@@ -1274,6 +1369,12 @@ document.addEventListener("DOMContentLoaded", function () {
       name: "Arrow",
       itemsNeeded: ["🪵","🪶"],
       amountsNeeded: [1,1],
+      required: "🧰",
+    },
+    "📕": {
+      name: "Book",
+      itemsNeeded: ["🪵","🪶","🌾"],
+      amountsNeeded: [1,1,4],
       required: "🧰",
     },
     "🔪": {
@@ -1330,10 +1431,10 @@ document.addEventListener("DOMContentLoaded", function () {
       amountsNeeded: [1,2],
       required: "🧰",
     },
-    "📱": {
-      name: "Smartphone",
-      itemsNeeded: ["🪟","🔩"],
-      amountsNeeded: [1,3],
+    "🕹️": {
+      name: "Teleporter",
+      itemsNeeded: ["💠","🔩","🌠","🌌"],
+      amountsNeeded: [1,3,3,1],
       required: "🧰",
     },
     "•​": {
@@ -1364,15 +1465,21 @@ document.addEventListener("DOMContentLoaded", function () {
       qrequired: ["🌟","🌟","🌟","🌟","🌟"],
       output: "🪄",
       currentQuest: 2,
-      quest2: ["You still have long ways to go apprentice. I'll help you upgrade your wand","🪄☘️","🏆","🪄","☘️"],
+      quest2: ["You still have long ways to go apprentice. I'll teach you spells to improve your magic","🪄📖","🪄","📕","📕","📕"],
+      quest3: ["You still have long ways to go student. I'll teach you spells to improve your magic","🪄📚","🏆","🪄","📕","📕","📕","📕","📕","📕"],
+      quest4: ["Doing all this magic constantly makes you hungry, right? (That's how I'm so skinny). I think it's time you finally upgrade to something more musical","🎸","🪄","✨","✨","🌟","🌟","🪵","🪵","🔩","🕸️","🕸️","🕸️"]
     },
     "🧑‍🌾": {
       name: "Farmer NPC",
       qrequired: ["🌽","🌽","🌽","🌽","🌽","🍅","🍅","🍅","🍅","🍅","🥬","🥬","🥬","🥬","🥬","🫘","🫘","🫘","🫘","🫘","🥔","🥔","🥔","🥔","🥔"],
       output: "💩",
       currentQuest: 2,
-      quest2: ["I'll give you some new plants to grow if you can get me a good old beer (you'll need to make a brewery with glass)","🍇","🍺"],
+      quest2: ["I'll give you some new fruit to grow if you can get me a good old beer (you'll need to make a brewery with glass)","🍇","🍺"],
       quest3: ["Thanks for the crops, to make things more automatic, get me some more and I'll help make it easier.","🚜","🌽","🌽","🌽","🌽","🌽","🌽","🌽","🍅","🍅","🍅","🍅","🍅","🍅","🍅","🥬","🥬","🥬","🥬","🥬","🥬","🥬","🫘","🫘","🫘","🫘","🫘","🫘","🫘","🥔","🥔","🥔","🥔","🥔"],
+      quest4: ["I'll give you some new fruit to grow if you can get me a nice wine (I'm not an alcoholic, I swear)","🍉","🍷"],
+      quest5: ["There's nothing I love more than dogs. I'll give you one of mine for something","🐕","🦴","🍹"],
+      quest6: ["There's nothing I love more than dogs. I'll give you one of mine for something","🐶","🦴","🍺","🍷"],
+      quest7: ["Thanks for doing all of my quests!","​","​"]
     },
     "🧑‍🔧": {
       name: "Mechanic NPC",
@@ -1381,6 +1488,7 @@ document.addEventListener("DOMContentLoaded", function () {
       currentQuest: 2,
       quest2: ["You want to get into space, eh? If you give the materials, I think I could make that happen","🚀","🔩","🔩","🔩","🔩","🔩","🔩","⚙","🪙","🪙","🪙","🪙","🪙","🌌"],
       quest3: ["Is it true that there's alien life out there? If you can get me some UFO parts, I'll see what I can make","👽","🌠","🌠","🌠","🌠","🌠"],
+      quest4: ["Thanks for doing all of my quests!","​","​"]
     },
     "👷‍♂️": {
       name: "Miner NPC",
@@ -1389,21 +1497,30 @@ document.addEventListener("DOMContentLoaded", function () {
       currentQuest: 2,
       quest2: ["I'll help you upgrade your pickaxe!","⚒","⛏","🔩","🔩","🔩","🔩","🔩","🔩","🪙","💎","💠","⚙"],
       quest3: ["I'll help you upgrade your axe!","🪚","🪓","🔩","🔩","🔩","🔩","🔩","🔩","🪙","🪵","🪵","🪵","🪵","🪵","🪵","🪵","🪵","🪵","🪵","🪵"],
+      quest4: ["Whenever I feel lonely I think about pets. I'll give you one of mine for something","🐈","🐟"],
+      quest5: ["Whenever I feel lonely I think about pets. I'll give you one of mine for something","🐱","🐟"],
+      quest6: ["Thanks for doing all of my quests!","​","​"]
     },
     "🥷": {
       name: "Ninja NPC",
       qrequired: ["🗡️","🔪"],
       output: "⚔️",
       currentQuest: 2,
-      quest2: ["Like your new weapon? I'll help you upgrade it and make it luckier","⚔️☘️","🏆","⚔️","☘️"],
-      quest3: ["Like your improved weapon? I'll help you upgrade it and make it frostier","⚔️❄","🏆","⚔️","❄"],
-      quest4: ["Like your improved weapon? I'll help you upgrade it and make it more firey","⚔️🔥","🏆","⚔️","🔥"],
+      quest2: ["Like your improved weapon? I'll help you upgrade it and make it more deadly","⚔️🩸","🎖️","⚔️","🩸"],
+      quest3: ["Like your improved weapon? I'll help you upgrade it and make it more shiny","⚔️💎","🏆","⚔️","💎"],
+      quest4: ["Like your new weapon? I'll help you upgrade it and make it luckier","⚔️☘️","🏆","⚔️","☘️"],
+      quest5: ["Like your improved weapon? I'll help you upgrade it and make it frostier","⚔️❄️","🏆","⚔️","❄️"],
+      quest6: ["Like your improved weapon? I'll help you upgrade it and make it more firey","⚔️🔥","🏆","⚔️","🔥"],
+      quest7: ["Like your improved weapon? I'll help you upgrade it and make it more sparkly","⚔️✨","🏆","⚔️","✨"],
+      quest8: ["Like your improved weapon? I'll help you upgrade it and make it the ultimate weapon","⚔️🥇","⚔️","🥇"],
+      quest9: ["Thanks for doing all of my quests!","​","​"]
     },
     "🧝‍♂️": {
       name: "Archer NPC",
-      qrequired: [""],
-      output: "⚔️",
+      qrequired: ["🏹","🌸","🌸","🌷"],
+      output: "🏹💘",
       currentQuest: 2,
+      quest2: ["It's time to upgrade from that bow.","🔫","🏹","🔩","🔩","🔩","🪙","🪙"],
     }
   };
   
@@ -1536,7 +1653,8 @@ document.addEventListener("DOMContentLoaded", function () {
     "🌾": {"name": "Wheat", "seed": "."},
     "🍈": {"name": "Melon", "seed": ":･"},
     "🌳": {"name": "Tree", "seed": "˖"},
-    "🌲": {"name": "Spruce Tree", "seed": "↟"},
+    "🌲": {"name": "Evergreen Tree", "seed": "↟"},
+    "🍄": {"name": "Mushroom", "seed": "𓍊"},
   };
   
   var bosses = {
@@ -1545,7 +1663,7 @@ document.addEventListener("DOMContentLoaded", function () {
       base_emoji: "💩",
       hearts: "🤎",
       health: 20,
-      loot: ["🎖","🪖"],
+      loot: ["🎖️","🪖"],
       enraged: "🤢",
       angry: "😡",
       damage: 3,
@@ -1600,7 +1718,7 @@ document.addEventListener("DOMContentLoaded", function () {
       base_emoji: "🐲",
       hearts: "💚",
       health: 50,
-      loot: ["🏆","🌌","🐉"],
+      loot: ["🏆","🌌","🌌","🐉"],
       enraged: "😤",
       angry: "🐉",
       damage: 25,
@@ -1919,8 +2037,12 @@ var dungeon_map = [
                 lootType = "🍞"; // 30% chance
                 lootValue = RNG(3);
                 break;
+              case randomChance < 0.6:
+                lootType = "🍔"; // 10% chance
+                lootValue = RNG(3);
+                break;
               default:
-                lootType = ""; // 50% chance
+                lootType = "";
                 lootValue = "";
                 break;
             }
@@ -1933,6 +2055,18 @@ var dungeon_map = [
         // Add the new loot and value entries to the respective arrays
         boxLoot.push(newLootEntry);
         boxValueLoot.push(newValueEntry);
+      }
+    }
+  }
+  
+  function replaceItem(items,replace,value) {
+    for (let i = 0; i < Inventory.length; i++) {
+      for (let j = 0; j < Inventory[i].length; j++) {
+        if (Inventory[i][j] === items) {
+          Inventory[i][j] = replace;
+          inventoryValue[i][j] = value;
+          return;
+        }
       }
     }
   }
@@ -2022,12 +2156,13 @@ var dungeon_map = [
     }
     const factor = 1 - totalProtection / 80; // damage probability
     //const probability = 1 - Math.pow(factor, amount);
-    const newAmount = Math.ceil(amount / (totalProtection/2));
+
+    const newAmount = Math.ceil(amount / (totalProtection / 2));
     
     // Apply damage & other stuff
     if (playerHealth - newAmount < 0) {
       playerHealth = 0;
-    } else {
+    } else if (!raisedShield) {
       playerHealth -= newAmount;
     }
     
@@ -2141,15 +2276,82 @@ var dungeon_map = [
           if (matrix[row + 1][col] === " " && rng == 0) {
             matrix[row][col] = " ";
             matrix[row + 1][col] = mob;
-          } if (matrix[row - 1][col] === " " && rng == 1) {
+          } else if (matrix[row - 1][col] === " " && rng == 1) {
             matrix[row][col] = " ";
             matrix[row - 1][col] = mob;
-          } if (matrix[row][col + 1] === " " && rng == 2) {
+          } else if (matrix[row][col + 1] === " " && rng == 2) {
             matrix[row][col] = " ";
             matrix[row][col + 1] = mob;
-          } if (matrix[row][col - 1] === " " && rng == 3) {
+          } else if (matrix[row][col - 1] === " " && rng == 3) {
             matrix[row][col] = " ";
             matrix[row][col - 1] = mob;
+          }
+        }
+      }
+    }
+  }
+  
+    
+  function movePet(matrix,mob) {
+    for (let row = 0; row < matrix.length; row++) {
+      for (let col = 0; col < matrix[row].length; col++) {
+        if (matrix[row][col] === mob) {
+          
+          // Random
+          if (Math.random() < 0.55) {
+            let rng = Math.floor(Math.random() * 4);
+            if (matrix[row + 1][col] === " " && rng == 0) {
+              matrix[row][col] = " ";
+              matrix[row + 1][col] = mob;
+            } else if (matrix[row - 1][col] === " " && rng == 1) {
+              matrix[row][col] = " ";
+              matrix[row - 1][col] = mob;
+            } else if (matrix[row][col + 1] === " " && rng == 2) {
+              matrix[row][col] = " ";
+              matrix[row][col + 1] = mob;
+            } else if (matrix[row][col - 1] === " " && rng == 3) {
+              matrix[row][col] = " ";
+              matrix[row][col - 1] = mob;
+            }
+          }
+          // Intentional
+          else {
+            let Row = row;
+            let Col = col;
+            let dx = moveX + 4 - Col;
+            let dy = moveY + 4 - Row;
+            let absDx = Math.abs(dx);
+            let absDy = Math.abs(dy);
+
+            if (absDx > absDy) {
+              Col += dx > 0 ? 1 : -1;
+            } else {
+              Row += dy > 0 ? 1 : -1;
+            }
+
+            if (matrix[Row][Col] == " ") { 
+            matrix[row][col] = " ";
+            matrix[Row][Col] = mob;
+            } else {
+              let randomDirection = Math.floor(Math.random() * 4);
+              Row = row;
+              Col = col;
+
+              if (randomDirection === 0) {
+                Row += 1; // Move down
+              } else if (randomDirection === 1) {
+                Row -= 1; // Move up
+              } else if (randomDirection === 2) {
+                Col += 1; // Move right
+              } else if (randomDirection === 3) {
+                Col -= 1; // Move left
+              }
+
+              if (Row >= 0 && Row < matrix.length && Col >= 0 && Col < matrix[row].length && matrix[Row][Col] == " ") {
+                matrix[row][col] = " ";
+                matrix[Row][Col] = mob;
+              }
+            }
           }
         }
       }
@@ -2161,7 +2363,6 @@ var dungeon_map = [
       for (let row = 0; row < matrix.length; row++) {
         for (let col = 0; col < matrix[row].length; col++) {
           if (matrix[row][col] === mob) {
-
             let Row = row;
             let Col = col;
             let dx = moveX + 4 - Col;
@@ -2208,14 +2409,14 @@ var dungeon_map = [
     }
   }
     
-  function updateArrows(matrix) {
+  function updateProj(matrix) {
     const arrowsToUpdate = [];
 
     // Find the positions of arrows that need to be updated or removed
     for (let row = 0; row < matrix.length; row++) {
       for (let col = 0; col < matrix[row].length; col++) {
         const currentCell = matrix[row][col];
-        let list = ["➶","➴","↢","➵", "✨","✨​","✨​​","✨​​​", "'","'​","-","-​", "☘","☘​","☘​​","☘​​​", "🍀","🍀​","🍀​​","🍀​​​"];
+        let list = ["➶","➴","↢","➵", "✨","✨​","✨​​","✨​​​", "'","'​","-","-​", "☘","☘​","☘​​","☘​​​", "🍀","🍀​","🍀​​","🍀​​​", "🌀","🌀​","🌀​​","🌀​​​", "⭐","⭐​","⭐​​","⭐​​​", "❄️​","❄️​​","❄️​​​","❄️​​​​", "🔥​","🔥​​","🔥​​​","🔥​​​​", "🐰","🐰​","🐰​​","🐰​​​", "🐸","🐸​","🐸​​","🐸​​​", "🎵","🎵​","🎵​​","🎵​​​", "🎶","🎶​","🎶​​","🎶​​​"];
 
         // Arrow
         for (let i = 0; i < list.length; i += 4) {
@@ -2390,7 +2591,7 @@ var dungeon_map = [
         let proj = currentProjectiles[list];
         const arrowCell = gridElement.children[(proj[2] - 1) * GRID_NUMBER + (proj[1] - 1)];
         arrowCell.textContent = proj[0];
-        if (playerPosition.x === proj[1] && playerPosition.y === proj[2]) {
+        if (playerPosition.x === proj[1] && playerPosition.y === proj[2] && proj[5] === "boss") {
           projRegester ++;
           damageTick = 900;
           if (projRegester == 1) {damage(proj[4]);}
@@ -2500,7 +2701,11 @@ var dungeon_map = [
         case 2:
           summonMob(terrain_map,"🦆"); break;
         case 3:
-          summonMob(terrain_map,"🐓"); break;
+          if (Math.random() < 0.5) {
+            summonMob(terrain_map,"🐓"); break;
+          } else {
+            summonMob(terrain_map,"🐔"); break;
+          }
       }
     }
     
@@ -2509,6 +2714,16 @@ var dungeon_map = [
       moveMob(terrain_map,"🐄");
       moveMob(terrain_map,"🦆");
       moveMob(terrain_map,"🐓");
+      moveMob(terrain_map,"🐔");
+    }
+    
+    // Pets
+    if (Math.random() < 0.6 && current_map == terrain_map) {
+      movePet(terrain_map,"🐶");
+      movePet(terrain_map,"🐱");
+      movePet(terrain_map,"🐕");
+      movePet(terrain_map,"🐈");
+      movePet(terrain_map,"🐤");
     }
     
     if (Math.random() < 0.4 && current_map == dungeon_map) {
@@ -2527,7 +2742,7 @@ var dungeon_map = [
     
     if (Math.random() < 0.8 && current_map == dungeon_map) {
       moveEnemy(dungeon_map,"🧟‍♂️",1);
-      moveEnemy(dungeon_map,"🧟‍",1);
+      moveEnemy(dungeon_map,"🧟‍♀️",1);
       moveEnemy(dungeon_map,"🧛",1);
       moveEnemy(dungeon_map,"👻",1);
       moveEnemy(dungeon_map,"🐍",1);
@@ -2571,7 +2786,13 @@ var dungeon_map = [
         case 5:
           summonMob(sky_map,"🦄"); break;
         case 6:
-          if (dragonDefeated) {summonMob(sky_map,"🧞");}
+          if (dragonDefeated) {
+            if (Math.random() < 0.2) {
+              summonMob(sky_map,"🧞");
+            } else if (Math.random() < 0.2) {
+              summonMob(sky_map,"🧚");
+            }
+          }
           break;
       }
     }
@@ -2607,7 +2828,6 @@ var dungeon_map = [
       moveEnemy(space_map,"🛸",1);
       moveMob(space_map,"👾");
       moveMob(space_map,"🪐");
-      moveMob(space_map,"🌕");
       moveMob(space_map,"🛰");
     }
     
@@ -2639,11 +2859,25 @@ var dungeon_map = [
       time = 400;
     } else {time--;}
     if (time % 120 == 0) {hunger(-1);} 
-    if (time % 120 == 0 && FOOD_HEALTH == 0) {
+    if (time % 15 == 0 && FOOD_HEALTH == 0) {
       damage(1);
+      time --;
     } if (time % 20 == 0 && playerHealth < 10 && FOOD_HEALTH > 0) {
       playerHealth ++;
       hunger(-1);
+    }
+    
+    if (time == 380 || time == 260) {
+      for (let row = 0; row < terrain_map.length; row++) {
+        for (let col = 0; col < terrain_map[row].length; col++) {
+          if (terrain_map[row][col] === "🥚" && time == 380) {
+            terrain_map[row][col] = "🐣";
+          }
+          if (terrain_map[row][col] === "🐣" && time == 260) {
+            terrain_map[row][col] = "🐤";
+          }
+        }
+      }
     }
     
     // Farm Crop Replenish
@@ -2653,6 +2887,15 @@ var dungeon_map = [
           for (let item in farmCrops) {
             if (terrain_map[i][j] === farmCrops[item].seed) {
               terrain_map[i][j] = item;
+            }
+          }
+        }
+      }
+      for (let i = 0; i < cave_map.length; i++) {
+        for (let j = 0; j < cave_map[i].length; j++) {
+          for (let item in farmCrops) {
+            if (cave_map[i][j] === farmCrops[item].seed) {
+              cave_map[i][j] = item;
             }
           }
         }
@@ -2685,18 +2928,22 @@ var dungeon_map = [
     // Burning
     if (burning > 0) {
       burn = true;
-      HEART_EMOJI = "❤️‍🔥";
       damageTick = 80;
       PLAYER_EMOJI = "🥵";
       burning --;
-      if (burning % 5 == 0) {
+      if (fireRes > 0) {
+        fireRes --;
+      } else {
+        HEART_EMOJI = "❤️‍🔥";
+      }
+      if (burning % 5 == 0 && fireRes <= 0) {
         if (level == -2) {damage(2);}
         else {damage(1);}
       }
     } if (burning == 0 && burn) {
         HEART_EMOJI = "❤️";
         PLAYER_EMOJI = "😄";
-        burn = false
+        burn = false;
       }
     
     // Special Effects
@@ -2739,6 +2986,20 @@ var dungeon_map = [
     if (playerHealth == 10 && (PLAYER_EMOJI == "🤕" || PLAYER_EMOJI == "💀")) {
       PLAYER_EMOJI = "😄";
     }
+    
+    // Reforges
+    replaceItem("⚔️🩸","⚔️","🩸");
+    replaceItem("⚔️💎","⚔️","💎");
+    replaceItem("⚔️☘️","⚔️","☘️");
+    replaceItem("⚔️❄️","⚔️","❄️");
+    replaceItem("⚔️🔥","⚔️","🔥");
+    replaceItem("⚔️✨","⚔️","✨");
+    replaceItem("⚔️🥇","⚔️","🥇");
+
+    replaceItem("🪄📖","🪄","📖");
+    replaceItem("🪄📚","🪄","📚");
+    
+    replaceItem("🏹💘","🏹","💘");
     
     // Fishin' Stuff
     if (fishing < maxFishing) {
@@ -2800,7 +3061,7 @@ var dungeon_map = [
     // Crafting
     for (items in craftingDictionary) {
       checkCraftingPossibility(items);
-    } updateArrows(dim());
+    } updateProj(dim());
     multiple("🧱​",8,"🧱");
     multiple("➶​",8,"➶");
     multiple("•​",10,"•");
@@ -2876,18 +3137,6 @@ var dungeon_map = [
       return row.map(item => (item === "") ? "⬜" : item).join('') + "       " + append;
     }).join('\n')
     + '\n' + chestText + chestData;
-  }
-  
-  function replaceItem(items,v,replace,value) {
-    for (let i = 0; i < Inventory.length; i++) {
-      for (let j = 0; j < Inventory[i].length; j++) {
-        if (Inventory[i][j] === items && inventoryValue[i][j] === v) {
-          Inventory[i][j] = replace;
-          inventoryValue[i][j] = value;
-          return;
-        }
-      }
-    }
   }
 
   function startPunching(map,dir,y,x) {
@@ -3156,15 +3405,6 @@ var dungeon_map = [
         ];
       playerCell.textContent = emoji;
     }
-
-    // Special reforges
-    if (inventoryValue[0][currentSlot - 1] == "☘") {
-      if (Math.random() < 0.08) {
-        magic(dim(),"☘",2);
-      } else if (Math.random() < 0.02) {
-        magic(dim(),"🍀",3);
-      }
-    }
     
     // Start Punching
     if (emoji == "🏹") {
@@ -3173,11 +3413,70 @@ var dungeon_map = [
       shoot(dim(),"•","'","'​","-","-​");
     } else if (emoji == "🪄") {
       magic(dim(),"✨",3);
+      hunger(-1);
+    } else if (emoji == "🎸") {
+      magic(dim(),"✨",3);
+      if (Math.random() < 0.75) {
+        magic(dim(),"🎵",4);
+      } else {
+        magic(dim(),"🎶",4);
+      }
     } else {
       startPunching(dim(),"up", 3, 4);
       startPunching(dim(),"down", 5, 4);
       startPunching(dim(),"left", 4, 3);
       startPunching(dim(),"right", 4, 5);
+    }
+    
+    // Special reforges
+    if (inventoryValue[0][currentSlot - 1] == "☘") {
+      if (Math.random() < 0.08) {
+        magic(dim(),"☘",2);
+      } else if (Math.random() < 0.02) {
+        magic(dim(),"🍀",3);
+      }
+    }
+    if (inventoryValue[0][currentSlot - 1] == "📖") {
+      if (Math.random() < 0.1) {
+        magic(dim(),"🌀",4);
+        if (FOOD_HEALTH > 0) {
+          hunger(1);
+        }
+      } else if (Math.random() < 0.1) {
+        magic(dim(),"🍀",4);
+        if (FOOD_HEALTH > 0) {
+          hunger(1);
+        }
+      } else if (Math.random() < 0.02) {
+        magic(dim(),"⭐",10);
+        PLAYER_EMOJI = "🤩";
+        if (FOOD_HEALTH > 0) {
+          hunger(2);
+        }
+      }
+    }
+    if (inventoryValue[0][currentSlot - 1] == "📚") {
+      if (Math.random() < 0.1) {
+        magic(dim(),"❄️​",4);
+        if (FOOD_HEALTH > 0) {
+          hunger(1);
+        }
+      } else if (Math.random() < 0.1) {
+        magic(dim(),"🔥​",4);
+        if (FOOD_HEALTH > 0) {
+          hunger(1);
+        }
+      } else if (Math.random() < 0.2) {
+        magic(dim(),"🐰",4);
+        if (FOOD_HEALTH > 0) {
+          hunger(1);
+        }
+      } else if (Math.random() < 0.2) {
+        magic(dim(),"🐸",10);
+        if (FOOD_HEALTH > 0) {
+          hunger(2);
+        }
+      }
     }
 
     // After a short delay, reset the player emoji back to its original state
@@ -3389,8 +3688,30 @@ var dungeon_map = [
     // Jpress, hand-related stuff, what tile player is currently on
     if (event.button == 0 || key === "j" || key === "J") {
       Jpress = true;
+      raisedShield = false;
       tooltip.innerHTML = "";
       showFistEmojiTemporarily(HAND_EMOJI);
+      
+      // Eating
+      if (HAND_EMOJI in foodProperties && saturation < MAX_SATURATION && FOOD_HEALTH < MAX_FOOD_HEALTH && !adjacent.includes("🧑‍🌾")) {
+        hunger(foodProperties[HAND_EMOJI].nutrition);
+        removeInventory(HAND_EMOJI);
+        
+        // Special effects properties
+        if (foodProperties[HAND_EMOJI].effect == "health4") {
+          if (playerHealth + 4 > MAX_PLAYER_HEALTH) {
+            playerHealth = MAX_PLAYER_HEALTH;
+          } else {playerHealth += 4;}
+        } else if (foodProperties[HAND_EMOJI].effect == "health2") {
+          if (playerHealth + 2 > MAX_PLAYER_HEALTH) {
+            playerHealth = MAX_PLAYER_HEALTH;
+          } else {playerHealth += 2;}
+        } else if (foodProperties[HAND_EMOJI].effect == "regeneration") {
+          regeneration = 100;
+        } else if (foodProperties[HAND_EMOJI].effect == "fireres") {
+          fireRes = 100;
+        }
+      }
       
       // Inventory Management
       const clickArea = document.getElementById('healthBar');
@@ -3434,7 +3755,7 @@ var dungeon_map = [
       } 
       
       // Specific Interactions
-      if (adjacent.includes("🐓") && HAND_EMOJI == "🧺" && !testFor("🥚",3)) {
+      if (adjacent.includes("🐔") && HAND_EMOJI == "🧺" && !testFor("🥚",3)) {
         updateAdjacent();
         addInventory("🥚");
       }
@@ -3496,11 +3817,7 @@ var dungeon_map = [
             console.log(thing.qrequired);
             if (thing.qrequired.length === 0) {              
               addInventory(thing.output);
-              
-              replaceItem("⚔️☘️"," ","⚔️","☘️");
-              replaceItem("⚔️❄"," ","⚔️","❄");
-              replaceItem("⚔️🔥"," ","⚔️","🔥");
-              
+
               if (`quest${thing.currentQuest}` in thing) {
                 objectProperties[item].description = thing[`quest${thing.currentQuest}`][0];
                 thing.output = thing[`quest${thing.currentQuest}`][1];
@@ -3512,23 +3829,6 @@ var dungeon_map = [
             }
           }
         }
-      }
-      
-      // Eating
-      if (HAND_EMOJI in foodProperties && saturation < MAX_SATURATION && FOOD_HEALTH < MAX_FOOD_HEALTH && !adjacent.includes("🧑‍🌾")) {
-        hunger(foodProperties[HAND_EMOJI].nutrition);
-        removeInventory(HAND_EMOJI);
-        
-        // Special effects properties
-        if (foodProperties[HAND_EMOJI].effect == "health4") {
-          if (playerHealth + 4 > MAX_PLAYER_HEALTH) {
-            playerHealth = MAX_PLAYER_HEALTH;
-          } else {playerHealth += 4;}
-        } else if (foodProperties[HAND_EMOJI].effect == "health2") {
-          if (playerHealth + 2 > MAX_PLAYER_HEALTH) {
-            playerHealth = MAX_PLAYER_HEALTH;
-          } else {playerHealth += 2;}
-        } else if (foodProperties[HAND_EMOJI].effect == "regeneration") {regeneration = 100;}
       }
 
       // Equip Armor
@@ -3545,6 +3845,14 @@ var dungeon_map = [
           }
           if (showInv != "") {openInventory();}
         }
+      }
+      
+      if (armor[4] == "🛡️") {
+        RHAND_EMOJI = "🛡️";
+        raisedShield = true;
+      } else {
+        RHAND_EMOJI = "🤚";
+        raisedShield = false;
       }
       
       showFistEmojiTemporarily(RHAND_EMOJI);
@@ -3580,6 +3888,7 @@ var dungeon_map = [
       tooltip.innerHTML = "";
       durability = 0;
       clickCounter = 0;
+      raisedShield = false;
     }
 
     if (HAND_EMOJI == "") {
@@ -3944,7 +4253,11 @@ var dungeon_map = [
         }
 
         if (obj[1] === bossPosition.x && obj[2] === bossPosition.y && obj[5] == "player") {
-          bossHealth -= obj[4];
+          if (bossHealth - obj[4] <= 0) {
+            bossHealth = 0;
+          } else {
+            bossHealth -= obj[4];
+          }
           BOSS_EMOJI = ANGRY;
         } else if (obj[1] === playerPosition.x && obj[2] === playerPosition.y && obj[5] == "boss") {
           if (projRegester == 0) {damage(obj[4]);}
