@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var showInv = "";
 
   var Inventory = [
-    ["🗡️", "⛏️", "🪓", "", "", "", "", "💩", "🥚"],
+    ["🗡️", "⛏️", "🪓", "", "", "", "", "", "🥚"],
     ["", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", ""],
@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
   ];
 
   var inventoryValue = [
-    [" ", " ", " ", "", "", "", "", " ", " "],
+    [" ", " ", " ", "", "", "", "", "", " "],
     ["", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", ""],
@@ -134,14 +134,14 @@ document.addEventListener("DOMContentLoaded", function () {
   
   var armor = ["🧢","","","","",""];
 
-  localStorage.setItem('Inventory', JSON.stringify(Inventory));
-  localStorage.setItem('inventoryValue', JSON.stringify(inventoryValue));
-  localStorage.setItem('armor', JSON.stringify(armor));
+  sessionStorage.setItem('Inventory', JSON.stringify(Inventory));
+  sessionStorage.setItem('inventoryValue', JSON.stringify(inventoryValue));
+  sessionStorage.setItem('armor', JSON.stringify(armor));
   
   // Retrieve data from local storage
-  var storedInventory = JSON.parse(localStorage.getItem('Inventory'));
-  var storedInventoryValue = JSON.parse(localStorage.getItem('inventoryValue'));
-  var storedArmor = JSON.parse(localStorage.getItem('armor'));
+  Inventory = JSON.parse(localStorage.getItem('Inventory'));
+  inventoryValue = JSON.parse(localStorage.getItem('inventoryValue'));
+  armor = JSON.parse(localStorage.getItem('armor'));
   
   // Hovering Text
   var hover = "";
