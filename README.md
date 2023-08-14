@@ -24,6 +24,10 @@ Shift + Space >> Fly downwards
 
 q >> Escape mount
 
+\ >> Player saved onto input box above
+
+Enter >> Load player save from input box
+
 ## Main progression
 
 You typically will have to choose between weapon class, archer class, or mage class.
@@ -31,7 +35,3 @@ You typically will have to choose between weapon class, archer class, or mage cl
 You must complete NPC quests to get more bosses, items up upgrades
 
 Have fun!
-
-\ >> Player saved onto input box above
-
-Enter >> Load player save from input box
