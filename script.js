@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var showInv = "";
 
   var Inventory = [
-    ["🗡️", "⛏️", "🪓", "", "", "", "", "", "🥚"],
+    ["🗡️", "⛏️", "🪓", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", ""],
@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
   ];
 
   var inventoryValue = [
-    [" ", " ", " ", "", "", "", "", "", " "],
+    [" ", " ", " ", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", ""],
@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function () {
   ];
   
   var armor = ["🧢","","","","",""];
-
+  
   // Hovering Text
   var hover = "";
   var iRow = 0;
@@ -1467,7 +1467,9 @@ document.addEventListener("DOMContentLoaded", function () {
       currentQuest: 2,
       quest2: ["You still have long ways to go apprentice. I'll teach you spells to improve your magic","🪄📖","🪄","📕","📕","📕"],
       quest3: ["You still have long ways to go student. I'll teach you spells to improve your magic","🪄📚","🏆","🪄","📕","📕","📕","📕","📕","📕"],
-      quest4: ["Doing all this magic constantly makes you hungry, right? (That's how I'm so skinny). I think it's time you finally upgrade to something more musical","🎸","🪄","✨","✨","🌟","🌟","🪵","🪵","🔩","🕸️","🕸️","🕸️"]
+      quest4: ["Doing all this magic constantly makes you hungry, right? (That's how I'm so skinny). I think it's time you finally upgrade to something more musical","🎻","🪄","✨","✨","🌟","🌟","🪵","🪵","🔩","🕸️","🕸️","🕸️"],
+      quest4: ["Like your magical instrument? Let's upgrade it","🎸","🎻","✨","✨","🌟","🌟","🪵","🪵","🔩","🕸️","🕸️","🕸️"],
+      quest5: ["Thanks for doing all of my quests!","​","​"]
     },
     "🧑‍🌾": {
       name: "Farmer NPC",
@@ -1695,7 +1697,7 @@ document.addEventListener("DOMContentLoaded", function () {
       name: "The Joker",
       base_emoji: "🤡",
       hearts: "🤍",
-      health: 50,
+      health: 60,
       loot: ["🏆","🎭","🎈"],
       enraged: "😵‍💫",
       angry: "🤬",
@@ -1706,45 +1708,45 @@ document.addEventListener("DOMContentLoaded", function () {
       name: "Hamsa",
       base_emoji: "🪬",
       hearts: "🫀",
-      health: 60,
+      health: 70,
       loot: ["🏆","👁"],
       enraged: "😰",
       angry: "🪬",
       damage: 20,
-      level: 0, //fix
+      level: -3,
     },
     "🐲": {
       name: "Dragonic",
       base_emoji: "🐲",
       hearts: "💚",
-      health: 50,
+      health: 80,
       loot: ["🏆","🌌","🌌","🐉"],
       enraged: "😤",
       angry: "🐉",
       damage: 25,
-      level: 0, //fix
+      level: 1,
     },
     "👽": {
       name: "Alien",
       base_emoji: "👽",
       hearts: "💙",
-      health: 50,
+      health: 90,
       loot: ["🏆","💫"],
       enraged: "😣",
       angry: "👽",
       damage: 25,
-      level: 0,
+      level: 2,
     },
     "👹": {
       name: "Lucifer",
       base_emoji: "👹",
       hearts: "❤‍🔥",
-      health: 60,
+      health: 100,
       loot: ["🏆","🥇","❤‍🔥"],
       enraged: "👺",
       angry: "👺",
       damage: 45,
-      level: 0,
+      level: -2,
     },
   };
   
@@ -3414,12 +3416,17 @@ var dungeon_map = [
     } else if (emoji == "🪄") {
       magic(dim(),"✨",3);
       hunger(-1);
-    } else if (emoji == "🎸") {
-      magic(dim(),"✨",3);
+    } else if (emoji == "🎻") {
       if (Math.random() < 0.75) {
         magic(dim(),"🎵",4);
       } else {
-        magic(dim(),"🎶",4);
+        magic(dim(),"🎶",5);
+      }
+    } else if (emoji == "🎸") {
+      if (Math.random() < 0.6) {
+        magic(dim(),"🎵",6);
+      } else {
+        magic(dim(),"🎶",7);
       }
     } else {
       startPunching(dim(),"up", 3, 4);
