@@ -134,15 +134,6 @@ document.addEventListener("DOMContentLoaded", function () {
   
   var armor = ["🧢","","","","",""];
 
-  sessionStorage.setItem('Inventory', JSON.stringify(Inventory));
-  sessionStorage.setItem('inventoryValue', JSON.stringify(inventoryValue));
-  sessionStorage.setItem('armor', JSON.stringify(armor));
-  
-  // Retrieve data from local storage
-  Inventory = JSON.parse(localStorage.getItem('Inventory'));
-  inventoryValue = JSON.parse(localStorage.getItem('inventoryValue'));
-  armor = JSON.parse(localStorage.getItem('armor'));
-  
   // Hovering Text
   var hover = "";
   var iRow = 0;
