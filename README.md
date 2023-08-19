@@ -32,6 +32,6 @@ Enter >> Load player save from input box
 
 You typically will have to choose between weapon class, archer class, or mage class.
 
-You must complete NPC quests to get more bosses, items up upgrades
+You must complete NPC quests to get more bosses, items, potions, and upgrades
 
 Have fun!
