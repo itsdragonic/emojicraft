@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
     divisor = 30;
     wings = "𓆩𓆪";
   } else {
-    divisor = 30;
+    divisor = 26;
     wings = "🪽";
   }
 
@@ -46,6 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var HUNGER_EMOJI = "🍗";
   var cellColor = "#222";
   var damageColor = cellColor;
+  var color = "#992222";
   
   var BOSS_EMOJI = "💩";
   var BOSS = "💩";
@@ -95,6 +96,9 @@ document.addEventListener("DOMContentLoaded", function () {
   var tractorMode = false;
   var regeneration = 0;
   var fireRes = 0;
+  var elixir = 0;
+  var effects = "";
+  var ammoRNG = 0;
 
   // Generate Slots
   const slot1 = document.getElementById("slot1");
@@ -826,7 +830,7 @@ document.addEventListener("DOMContentLoaded", function () {
       description: "'We come in peace...'",
       canBeWalkedOn: false,
       durability: 7,
-      toolRequired: "⛏",
+      toolRequired: "⛏️",
       loot: "👽"
     },
     "👿": {
@@ -835,7 +839,7 @@ document.addEventListener("DOMContentLoaded", function () {
       isAnimal: true,
       canBeWalkedOn: false,
       durability: 10,
-      toolRequired: "🗡",
+      toolRequired: "🗡️",
       loot: "🔥"
     },
     "😈": {
@@ -844,7 +848,7 @@ document.addEventListener("DOMContentLoaded", function () {
       isAnimal: true,
       canBeWalkedOn: false,
       durability: 9,
-      toolRequired: "🗡",
+      toolRequired: "🗡️",
       loot: "🔥"
     },
     "🔥": {
@@ -965,6 +969,43 @@ document.addEventListener("DOMContentLoaded", function () {
       toolRequired: "⛏️",
       loot: "🗿"
     },
+    "🪑": {
+      name: "Chair",
+      canBeWalkedOn: true,
+      durability: 10,
+      toolRequired: "🪓",
+      loot: "🪑"
+    },
+    "🛏️": {
+      name: "Bed",
+      canBeWalkedOn: true,
+      durability: 10,
+      toolRequired: "🪓",
+      loot: "🛏️"
+    },
+    "🎯": {
+      name: "Target",
+      description: "Try and hit me!",
+      canBeWalkedOn: false,
+      durability: 10,
+      toolRequired: "⛏️",
+      loot: "🎯"
+    },
+    "🗑️": {
+      name: "Trash Bin",
+      description: "Stand on me to remove items",
+      canBeWalkedOn: true,
+      durability: 10,
+      toolRequired: "⛏️",
+      loot: "🗑️"
+    },
+    "📻": {
+      name: "Radio",
+      canBeWalkedOn: false,
+      durability: 10,
+      toolRequired: "⛏️",
+      loot: "📻"
+    },
     "🏭": {
       name: "Factory",
       description: "Coming soon...",
@@ -1083,6 +1124,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }, "🌭": {
       name: "Hot Dog",
       nutrition: 6,
+    }, "🫖": {
+      name: "Tea Pot",
+      nutrition: 2,
     }, "🥚": {
       name: "Egg",
       nutrition: 2,
@@ -1186,6 +1230,10 @@ document.addEventListener("DOMContentLoaded", function () {
       name: "Fire Potion",
       nutrition: 0,
       effect: "fireres",
+    }, "🏺": {
+      name: "Elixir",
+      nutrition: 0,
+      effect: "elixir",
     },
   };
   
@@ -1216,8 +1264,8 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     "🏭": {
       name: "Factory",
-      itemsNeeded: ["🔩","🧱","✨"],
-      amountsNeeded: [8,16,1],
+      itemsNeeded: ["🔩","🧱","✨","💨"],
+      amountsNeeded: [8,16,1,1],
       required: "🧰",
     },
     "🏠": {
@@ -1343,14 +1391,20 @@ document.addEventListener("DOMContentLoaded", function () {
     "🧪": {
       name: "Regeneration Potion",
       itemsNeeded: ["🍄","🩸","🪟"],
-      amountsNeeded: [1,3,1],
-      required: "⚗️",
+      amountsNeeded: [3,3,1],
+      required: "🔮",
     },
     "🌡️": {
       name: "Fire Potion",
       itemsNeeded: ["🍄","🔥","🪟"],
-      amountsNeeded: [1,3,1],
-      required: "⚗️",
+      amountsNeeded: [3,2,1],
+      required: "🔮",
+    },
+    "🏺": {
+      name: "Elixir",
+      itemsNeeded: ["🌈","🔥","✨","🫖"],
+      amountsNeeded: [3,3,1,1],
+      required: "🔮",
     },
     "🩹": {
       name: "Bandage",
@@ -1412,7 +1466,7 @@ document.addEventListener("DOMContentLoaded", function () {
       amountsNeeded: [3,1],
       required: "🧰",
     },
-    "⛑": {
+    "⛑️": {
       name: "Medical Helmet",
       itemsNeeded: ["💠","🔩"],
       amountsNeeded: [3,1],
@@ -1475,7 +1529,10 @@ document.addEventListener("DOMContentLoaded", function () {
       output: "🔮",
       currentQuest: 2,
       quest2: ["If you want help for getting into the dungeon, I'll need you to do me a favor...","🗝️","🐭"],
+      quest4: ["If you get the right materials I could make you the best thing for your head.","👑","🪙","🪙","🪙","🪙","🪙","💠"],
       quest3: ["Are you the prophesized one that will slay the dragon?","🐲","🌈","🌈","🌈","🌈","🌟","🌟","🌟","⚡","⚡"],
+      quest4: ["Wow! You slayed the dragon! If you get the right materials I could make you something even stronger than a shield.","💍","💎","💎","💎","💠","💠","💠","🌌"],
+      quest7: ["Thanks for doing all of my quests!","​","​"]
     },
     "🧙‍♂️": {
       name: "Wizard NPC",
@@ -1484,9 +1541,10 @@ document.addEventListener("DOMContentLoaded", function () {
       currentQuest: 2,
       quest2: ["You still have long ways to go apprentice. I'll teach you spells to improve your magic","🪄📖","🪄","📕","📕","📕"],
       quest3: ["You still have long ways to go student. I'll teach you spells to improve your magic","🪄📚","🏆","🪄","📕","📕","📕","📕","📕","📕"],
-      quest4: ["Doing all this magic constantly makes you hungry, right? (That's how I'm so skinny). I think it's time you finally upgrade to something more musical","🎻","🪄","✨","✨","🌟","🌟","🪵","🪵","🔩","🕸️","🕸️","🕸️"],
-      quest4: ["Like your magical instrument? Let's upgrade it","🎸","🎻","✨","✨","🌟","🌟","🪵","🪵","🔩","🕸️","🕸️","🕸️"],
-      quest5: ["Thanks for doing all of my quests!","​","​"]
+      quest4: ["Now it's time for you to specialize. Picking one of these elements will be your permanent class so choose wisely...","🪄","🪄","🔥","💧","🪨","💨"],
+      quest5: ["Doing all this magic constantly makes you hungry, right? (That's how I'm so skinny). I think it's time you finally upgrade to something more musical","🎻","🪄","✨","✨","🌟","🌟","🪵","🪵","🔩","🕸️","🕸️","🕸️"],
+      quest6: ["Like your magical instrument? Let's upgrade it","🎸","🎻","✨","🌟","🪵","🪵","🔩","🕸️","🕸️"],
+      quest7: ["Thanks for doing all of my quests!","​","​"]
     },
     "🧑‍🌾": {
       name: "Farmer NPC",
@@ -1505,7 +1563,7 @@ document.addEventListener("DOMContentLoaded", function () {
       qrequired: ["🍔"],
       output: "🤖",
       currentQuest: 2,
-      quest2: ["You want to get into space, eh? If you give the materials, I think I could make that happen","🚀","🔩","🔩","🔩","🔩","🔩","🔩","⚙","🪙","🪙","🪙","🪙","🪙","🌌"],
+      quest2: ["You want to get into space, eh? If you give the materials, I think I could make that happen","🚀","🔩","🔩","🔩","🔩","🔩","🔩","⚙️","🪙","🪙","🪙","🪙","🪙","🌌"],
       quest3: ["Is it true that there's alien life out there? If you can get me some UFO parts, I'll see what I can make","👽","🌠","🌠","🌠","🌠","🌠"],
       quest4: ["Thanks for doing all of my quests!","​","​"]
     },
@@ -1514,7 +1572,7 @@ document.addEventListener("DOMContentLoaded", function () {
       qrequired: ["🍕"],
       output: "🐀",
       currentQuest: 2,
-      quest2: ["I'll help you upgrade your pickaxe!","⚒","⛏️","🔩","🔩","🔩","🔩","🔩","🔩","🪙","💎","💠","⚙"],
+      quest2: ["I'll help you upgrade your pickaxe!","⚒","⛏️","🔩","🔩","🔩","🔩","🔩","🔩","🪙","💎","💠","⚙️"],
       quest3: ["I'll help you upgrade your axe!","🪚","🪓","🔩","🔩","🔩","🔩","🔩","🔩","🪙","🪵","🪵","🪵","🪵","🪵","🪵","🪵","🪵","🪵","🪵","🪵"],
       quest4: ["Whenever I feel lonely I think about pets. I'll give you one of mine for something","🐈","🐟"],
       quest5: ["Whenever I feel lonely I think about pets. I'll give you one of mine for something","🐱","🐟"],
@@ -1540,7 +1598,7 @@ document.addEventListener("DOMContentLoaded", function () {
       output: "🏹②",
       currentQuest: 2,
       quest2: ["Like your improved bow? I'll help you upgrade it and make it trice as powerful","🏹③","🏹","🏆"],
-      quest3: ["Like your improved bow? I'll help you upgrade it and make it more lovely and enchanting","🏹💞","🏹","🌈","🌈","✨","🫖"],
+      quest3: ["Like your improved bow? I'll help you upgrade it and make it more lovely and enchanting","🏹💞","🏹","🌈","🌈","✨","✨","🫖","🫖"],
       quest4: ["It's time for you to upgrade from that bow!","🔫","🏹","🔩","🔩","🔩","🪙","🪙"],
       quest5: ["Thanks for doing all of my quests!","​","​"]
     }
@@ -1619,6 +1677,11 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     "💫": {
       name: "Star Crown",
+      protection: 20,
+      slot: 0,
+    },
+    "👑": {
+      name: "Golden Crown",
       protection: 10,
       slot: 0,
     },
@@ -1635,6 +1698,11 @@ document.addEventListener("DOMContentLoaded", function () {
     "🛡️": {
       name: "Shield",
       protection: 3,
+      slot: 4,
+    },
+    "💍": {
+      name: "Diamond Ring",
+      protection: 15,
       slot: 4,
     },
     "👟": {
@@ -1695,9 +1763,9 @@ document.addEventListener("DOMContentLoaded", function () {
     "🤖": {
       name: "Roboto",
       base_emoji: "🤖",
-      hearts: "⚙",
+      hearts: "⚙️",
       health: 40,
-      loot: ["🏆","⚙"],
+      loot: ["🏆","⚙️"],
       enraged: "💢",
       angry: ":-\\",
       damage: 6,
@@ -2185,12 +2253,14 @@ var dungeon_map = [
     // Apply damage & other stuff
     if (playerHealth - newAmount < 0) {
       playerHealth = 0;
-    } else if (!raisedShield) {
+    } else if (!raisedShield && elixir == 0) {
       playerHealth -= newAmount;
+    } else if (elixir > 0) {
+      elixir --;
     }
     
     PLAYER_EMOJI = "🤕";
-    damageColor = "#992222";
+    damageColor = color;
 
     setTimeout(() => {
       damageColor = cellColor;
@@ -2814,7 +2884,7 @@ var dungeon_map = [
         case 3:
           summonMob(sky_map,"🕊️"); break;
         case 4:
-          summonMob(sky_map,"🌪"); break;
+          summonMob(sky_map,"🌪️"); break;
         case 5:
           summonMob(sky_map,"🦄"); break;
         case 6:
@@ -2834,7 +2904,7 @@ var dungeon_map = [
       moveMob(sky_map,"😇");
       moveMob(sky_map,"🐦");
       moveMob(sky_map,"🕊️");
-      moveMob(sky_map,"🌪");
+      moveMob(sky_map,"🌪️");
       moveMob(sky_map,"🦄");
       if (dragonDefeated) {moveMob(sky_map,"🧞");}
     }
@@ -2936,14 +3006,11 @@ var dungeon_map = [
     
     // Sun/Moon
     if (time <= 400) {
-      sunmoon.innerHTML = "☀️";
       phase = "☀️";
     } if (time <= 120) {
-      sunmoon.innerHTML = "🌇";
       phase = "🌇";
     } if (time <= 100) {
       phaseOnce = false;
-      sunmoon.innerHTML = moonPhases[moonIndex];
       phase = moonPhases[moonIndex];
       if (phaseOnce) {
         phaseOnce = false;
@@ -2953,9 +3020,14 @@ var dungeon_map = [
       }
     } if (time <= 20) {
       phaseOnce = true;
-      sunmoon.innerHTML = "🌅";
       phase = "🌅";
     }
+    
+    // Bottom-right display
+    sunmoon.innerHTML = effects + " " + phase;
+    if (burning == 0) {effects = effects.replace(new RegExp("🔥", 'g'), '');}
+    if (regeneration == 0) {effects = effects.replace(new RegExp("💗", 'g'), '');}
+    if (elixir == 0) {effects = effects.replace(new RegExp("🛡️", 'g'), '');}
     
     // Burning
     if (burning > 0) {
@@ -3030,6 +3102,10 @@ var dungeon_map = [
 
     replaceItem("🪄📖","🪄","📖");
     replaceItem("🪄📚","🪄","📚");
+    replaceItem("🪄🔥","🪄","🔥");
+    replaceItem("🪄💧","🪄","💧");
+    replaceItem("🪄🪨","🪄","🪨");
+    replaceItem("🪄💨","🪄","💨");
     
     replaceItem("🏹②","🏹","②");
     replaceItem("🏹③","🏹","③");
@@ -3091,6 +3167,12 @@ var dungeon_map = [
           "9":{x:1,y:9},"9a":{x:2,y:9},"9b":{x:3,y:9},"9c":{x:4,y:9},"9d":{x:5,y:9},"9e":{x:6,y:9},"9f":{x:7,y:9},"9g":{x:8,y:9},"9h":{x:9,y:9},
       };
     }
+    
+    // Sleep
+    if (playerTile == "🛏️") {
+      PLAYER_EMOJI = "🛌";
+      time -= 8;
+    } else if (playerTile != "🛏️" && PLAYER_EMOJI == "🛌") {PLAYER_EMOJI = "😄"}
     
     // Crafting
     for (items in craftingDictionary) {
@@ -3283,40 +3365,40 @@ var dungeon_map = [
       if (!boss_mode) {
         if (direction == "up" && adjacent[0] == " ") {
           setBlock(map,3,4," ",up)
-          removeInventory(ammo);
+          if (Math.random() > ammoRNG) {removeInventory(ammo);}
           return true;
         }
         else if (direction == "down" && adjacent[1] == " ") {
           setBlock(map,5,4," ",down)
-          removeInventory(ammo);
+          if (Math.random() > ammoRNG) {removeInventory(ammo);}
           return true;
         }
         else if (direction == "left" && adjacent[2] == " ") {
           setBlock(map,4,3," ",left)
-          removeInventory(ammo);
+          if (Math.random() > ammoRNG) {removeInventory(ammo);}
           return true;
         }
         else if (direction == "right" && adjacent[3] == " ") {
           setBlock(map,4,5," ",right)
-          removeInventory(ammo);
+          if (Math.random() > ammoRNG) {removeInventory(ammo);}
           return true;
         }
       } else {
         if (direction == "up") {
           currentProjectiles.push([up,playerPosition.x,playerPosition.y,0,damage]);
-          removeInventory(ammo);
+          if (Math.random() > ammoRNG) {removeInventory(ammo);}
           return true;
         } else if (direction == "down") {
           currentProjectiles.push([down,playerPosition.x,playerPosition.y,1,damage]);
-          removeInventory(ammo);
+          if (Math.random() > ammoRNG) {removeInventory(ammo);}
           return true;
         } else if (direction == "left") {
           currentProjectiles.push([left,playerPosition.x,playerPosition.y,2,damage]);
-          removeInventory(ammo);
+          if (Math.random() > ammoRNG) {removeInventory(ammo);}
           return true;
         } else if (direction == "right") {
           currentProjectiles.push([down,playerPosition.x,playerPosition.y,3,damage]);
-          removeInventory(ammo);
+          if (Math.random() > ammoRNG) {removeInventory(ammo);}
           return true;
         }
       }
@@ -3485,15 +3567,20 @@ var dungeon_map = [
     // Start Punching
     if (emoji == "🏹") {
       if (inventoryValue[0][currentSlot - 1] == "💞") {
+        ammoRNG == 0.5;
         shoot(dim(),"➶","💘","💘​","💘​​","💘​​​",12);
       } else if (inventoryValue[0][currentSlot - 1] == "③") {
+        ammoRNG == 0.25;
         shoot(dim(),"➶","⤊","⤋","⬱","⇶",9);
       } else if (inventoryValue[0][currentSlot - 1] == "②") {
+        ammoRNG == 0.1;
         shoot(dim(),"➶","⇈","⇊","⇇","⇉",6);
       } else {
+        ammoRNG == 0;
         shoot(dim(),"➶","➶","➴","↢","➵",3);
       }
     } else if (emoji == "🔫") {
+      ammoRNG == 0.3;
       shoot(dim(),"•","'","'​","-","-​",15);
     } else if (emoji == "🪄") {
       if (magic(dim(),"✨",3)) {
@@ -3775,7 +3862,10 @@ var dungeon_map = [
           
           if (HAND_EMOJI == "🥛") {
             addInventory("🪣");
+          } else if (HAND_EMOJI == "🫖") {
+            addInventory("💨");
           }
+          
           removeInventory(HAND_EMOJI);
         } else if (foodProperties[HAND_EMOJI].effect) {
 
@@ -3790,8 +3880,13 @@ var dungeon_map = [
             } else {playerHealth += 2;}
           } else if (foodProperties[HAND_EMOJI].effect == "regeneration") {
             regeneration = 100;
+            effects += "💗";
           } else if (foodProperties[HAND_EMOJI].effect == "fireres") {
             fireRes = 100;
+            effects += "🔥";
+          } else if (foodProperties[HAND_EMOJI].effect == "elixir") {
+            elixir = 15;
+            effects += "🛡️";
           }
           removeInventory(HAND_EMOJI);
         }
@@ -3908,6 +4003,18 @@ var dungeon_map = [
                 thing.qrequired.push(...remainingRequired);
 
                 thing.currentQuest++;
+              }
+            }
+            // Elements class
+            if (thing.qrequired.length === 3 && (thing.qrequired.includes("🔥") || thing.qrequired.includes("💨"))) {
+              if (!thing.qrequired.includes("🔥")) {
+                addInventory("🪄🔥");
+              } else if (!thing.qrequired.includes("💧")) {
+                addInventory("🪄💧");
+              } else if (!thing.qrequired.includes("🪨")) {
+                addInventory("🪄🪨");
+              } else if (!thing.qrequired.includes("💨")) {
+                addInventory("🪄💨");
               }
             }
           }
@@ -4110,7 +4217,7 @@ var dungeon_map = [
       burning = 0;
     } else if (playerTile == "🌋" || playerTile == "🔥") {
       burning = 20;
-    } else if (playerTile == "🌵" || playerTile == "🌪") {
+    } else if (playerTile == "🌵" || playerTile == "🌪️") {
       damageTick = 80;
       damage(1);
     }
@@ -4151,7 +4258,7 @@ var dungeon_map = [
           boss_move = false;
 
           const interval = setInterval(function() {
-            bossShoot("⚙");
+            bossShoot("⚙️");
           }, 50);
 
           setTimeout(function() {
