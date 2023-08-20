@@ -6,7 +6,7 @@ https://itsdragonic.github.io/emojicraft/
 
 WASD >> up-down-left-right
 
-1-9 >> First 9 inventory slots
+1-9 >> First 9 inventory slots (select 2 coordinates to swap items in inventory)
 
 Left-click / j >> destroy / attack / eat
 
@@ -24,11 +24,18 @@ Shift + Space >> Fly downwards
 
 q >> Escape mount
 
-\ >> Player saved onto input box above
+p >> Save world progress
 
-Enter >> Load player save from input box
+Enter >> Load world progress
 
-## Main progression
+## Mobile Support
+
+If you play on smartphone, play from here:
+https://codepen.io/Dragonic/full/gOQZNaG?editors=0010
+
+You'll want to select the input box above and use the keyboard as your controller
+
+### Main progression
 
 You typically will have to choose between weapon class, archer class, or mage class.
 
