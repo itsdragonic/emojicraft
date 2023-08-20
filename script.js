@@ -80,11 +80,10 @@ document.addEventListener("DOMContentLoaded", function () {
   
   var moveX = 5;
   var moveY = 5;
-  var time = 400;
+  var time = 266;
   var phase = "";
   var burning = 0;
   var burn = false;
-  var encrypt = 3; // 3
   var clickCounter = 0;
   var pos1 = [1,0];
   var pos2 = [1,0];
@@ -378,13 +377,6 @@ document.addEventListener("DOMContentLoaded", function () {
       durability: 15,
       toolRequired: "⛏️",
       loot: "🪨"
-    },
-    "🛰": {
-      name: "Satellite",
-      canBeWalkedOn: false,
-      durability: 10,
-      toolRequired: "⛏️",
-      loot: "🔩"
     },
     "🧰": {
       name: "Toolbox",
@@ -833,6 +825,60 @@ document.addEventListener("DOMContentLoaded", function () {
       toolRequired: "⛏️",
       loot: "👽"
     },
+    "🛰": {
+      name: "Satellite",
+      canBeWalkedOn: false,
+      durability: 15,
+      toolRequired: "⛏️",
+      loot: "🔩"
+    },
+    "📡": {
+      name: "Satellite Antenna",
+      canBeWalkedOn: false,
+      durability: 15,
+      toolRequired: "⛏️",
+      loot: "🔩"
+    },
+    "🌕": {
+      name: "Full Moon Rock",
+      description: "From the brightest side of the moon",
+      canBeWalkedOn: true,
+      durability: 8,
+      toolRequired: "⛏️",
+      loot: "🌕"
+    },
+    "🌖": {
+      name: "Light Moon Rock",
+      description: "From the bright side of the moon",
+      canBeWalkedOn: true,
+      durability: 8,
+      toolRequired: "⛏️",
+      loot: "🌖"
+    },
+    "🌗": {
+      name: "Half Moon Rock",
+      description: "From the middle of the moon",
+      canBeWalkedOn: true,
+      durability: 8,
+      toolRequired: "⛏️",
+      loot: "🌗"
+    },
+    "🌘": {
+      name: "Dark Moon Rock",
+      description: "From the dark side of the moon",
+      canBeWalkedOn: true,
+      durability: 8,
+      toolRequired: "⛏️",
+      loot: "🌘"
+    },
+    "🌑": {
+      name: "New Moon Rock",
+      description: "From the darkest side of the moon",
+      canBeWalkedOn: true,
+      durability: 8,
+      toolRequired: "⛏️",
+      loot: "🌑"
+    },
     "👿": {
       name: "Mad Demon",
       description: ">:(",
@@ -968,6 +1014,14 @@ document.addEventListener("DOMContentLoaded", function () {
       durability: 10,
       toolRequired: "⛏️",
       loot: "🗿"
+    },
+    "⛲": {
+      name: "Fountain",
+      description: "Toss a coin in for good luck!",
+      canBeWalkedOn: false,
+      durability: 10,
+      toolRequired: "⛏️",
+      loot: "⛲"
     },
     "🪑": {
       name: "Chair",
@@ -1262,6 +1316,12 @@ document.addEventListener("DOMContentLoaded", function () {
       amountsNeeded: [4],
       required: "🧰",
     },
+    "⛲": {
+      name: "Fountain",
+      itemsNeeded: ["🪨","💧"],
+      amountsNeeded: [4,1],
+      required: "🧰",
+    },
     "🏭": {
       name: "Factory",
       itemsNeeded: ["🔩","🧱","✨","💨"],
@@ -1468,26 +1528,62 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     "⛑️": {
       name: "Medical Helmet",
-      itemsNeeded: ["💠","🔩"],
+      itemsNeeded: ["💎","🔩"],
       amountsNeeded: [3,1],
       required: "🧰",
     },
     "👕": {
       name: "Chestplate",
-      itemsNeeded: ["💎","🔩"],
-      amountsNeeded: [4,1],
+      itemsNeeded: ["💎","🪶"],
+      amountsNeeded: [4,2],
+      required: "🧰",
+    },
+    "🧥": {
+      name: "Coat",
+      itemsNeeded: ["💎","🪶","✨"],
+      amountsNeeded: [5,2,1],
+      required: "🧰",
+    },
+    "🥼": {
+      name: "White Coat",
+      itemsNeeded: ["💎","🪶","✨","💨"],
+      amountsNeeded: [5,2,1,1],
+      required: "🧰",
+    },
+    "🩲": {
+      name: "Underwear",
+      itemsNeeded: ["💠","🪶"],
+      amountsNeeded: [3,2],
+      required: "🧰",
+    },
+    "🩳": {
+      name: "Shorts",
+      itemsNeeded: ["💠","🪶","🌈"],
+      amountsNeeded: [3,2,1],
       required: "🧰",
     },
     "👖": {
       name: "Pants",
-      itemsNeeded: ["💠","🪶"],
-      amountsNeeded: [3,1],
+      itemsNeeded: ["💠","🪶","💨","🔥"],
+      amountsNeeded: [5,2,1,1],
       required: "🧰",
     },
     "👟": {
       name: "Shoe",
       itemsNeeded: ["💠","🪶"],
-      amountsNeeded: [2,1],
+      amountsNeeded: [2,2],
+      required: "🧰",
+    },
+    "🥾": {
+      name: "Boot",
+      itemsNeeded: ["💠","🪶","🌈","✨"],
+      amountsNeeded: [3,2,2,1],
+      required: "🧰",
+    },
+    "👢": {
+      name: "Tall Boot",
+      itemsNeeded: ["💠","🪶","✨","🔥"],
+      amountsNeeded: [4,2,1],
       required: "🧰",
     },
     "🧱​": {
@@ -1654,8 +1750,15 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     "🪄": {
       name: "Magic Wand",
-      damage: 6,
+      damage: 4,
       itemType: "🗡️",
+      sub: 0,
+    },
+    "🎮": {
+      name: "Game Controller",
+      damage: 2,
+      itemType: "🗡️",
+      sub: 0,
     },
   };
   
@@ -1695,6 +1798,16 @@ document.addEventListener("DOMContentLoaded", function () {
       protection: 3,
       slot: 1,
     },
+    "🧥": {
+      name: "Coat",
+      protection: 5,
+      slot: 1,
+    },
+    "🥼": {
+      name: "White Coat",
+      protection: 7,
+      slot: 1,
+    },
     "🛡️": {
       name: "Shield",
       protection: 3,
@@ -1702,7 +1815,7 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     "💍": {
       name: "Diamond Ring",
-      protection: 15,
+      protection: 10,
       slot: 4,
     },
     "👟": {
@@ -1712,22 +1825,27 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     "🥾": {
       name: "Boot",
-      protection: 4,
+      protection: 5,
       slot: 3,
     },
     "👢": {
       name: "Tall Boot",
-      protection: 5,
+      protection: 8,
       slot: 3,
+    },
+    "🩲": {
+      name: "Underwear",
+      protection: 2,
+      slot: 2,
     },
     "🩳": {
       name: "Shorts",
-      protection: 2,
+      protection: 4,
       slot: 2,
     },
     "👖": {
       name: "Pants",
-      protection: 4,
+      protection: 7,
       slot: 2,
     },
   };
@@ -1745,7 +1863,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "🌳": {"name": "Tree", "seed": "˖"},
     "🌲": {"name": "Evergreen Tree", "seed": "↟"},
     "🍄": {"name": "Mushroom", "seed": "𓍊"},
-    "🌿": {"name": "Herb", "seed": "⸙͎"},
+    "🌿": {"name": "Herb", "seed": "⸙"},
   };
   
   var bosses = {
@@ -1848,17 +1966,17 @@ document.addEventListener("DOMContentLoaded", function () {
    [ "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊" ],
    [ "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊" ],
    [ "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊" ],
-   [ "🌊", "🌊", "🌊", "🌊", "🌊", "☘️", "🌲", " ", "🌿", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊" ],
+   [ "🌊", "🌊", "🌊", "🌊", "🌊", "️☘", "🌲", " ", "🌿", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊" ],
    [ "🌊", "🌊", "🌊", "🌊", "🌊", "🌿", " ", "🌳", " ", " ", "🌾", " ", " ", " ", " ", " ", " ", "🌵", " ", " ", "🌴", " ", "🌊", "🌊", "🌊", "🌊" ],
    [ "🌊", "🌊", "🌊", "🌊", "🌲", " ", " ", "🌿", " ", " ", " ", " ", "🌳", " ", " ", " ", "🌱", " ", "🌵", " ", " ", "🌵", "🌊", "🌊", "🌊", "🌊" ],
    [ "🌊", "🌊", "🌊", "🌊", " ", "🌲", "🌿", " ", "🌲", "🌱", "🌾", " ", " ", " ", "🌾", " ", " ", " ", " ", "🌵", " ", " ", "🌊", "🌊", "🌊", "🌊" ],
    [ "🌊", "🌊", "🌊", "🌊", "🌿", "🌷", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "🌵", " ", " ", " ", "🌊", "🌊", "🌊", "🌊" ],
    [ "🌊", "🌊", "🌊", "🌊", " ", "🌲", "🌿", " ", "🌳", " ", " ", " ", "🌱", "🌳", " ", " ", " ", " ", "🌵", " ", " ", " ", "🌊", "🌊", "🌊", "🌊" ],
    [ "🌊", "🌊", "🌊", "🌊", "🌸", " ", " ", "🌾", " ", " ", " ", "🌱", " ", " ", " ", " ", " ", " ", " ", " ", " ", "🌵", "🌊", "🌊", "🌊", "🌊" ],
-   [ "🌊", "🌊", "🌊", "🌊", "🌴", " ", " ", " ", " ", " ", "🌳", " ", "🏚️", " ", " ", " ", "🏠", " ", "🌱", " ", " ", " ", "🌊", "🌊", "🌊", "🌊" ],
+   [ "🌊", "🌊", "🌊", "🌊", "🌴", " ", " ", " ", " ", " ", "🌳", " ", "🏠", " ", " ", " ", "🏠", " ", "🌱", " ", " ", " ", "🌊", "🌊", "🌊", "🌊" ],
    [ "🌊", "🌊", "🌊", "🌊", " ", " ", "🕳️", " ", " ", " ", " ", " ", " ", " ", " ", " ", "🌱", " ", " ", " ", " ", "🏖", "🌊", "🌊", "🌊", "🌊" ],
    [ "🌊", "🌊", "🌊", "🌊", " ", " ", " ", " ", " ", " ", " ", " ", "🌾", " ", "🌳", " ", " ", "🌾", " ", " ", " ", "🏖", "🌊", "🌊", "🌊", "🌊" ],
-   [ "🌊", "🌊", "🌊", "🌊", "🏖", " ", "🌱", " ", "🌾", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "🗻", " ", "🌊", "🌊", "🌊", "🌊" ],
+   [ "🌊", "🌊", "🌊", "🌊", "🏖", " ", "🌱", " ", "🌾", " ", " ", " ", " ", " ", "⛲", " ", " ", " ", " ", " ", "🗻", " ", "🌊", "🌊", "🌊", "🌊" ],
    [ "🌊", "🌊", "🌊", "🌊", "🏖", " ", " ", " ", " ", " ", " ", " ", " ", "🌱", " ", " ", " ", "🕳️", " ", "🏔️", " ", "🌴", "🌊", "🌊", "🌊", "🌊" ],
    [ "🌊", "🌊", "🌊", "🌊", "🌴", " ", " ", " ", " ", " ", "🌳", " ", " ", " ", " ", " ", " ", " ", "🏔️", "🌷", "🏢", " ", "🌊", "🌊", "🌊", "🌊" ],
    [ "🌊", "🌊", "🌊", "🌊", "🏖", "🌽", "🌽", "🌽", "🌽", "🌽", "🌽", " ", "🛖", " ", " ", "🌳", "🏠", "🗻", "🏔️", " ", " ", " ", "🌊", "🌊", "🌊", "🌊" ],
@@ -2027,7 +2145,7 @@ var dungeon_map = [
     [" "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "],
     [" "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "],
     [" "," "," ","🪐"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "],
-    [" "," "," "," "," "," "," "," "," ","🌕"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "],
+    [" "," "," "," "," "," "," "," "," ","🌔"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "],
     [" "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "],
     [" "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","🪐"," "," "," "," "],
     [" "," "," "," "," "," "," "," "," "," "," "," ","🌎"," "," "," "," "," "," "," "," "," "," "," "," "," "],
@@ -2047,32 +2165,32 @@ var dungeon_map = [
   ];
   
   var moon_map = [
-    ["🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑"],
-    ["🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑"],
-    ["🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑"],
+    ["🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌗","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑"],
+    ["🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌗","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑"],
+    ["🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌗","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑"],
     ["🌕","🌕","🌕","⬛","⬛","⬛","⬛","⬛","⬛","⬛","⬛","⬛","⬛","⬛","⬛","⬛","⬛","⬛","⬛","⬛","⬛","⬛","⬛","🌑","🌑","🌑"],
     ["🌕","🌕","🌕","⬛"," "," "," "," "," "," "," "," "," ","🌗"," "," "," "," "," "," "," "," ","⬛","🌑","🌑","🌑"],
-    ["🌕","🌕","🌕","⬛"," ","🌕"," "," "," "," "," ","🌖"," ","🌗"," "," ","🌒"," "," "," "," "," ","⬛","🌑","🌑","🌑"],
+    ["🌕","🌕","🌕","⬛"," ","🌕"," "," "," "," "," ","🌖"," ","🌗"," "," ","🌘"," "," "," "," "," ","⬛","🌑","🌑","🌑"],
     ["🌕","🌕","🌕","⬛"," "," "," "," "," "," "," "," "," ","🌗"," "," "," "," "," "," "," "," ","⬛","🌑","🌑","🌑"],
     ["🌕","🌕","🌕","⬛"," "," "," "," "," "," "," "," "," ","🌗"," "," "," "," "," "," "," "," ","⬛","🌑","🌑","🌑"],
     ["🌕","🌕","🌕","⬛"," "," "," "," "," "," "," "," "," ","🌗"," "," "," "," "," "," "," "," ","⬛","🌑","🌑","🌑"],
-    ["🌕","🌕","🌕","⬛"," "," "," ","🛰️","🌖"," "," "," "," ","🌗"," "," "," "," ","⛺"," "," "," ","⬛","🌑","🌑","🌑"],
-    ["🌕","🌕","🌕","⬛"," "," ","🏗️"," "," "," "," "," "," ","🌗"," "," ","🏕️"," "," ","⛺","🌒"," ","⬛","🌑","🌑","🌑"],
+    ["🌕","🌕","🌕","⬛"," "," "," ","🛰","🌖"," "," "," "," ","🌗"," "," "," "," ","⛺"," "," "," ","⬛","🌑","🌑","🌑"],
+    ["🌕","🌕","🌕","⬛"," "," ","🏗️"," "," "," "," "," "," ","🌗"," "," ","🏕️"," "," ","⛺","🌘"," ","⬛","🌑","🌑","🌑"],
     ["🌕","🌕","🌕","⬛"," ","📡"," "," "," "," "," ","🚧"," ","🌗"," "," ","⛺"," "," "," "," "," ","⬛","🌑","🌑","🌑"],
     ["🌕","🌕","🌕","⬛"," "," ","👨‍🚀"," ","🏗️"," "," ","🚧"," ","🌗"," "," "," "," ","🧌"," "," "," ","⬛","🌑","🌑","🌑"],
     ["🌕","🌕","🌕","⬛","🏗️"," "," "," "," "," "," ","🚧"," ","🌗"," "," "," "," "," "," ","⛺"," ","⬛","🌑","🌑","🌑"],
-    ["🌕","🌕","🌕","⬛"," ","🛰️"," ","📡"," "," "," ","🚧"," ","🌗"," "," "," ","⛺"," ","🏕️"," "," ","⬛","🌑","🌑","🌑"],
+    ["🌕","🌕","🌕","⬛"," ","🛰"," ","📡"," "," "," ","🚧"," ","🌗"," "," "," ","⛺"," ","🏕️"," "," ","⬛","🌑","🌑","🌑"],
     ["🌕","🌕","🌕","⬛"," "," ","🚌"," "," "," "," "," "," ","🌗"," "," "," "," "," "," "," "," ","⬛","🌑","🌑","🌑"],
     ["🌕","🌕","🌕","⬛"," "," "," "," "," "," "," ","🌖"," ","🌗"," "," "," "," "," "," "," "," ","⬛","🌑","🌑","🌑"],
     ["🌕","🌕","🌕","⬛"," ","🌖"," "," "," "," "," "," "," ","🌗"," "," "," "," "," "," "," "," ","⬛","🌑","🌑","🌑"],
-    ["🌕","🌕","🌕","⬛"," "," "," "," "," "," "," "," "," ","🌗"," "," ","🌒"," "," "," "," "," ","⬛","🌑","🌑","🌑"],
+    ["🌕","🌕","🌕","⬛"," "," "," "," "," "," "," "," "," ","🌗"," "," ","🌘"," "," "," "," "," ","⬛","🌑","🌑","🌑"],
     ["🌕","🌕","🌕","⬛"," "," "," "," "," "," "," "," "," ","🌗"," "," "," "," "," "," "," "," ","⬛","🌑","🌑","🌑"],
     ["🌕","🌕","🌕","⬛"," "," ","🌖"," "," "," "," "," "," ","🌗"," "," "," "," "," "," ","🌑"," ","⬛","🌑","🌑","🌑"],
     ["🌕","🌕","🌕","⬛"," "," "," "," "," "," "," "," "," ","🌗"," "," "," "," "," "," "," "," ","⬛","🌑","🌑","🌑"],
     ["🌕","🌕","🌕","⬛","⬛","⬛","⬛","⬛","⬛","⬛","⬛","⬛","⬛","⬛","⬛","⬛","⬛","⬛","⬛","⬛","⬛","⬛","⬛","🌑","🌑","🌑"],
-    ["🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑"],
-    ["🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑"],
-    ["🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑"]
+    ["🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌗","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑"],
+    ["🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌗","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑"],
+    ["🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌕","🌗","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑","🌑"]
   ];
   
   current_map = terrain_map;
@@ -2212,6 +2330,20 @@ var dungeon_map = [
       moveX--;
     }
   }
+  
+  function encrypt(str) {
+    let charArray = str.split("");
+    // Iterate through the array and increase ASCII value by one
+    for (let i = 0; i < charArray.length; i++) {
+      let char = charArray[i];
+      let charCode = char.charCodeAt(0);
+      charArray[i] = String.fromCharCode(charCode + 3);
+    }
+
+    // Join the modified characters back to form the new string
+    str = charArray.join("");
+    return str;
+  }
 
   function dim() {
     switch (level) {
@@ -2236,6 +2368,9 @@ var dungeon_map = [
       case 3:
         return house_map;
         break;
+      case 4:
+        return moon_map;
+        break;
     }
   }
   
@@ -2245,16 +2380,19 @@ var dungeon_map = [
     for (let item of armor) {
       totalProtection += armorProperties[item]?.protection || 0;
     }
-    const factor = 1 - totalProtection / 80; // damage probability
-    //const probability = 1 - Math.pow(factor, amount);
+    const probability = totalProtection / 52; // divisor determined by highest possible armor defence
 
-    const newAmount = Math.ceil(amount / (totalProtection / 2));
+    amount = Math.ceil(amount / (totalProtection / 2));
     
     // Apply damage & other stuff
-    if (playerHealth - newAmount < 0) {
+    if (playerHealth - amount < 0) {
       playerHealth = 0;
     } else if (!raisedShield && elixir == 0) {
-      playerHealth -= newAmount;
+      if (Math.random() > probability && !boss_mode) {
+        playerHealth -= amount;
+      } else if (boss_mode) {
+        playerHealth -= amount;
+      }
     } else if (elixir > 0) {
       elixir --;
     }
@@ -2562,11 +2700,11 @@ var dungeon_map = [
   var adjacent = [];
   var posIndex = 0;
   
-  function bossShoot(projectile) {
-    currentProjectiles.push([projectile,bossPosition.x,bossPosition.y,0,3,"boss"]);
-    currentProjectiles.push([projectile,bossPosition.x,bossPosition.y,1,3,"boss"]);
-    currentProjectiles.push([projectile,bossPosition.x,bossPosition.y,2,3,"boss"]);
-    currentProjectiles.push([projectile,bossPosition.x,bossPosition.y,3,3,"boss"]);
+  function bossShoot(projectile,damage) {
+    currentProjectiles.push([projectile,bossPosition.x,bossPosition.y,0,damage,"boss"]);
+    currentProjectiles.push([projectile,bossPosition.x,bossPosition.y,1,damage,"boss"]);
+    currentProjectiles.push([projectile,bossPosition.x,bossPosition.y,2,damage,"boss"]);
+    currentProjectiles.push([projectile,bossPosition.x,bossPosition.y,3,damage,"boss"]);
   }
   
   function testFor(emoji,amount) {
@@ -2790,6 +2928,9 @@ var dungeon_map = [
       case 3:
         current_map = house_map;
         break;
+      case 4:
+        current_map = moon_map;
+        break;
     }
     
     // Surface related events
@@ -2957,25 +3098,25 @@ var dungeon_map = [
     }
     
     // Time related events
-    if (time <= 0) {
-      time = 400;
-    } else {time--;}
+    if (time >= 800) {
+      time = 0;
+    } else {time ++;}
     if (time % 160 == 0) {hunger(-1);} 
     if (time % 15 == 0 && FOOD_HEALTH == 0) {
       damage(1);
-      time --;
+      time ++;
     } if (time % 20 == 0 && playerHealth < 10 && FOOD_HEALTH > 0) {
       playerHealth ++;
       hunger(-1);
     }
     
-    if (time == 380 || time == 260) {
+    if (time == 680 || time == 266) {
       for (let row = 0; row < terrain_map.length; row++) {
         for (let col = 0; col < terrain_map[row].length; col++) {
-          if (terrain_map[row][col] === "🥚" && time == 380) {
+          if (terrain_map[row][col] === "🥚" && time == 680) {
             terrain_map[row][col] = "🐣";
           }
-          if (terrain_map[row][col] === "🐣" && time == 260) {
+          if (terrain_map[row][col] === "🐣" && time == 266) {
             terrain_map[row][col] = "🐤";
           }
         }
@@ -2983,7 +3124,7 @@ var dungeon_map = [
     }
     
     // Farm Crop Replenish
-    if (time === 1) {
+    if (time === 260) {
       for (let i = 0; i < terrain_map.length; i++) {
         for (let j = 0; j < terrain_map[i].length; j++) {
           for (let item in farmCrops) {
@@ -3004,12 +3145,8 @@ var dungeon_map = [
       }
     }
     
-    // Sun/Moon
-    if (time <= 400) {
-      phase = "☀️";
-    } if (time <= 120) {
-      phase = "🌇";
-    } if (time <= 100) {
+    // Day Night cycle
+    if (time <= 800) {
       phaseOnce = false;
       phase = moonPhases[moonIndex];
       if (phaseOnce) {
@@ -3018,14 +3155,38 @@ var dungeon_map = [
           moonIndex = 0;
         } else {moonIndex++;}
       }
-    } if (time <= 20) {
+    } if (time <= 660) {
+      phase = "🌇";
+    } if (time <= 585) {
+      phase = "☀️";
+    } if (time <= 300) {
       phaseOnce = true;
       phase = "🌅";
+    } if (time <= 200) {
+      phase = moonPhases[moonIndex];
     }
     
     // Bottom-right display
-    sunmoon.innerHTML = effects + " " + phase;
-    if (burning == 0) {effects = effects.replace(new RegExp("🔥", 'g'), '');}
+    function convertToClock() {
+      // Calculate hours and minutes
+      let hours = time * 3 / 100;
+      let minutes = Math.floor(hours % 1 * 60);
+      hours = Math.floor(hours);
+
+      const period = hours < 12 ? "AM" : "PM";
+      if (hours === 0) {
+        hours = 12;
+      } else if (hours > 12) {
+        hours -= 12;
+      }
+
+      // Formatting
+      const formattedTime = `${hours}:${minutes.toString().padStart(2, "0")} ${period}`;
+      return formattedTime;
+    }
+    
+    sunmoon.innerHTML = effects + convertToClock() + " " + phase;
+    if (fireRes == 0) {effects = effects.replace(new RegExp("🔥", 'g'), '');}
     if (regeneration == 0) {effects = effects.replace(new RegExp("💗", 'g'), '');}
     if (elixir == 0) {effects = effects.replace(new RegExp("🛡️", 'g'), '');}
     
@@ -3055,7 +3216,9 @@ var dungeon_map = [
       playerHealth = 10;
       armorProperties[armor[0]].protection = 999;
     }
-    if (level == 2) {PLAYER_EMOJI = "🥶";}
+    if (level == 2 || level == 4) {
+      PLAYER_EMOJI = "🥶";
+    }
     
     if (regeneration > 0) {
       regeneration--;
@@ -3171,7 +3334,7 @@ var dungeon_map = [
     // Sleep
     if (playerTile == "🛏️") {
       PLAYER_EMOJI = "🛌";
-      time -= 8;
+      time += 8;
     } else if (playerTile != "🛏️" && PLAYER_EMOJI == "🛌") {PLAYER_EMOJI = "😄"}
     
     // Crafting
@@ -3687,7 +3850,7 @@ var dungeon_map = [
     const key = event.key;
     let dx = 0;
     let dy = 0;
-    time ++;
+    time --;
     
     if (key === "ArrowUp" || key === "w" || key === "W") {
       if (!boss_mode) {moveY --;}
@@ -3715,71 +3878,6 @@ var dungeon_map = [
       showFistEmojiTemporarily("🤘");
     } else if (key === "o") {
       showFistEmojiTemporarily("✌️");
-    } else if (key === "p") {
-      showFistEmojiTemporarily("🫶");
-    }
-    else if (key == "\\") {
-      // Save stuff
-      inputBox.value = "i"+Inventory+"v"+inventoryValue+"a"+armor;
-      let charArray = inputBox.value.split("");
-
-      // Iterate through the array and increase ASCII value by one
-      for (let i = 0; i < charArray.length; i++) {
-        let char = charArray[i];
-        let charCode = char.charCodeAt(0);
-        charArray[i] = String.fromCharCode(charCode + encrypt);
-      }
-
-      // Join the modified characters back to form the new string
-      inputBox.value = charArray.join("");
-
-    } else if (event.key == "Enter") {
-        let encryptedString = inputBox.value;
-
-        // Convert the encrypted string to an array of characters
-        let charArray = encryptedString.split("");
-
-        // Iterate through the array and decrease ASCII value by one
-        for (let i = 0; i < charArray.length; i++) {
-          let char = charArray[i];
-          let charCode = char.charCodeAt(0);
-          charArray[i] = String.fromCharCode(charCode - encrypt);
-        }
-
-        // Join the decrypted characters back to form the original string
-        let decryptedString = charArray.join("");
-        const inputBoxValue = decryptedString;
-
-        // Extract the inventory and inventoryValue data from inputBoxValue
-        const [first, temp] = inputBoxValue.slice(1).split("v"); // i,v
-        const [second, third] = temp.split("a");
-        const inventoryData = first.split(",");
-        const inventoryValueData = second.split(",");
-        const armorData = third.split(",");
-
-        const numRows = 6;
-        const numCols = 9;
-
-        // Create the Inventory matrix (matrix1)
-        let matrix1 = [];
-        for (let i = 0; i < numRows; i++) {
-          matrix1.push(inventoryData.slice(i * numCols, (i + 1) * numCols));
-        }
-
-        // Create the inventoryValue matrix (matrix2)
-        let matrix2 = [];
-        for (let i = 0; i < numRows; i++) {
-          matrix2.push(inventoryValueData.slice(i * numCols, (i + 1) * numCols));
-        }
-
-        Inventory = matrix1;
-        inventoryValue = matrix2;
-        armor = armorData;
-
-        console.log(Inventory);
-        console.log(inventoryValue);
-        console.log(armor);
-        inputBox.value = "";
     }
     
     // Moving Up and Down between maps
@@ -3819,7 +3917,11 @@ var dungeon_map = [
         item = objectProperties[HAND_EMOJI].name
       }
       if (HAND_EMOJI in foodProperties) {
-        item = `${foodProperties[HAND_EMOJI].name}  [${foodProperties[HAND_EMOJI].nutrition}${HAND_EMOJI}]`;
+        if (foodProperties[HAND_EMOJI].effect) {
+          item = foodProperties[HAND_EMOJI].name;
+        } else {
+          item = `${foodProperties[HAND_EMOJI].name}  [${foodProperties[HAND_EMOJI].nutrition}${HAND_EMOJI}]`;
+        }
       }
       if (HAND_EMOJI in armorProperties) {
         item = `${armorProperties[HAND_EMOJI].name}  [${armorProperties[HAND_EMOJI].protection}🛡️]`;
@@ -3854,6 +3956,7 @@ var dungeon_map = [
       raisedShield = false;
       tooltip.innerHTML = "";
       showFistEmojiTemporarily(HAND_EMOJI);
+      time ++;
       
       // Eating
       if (HAND_EMOJI in foodProperties) {
@@ -3929,6 +4032,7 @@ var dungeon_map = [
       
       return;
     } else if (event.button == 2 || key === "l" || key === "L") {
+      time ++;
       if (HAND_EMOJI in objectProperties) {
         build(dim(),HAND_EMOJI);
       } 
@@ -3942,6 +4046,15 @@ var dungeon_map = [
         updateAdjacent();
         removeInventory("🪣");
         addInventory("🥛");
+      }
+      if (adjacent.includes("⛲") && HAND_EMOJI == "🪙") {
+        updateAdjacent();
+        removeInventory("🪙");
+        if (Math.random() < 0.7) {
+          addInventory("☘");
+        } else {
+          addInventory("🎮");
+        }
       }
       if (adjacent.includes("🔐") && HAND_EMOJI == "🗝") {
         updateAdjacent();
@@ -4085,7 +4198,75 @@ var dungeon_map = [
         if (showInv == "") {
           openInventory();
         } else {showInv = "";}
+    } else if (key === "p") {
+      // Save World
+      window.localStorage.setItem("inventoryData", JSON.stringify(Inventory));
+      window.localStorage.setItem("inventoryValueData", JSON.stringify(inventoryValue));
+      window.localStorage.setItem("armorData", JSON.stringify(armor));
+      window.localStorage.setItem("healthData", JSON.stringify(playerHealth));
+      window.localStorage.setItem("hungerData", JSON.stringify(FOOD_HEALTH));
+      
+      window.localStorage.setItem("questData", JSON.stringify(quests));
+      window.localStorage.setItem("dragonData", JSON.stringify(dragonDefeated));
+      window.localStorage.setItem("timeData", JSON.stringify(time));
+      window.localStorage.setItem("phaseData", JSON.stringify(phase));
+      window.localStorage.setItem("phaseData", JSON.stringify(moonIndex));
+      
+      window.localStorage.setItem("tractorData", JSON.stringify(tractorMode));
+      window.localStorage.setItem("regenData", JSON.stringify(regeneration));
+      window.localStorage.setItem("fireresData", JSON.stringify(fireRes));
+      window.localStorage.setItem("elixirData", JSON.stringify(elixir));
+      window.localStorage.setItem("effectsData", JSON.stringify(effects));
+      window.localStorage.setItem("burningData", JSON.stringify(burning));
+      
+      window.localStorage.setItem("terrainData", JSON.stringify(terrain_map));
+      window.localStorage.setItem("caveData", JSON.stringify(cave_map));
+      window.localStorage.setItem("hellData", JSON.stringify(hell_map));
+      window.localStorage.setItem("skyData", JSON.stringify(sky_map));
+      window.localStorage.setItem("spaceData", JSON.stringify(space_map));
+      window.localStorage.setItem("dungeonData", JSON.stringify(dungeon_map));
+      window.localStorage.setItem("houseData", JSON.stringify(house_map));
+      window.localStorage.setItem("moonData", JSON.stringify(moon_map));
+      
+      tooltip.innerHTML = "World saved!";
+      showFistEmojiTemporarily("🫶");
+    } else if (event.key == "Enter") {
+      // Load World
+      tooltip.innerHTML = "World loaded!";
+      boss_mode = false;
+      playerPosition = { x: 5, y: 5};
+      moveY = 5;
+      moveX = 5;
+      level = 0;
+      Inventory = JSON.parse(localStorage.getItem("inventoryData"));
+      inventoryValue = JSON.parse(localStorage.getItem("inventoryValueData"));
+      armor = JSON.parse(localStorage.getItem("armorData"));
+      playerHealth = JSON.parse(localStorage.getItem("healthData"));
+      FOOD_HEALTH = JSON.parse(localStorage.getItem("hungerData"));
+      
+      quests = JSON.parse(localStorage.getItem("questData"));
+      dragonDefeated = JSON.parse(localStorage.getItem("dragonData"));
+      time = JSON.parse(localStorage.getItem("timeData"));
+      phase = JSON.parse(localStorage.getItem("phaseData"));
+      moonIndex = JSON.parse(localStorage.getItem("moonIndex"));
+      
+      tractorMode = JSON.parse(localStorage.getItem("tractorData"));
+      regeneration = JSON.parse(localStorage.getItem("regenData"));
+      fireRes = JSON.parse(localStorage.getItem("fireresData"));
+      elixir = JSON.parse(localStorage.getItem("elixirData"));
+      effects = JSON.parse(localStorage.getItem("effectsData"));
+      burning = JSON.parse(localStorage.getItem("burningData"));
+      
+      terrain_map = JSON.parse(localStorage.getItem("terrainData"));
+      cave_map = JSON.parse(localStorage.getItem("caveData"));
+      hell_map = JSON.parse(localStorage.getItem("hellData"));
+      sky_map = JSON.parse(localStorage.getItem("skyData"));
+      space_map = JSON.parse(localStorage.getItem("spaceData"));
+      dungeon_map = JSON.parse(localStorage.getItem("dungeonData"));
+      house_map = JSON.parse(localStorage.getItem("houseData"));
+      moon_map = JSON.parse(localStorage.getItem("moonData"));
     } else {
+      // All other presses
       Jpress = false;
       tooltip.innerHTML = "";
       durability = 0;
@@ -4154,7 +4335,10 @@ var dungeon_map = [
     } else if (playerTile == "🌎") {
       goBack();
       level = 1;
-    } 
+    } else if (playerTile == "🌔") {
+      goBack();
+      level = 4;
+    }
     
     // Explosives
     else if (playerTile == "💥") {
@@ -4224,7 +4408,7 @@ var dungeon_map = [
    
     if (playerTile == "🛏️") {
       PLAYER_EMOJI = "🛌";
-      time -=10;
+      time ++;
     } else if (playerTile != "🛏️" && PLAYER_EMOJI == "🛌") {PLAYER_EMOJI = "😄"}
     if (playerTile in objectProperties) {
       if (!objectProperties[playerTile].canBeWalkedOn) {goBack();}
@@ -4235,6 +4419,7 @@ var dungeon_map = [
 
   function moveEvents() {
     if (boss_mode) {
+      time --;
       const dx = playerPosition.x - bossPosition.x;
       const dy = playerPosition.y - bossPosition.y;
 
@@ -4254,12 +4439,12 @@ var dungeon_map = [
       
       // Specific Boss Properties
       if (currentBoss == "🤖") {
-        if (Math.random() < 0.06) {
+        if (Math.random() < 0.08) {
           boss_move = false;
 
           const interval = setInterval(function() {
-            bossShoot("⚙️");
-          }, 50);
+            bossShoot("⚙️",2);
+          }, speed);
 
           setTimeout(function() {
             clearInterval(interval);
@@ -4274,7 +4459,7 @@ var dungeon_map = [
           
           setInterval(function() {
             currentProjectiles.push( ["🐭",bossPosition.x,bossPosition.y,4,1,"boss",10] );
-          }, 500);
+          }, 600);
           setTimeout(function() {
             boss_move = true;
             
@@ -4284,10 +4469,17 @@ var dungeon_map = [
       
       if (currentBoss == "🤡") {
         if (Math.random() < 0.05) {
-          bossPosition = {x:1,y:1};
-          currentProjectiles.push( ["🤡",9,1,4,3,"boss",10] );
-          currentProjectiles.push( ["🤡",1,9,4,1,"boss",10] );
-          currentProjectiles.push( ["🤡",9,9,4,1,"boss",10] );
+          if (Math.random() < 0.5) {
+            bossPosition = {x:1,y:1};
+            currentProjectiles.push( ["🤡",9,1,4,3,"boss",10] );
+            currentProjectiles.push( ["🤡",1,9,4,1,"boss",10] );
+            currentProjectiles.push( ["🤡",9,9,4,1,"boss",10] );
+          } else {
+            bossPosition = {x:9,y:9};
+            currentProjectiles.push( ["🤡",9,1,4,3,"boss",10] );
+            currentProjectiles.push( ["🤡",1,9,4,1,"boss",10] );
+            currentProjectiles.push( ["🤡",1,1,4,1,"boss",10] );
+          }
         }
       }
       
@@ -4320,8 +4512,8 @@ var dungeon_map = [
             boss_move = false;
 
             const interval = setInterval(function() {
-              bossShoot("🔥");
-            }, 50);
+              bossShoot("🔥",4);
+            }, speed);
 
             setTimeout(function() {
               clearInterval(interval);
@@ -4367,8 +4559,8 @@ var dungeon_map = [
           boss_move = false;
 
           const interval = setInterval(function() {
-            bossShoot("🔥");
-          }, 50);
+            bossShoot("🔥",5);
+          }, speed);
 
           setTimeout(function() {
             clearInterval(interval);
