@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var showInv = "";
 
   var Inventory = [
-    ["🗡️", "⛏️", "🪓", "", "", "", "", "", "📦"],
+    ["🗡️", "⛏️", "🪓", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", ""],
@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
   ];
 
   var inventoryValue = [
-    [" ", " ", " ", "", "", "", "", "", "2"],
+    [" ", " ", " ", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", ""],
@@ -4234,13 +4234,15 @@ var dungeon_map = [
       showFistEmojiTemporarily("🫶");
     } else if (event.key == "Enter") {
       // Load World
-      tooltip.innerHTML = "World loaded!";
       boss_mode = false;
-      playerPosition = { x: 5, y: 5};
-      moveY = 5;
-      moveX = -10;
+      playerPosition = { x: 5, y: 5 };
+      moveY = -10;
+      moveX = 5;
       level = 0;
-      setTimeout(function(){moveX = 5}, 800);
+      setTimeout(function(){
+        moveY = 5;
+        tooltip.innerHTML = "World loaded!";
+      }, speed);
       Inventory = JSON.parse(localStorage.getItem("inventoryData"));
       inventoryValue = JSON.parse(localStorage.getItem("inventoryValueData"));
       armor = JSON.parse(localStorage.getItem("armorData"));
