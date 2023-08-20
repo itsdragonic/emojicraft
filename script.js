@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var showInv = "";
 
   var Inventory = [
-    ["🗡️", "⛏️", "🪓", "", "", "", "", "", ""],
+    ["🗡️", "⛏️", "🪓", "", "", "", "", "", "📦"],
     ["", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", ""],
@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
   ];
 
   var inventoryValue = [
-    [" ", " ", " ", "", "", "", "", "", ""],
+    [" ", " ", " ", "", "", "", "", "", "2"],
     ["", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", ""],
@@ -165,8 +165,8 @@ document.addEventListener("DOMContentLoaded", function () {
       for (let i = 0; i < boxLoot.length; i++) {
         const lootEntry = boxLoot[i];
         const valueEntry = boxValueLoot[i];
-        if (chestPosition.x == lootEntry[0] && chestPosition.y == lootEntry[1]) {
-          let pos = s1Row * 9 + s1Col + 2;
+        if (chestPosition.x == lootEntry[0] && chestPosition.y == lootEntry[1] && level == lootEntry[2]) {
+          let pos = s1Row * 9 + s1Col + 3;
           hover = lootEntry[pos] + valueEntry[pos];
         }
       }
@@ -2228,8 +2228,8 @@ var dungeon_map = [
   for (let i = 0; i < dungeon_map.length; i++) {
     for (let j = 0; j < dungeon_map[i].length; j++) {
       if (dungeon_map[i][j] == "📦") {
-        var newLootEntry = [j, i];
-        var newValueEntry = [j, i];
+        var newLootEntry = [j, i, -3];
+        var newValueEntry = [j, i, -3];
 
         for (let row = 0; row < 9; row++) {
           for (let col = 0; col < 4; col++) {
@@ -2286,8 +2286,8 @@ var dungeon_map = [
         const lootEntry = boxLoot[i];
         const valueEntry = boxValueLoot[i];
 
-        if (chestPosition.x == lootEntry[0] && chestPosition.y == lootEntry[1]) {
-          let pos = s3 * 9 + s4 + 2;
+        if (chestPosition.x == lootEntry[0] && chestPosition.y == lootEntry[1] && level == lootEntry[2]) {
+          let pos = s3 * 9 + s4 + 3;
           if (Inventory[s1][s2] != undefined && lootEntry[pos] != undefined) {
             if (lootEntry[pos] != "") {
               if (Inventory[s1][s2] == "") {
@@ -3365,10 +3365,10 @@ var dungeon_map = [
           const x = lootEntry[0];
           const y = lootEntry[1];
 
-          if (y === moveY +  yy[j] && x === moveX + xx[j]) {
+          if (y === moveY +  yy[j] && x === moveX + xx[j] && level === lootEntry[2]) {
             exists = true;
             let modifiedLootEntry = [...lootEntry]; // Create a new array based on lootEntry
-            modifiedLootEntry.splice(0, 2); // Remove first two items
+            modifiedLootEntry.splice(0, 3); // Remove first two items
             modifiedLootEntry = modifiedLootEntry.map(item => (item === "") ? '🟦' : item);
 
             const chest = [];
@@ -3386,7 +3386,7 @@ var dungeon_map = [
         }
         if (!exists) {
           // Create a new box array and push it to boxLoot
-          let newLootEntry = [moveX + xx[j], moveY + yy[j]];
+          let newLootEntry = [moveX + xx[j], moveY + yy[j], level];
           let valueEntry = [];
           chestPosition = { x: moveX + xx[j], y:moveY + yy[j] };
           for (let i = 0; i < 36; i++) {
@@ -3458,9 +3458,9 @@ var dungeon_map = [
               const lootEntry = boxLoot[i];
               const valueEntry = boxValueLoot[i];
 
-              if (moveX + x == lootEntry[0] && moveY + y == lootEntry[1]) {
+              if (moveX + x == lootEntry[0] && moveY + y == lootEntry[1] && level == lootEntry[2]) {
                 found = true;
-                const restOfLoot = lootEntry.slice(2, 39);
+                const restOfLoot = lootEntry.slice(3, 40);
                 if (restOfLoot.every(val => val === "")) {
                   addInventory("📦");
                 } else {
@@ -3998,8 +3998,6 @@ var dungeon_map = [
       // Inventory Management
       const clickArea = document.getElementById('healthBar');
       clickCounter ++;
-
-      // You can use JavaScript to dynamically set the text content of the hover-text element 
       
       clickArea.addEventListener('click', function(event) {
         const mouseX = Math.max(0, Math.min(event.clientX, corner.getBoundingClientRect().width));
@@ -4206,6 +4204,10 @@ var dungeon_map = [
       window.localStorage.setItem("healthData", JSON.stringify(playerHealth));
       window.localStorage.setItem("hungerData", JSON.stringify(FOOD_HEALTH));
       
+      window.localStorage.setItem("chestData", JSON.stringify(chestPosition));
+      window.localStorage.setItem("boxData", JSON.stringify(boxLoot));
+      window.localStorage.setItem("boxValueData", JSON.stringify(boxValueLoot));
+      
       window.localStorage.setItem("questData", JSON.stringify(quests));
       window.localStorage.setItem("dragonData", JSON.stringify(dragonDefeated));
       window.localStorage.setItem("timeData", JSON.stringify(time));
@@ -4236,13 +4238,18 @@ var dungeon_map = [
       boss_mode = false;
       playerPosition = { x: 5, y: 5};
       moveY = 5;
-      moveX = 5;
+      moveX = -10;
       level = 0;
+      setTimeout(function(){moveX = 5}, 800);
       Inventory = JSON.parse(localStorage.getItem("inventoryData"));
       inventoryValue = JSON.parse(localStorage.getItem("inventoryValueData"));
       armor = JSON.parse(localStorage.getItem("armorData"));
       playerHealth = JSON.parse(localStorage.getItem("healthData"));
       FOOD_HEALTH = JSON.parse(localStorage.getItem("hungerData"));
+      
+      chestPosition = JSON.parse(localStorage.getItem("chestData"));
+      boxLoot = JSON.parse(localStorage.getItem("boxData"));
+      boxValueLoot = JSON.parse(localStorage.getItem("boxValueData"));
       
       quests = JSON.parse(localStorage.getItem("questData"));
       dragonDefeated = JSON.parse(localStorage.getItem("dragonData"));
