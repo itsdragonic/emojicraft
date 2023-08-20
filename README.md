@@ -6,7 +6,9 @@ https://itsdragonic.github.io/emojicraft/
 
 WASD >> up-down-left-right
 
-1-9 >> First 9 inventory slots (select 2 coordinates to swap items in inventory)
+1-9 >> First 9 inventory slots 
+
+Select 2 coordinates to swap items in inventory either by pressing 4 numbers or clicking on 2 locations
 
 Left-click / j >> destroy / attack / eat
 
@@ -24,9 +26,11 @@ Shift + Space >> Fly downwards
 
 q >> Escape mount
 
-p >> Save world progress
+z >> Custom emote (for fun)
 
-Enter >> Load world progress
+p >> Save world
+
+Enter >> Load world
 
 ## Mobile Support
 
@@ -38,6 +42,8 @@ You'll want to select the input box above and use the keyboard as your controlle
 # Main progression
 
 You typically will have to choose between weapon class, archer class, or mage class.
+
+Craft a house and customize the interior to your liking as well as add crafting stations for functionality.
 
 You must complete NPC quests to get more bosses, items, potions, and upgrades
 
