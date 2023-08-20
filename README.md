@@ -1,4 +1,4 @@
-### Emojicraft
+# Emojicraft
 
 https://itsdragonic.github.io/emojicraft/
 
@@ -35,7 +35,7 @@ https://codepen.io/Dragonic/full/gOQZNaG?editors=0010
 
 You'll want to select the input box above and use the keyboard as your controller
 
-### Main progression
+# Main progression
 
 You typically will have to choose between weapon class, archer class, or mage class.
 
