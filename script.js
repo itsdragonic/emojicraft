@@ -3,23 +3,24 @@ document.addEventListener("DOMContentLoaded", function () {
     event.preventDefault();
   });
 
-  function isSmartphone() {
+  function isMobile() {
     const userAgent = navigator.userAgent.toLowerCase();
     return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
       userAgent
     );
   }
 
-  if (isSmartphone()) {
+  if (isMobile()) {
     document.body.style.zoom = "88%";
     document.querySelector(".viewport").style.width = "calc(50% + 190px)";
     document.querySelector(".viewport").style.height = "calc(50% + 270px)";
     document.querySelector(".corner").style.fontSize = "12px";
     document.querySelector("#foodHealth").style.fontSize = "12px";
     document.querySelector("#sunmoon").style.bottom = "115px";
+    document.querySelector("#item-name").style.height = "955px";
     document.querySelector(".viewport").transform = "translate(10%, 10%)";
   } else {
-    //document.getElementById("inputBox").style.display = "none";
+    document.getElementById("inputBox").style.display = "none";
   }
   
   var sandboxMode = false;
@@ -614,6 +615,15 @@ document.addEventListener("DOMContentLoaded", function () {
       durability: 3,
       toolRequired: "🗡️",
       loot: "🍗"
+    },
+    "🐝": {
+      name: "Bee",
+      description: "Buzz! (Right-click with flower for honey)",
+      isAnimal: true,
+      canBeWalkedOn: false,
+      durability: 30,
+      toolRequired: "🗡️",
+      loot: "🍯"
     },
     "🐕": {
       name: "Dog",
@@ -1213,16 +1223,22 @@ document.addEventListener("DOMContentLoaded", function () {
       nutrition: 2,
     }, "🍺": {
       name: "Beer",
-      nutrition: 3,
+      nutrition: 4,
     }, "☕": {
       name: "Coffee",
-      nutrition: 3,
+      nutrition: 4,
     }, "🍷": {
       name: "Wine",
-      nutrition: 3,
+      nutrition: 4,
     }, "🍹": {
       name: "Tropical Drink",
+      nutrition: 4,
+    }, "🍯": {
+      name: "Honey",
       nutrition: 3,
+    }, "🍸": {
+      name: "Cocktail",
+      nutrition: 4,
     }, "🍔": {
       name: "Hamburger",
       nutrition: 14,
@@ -1396,7 +1412,7 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     "👹": {
       name: "Lucifer",
-      itemsNeeded: ["👁","🎭","🔥"],
+      itemsNeeded: ["👁","🫀","🎭","🔥"],
       amountsNeeded: [1,1,10],
       required: "🧰",
     },
@@ -1420,8 +1436,14 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     "🍹": {
       name: "Tropical Drink",
-      itemsNeeded: ["🪣","🍊"],
-      amountsNeeded: [1,2],
+      itemsNeeded: ["🪣","🍊","🍯"],
+      amountsNeeded: [1,2,1],
+      required: "⚗️",
+    },
+    "🍸": {
+      name: "Cocktail",
+      itemsNeeded: ["🪣","🍉","🍯"],
+      amountsNeeded: [1,2,1],
       required: "⚗️",
     },
     ":･": {
@@ -1479,7 +1501,7 @@ document.addEventListener("DOMContentLoaded", function () {
       required: "🧰",
     },
     "🎣": {
-      name: "Fishing Rod",
+      name: "Fishing Pole",
       itemsNeeded: ["🪵","🕸"],
       amountsNeeded: [4,3],
       required: "🧰",
@@ -1506,6 +1528,24 @@ document.addEventListener("DOMContentLoaded", function () {
       name: "Book",
       itemsNeeded: ["🪵","🪶","🌾"],
       amountsNeeded: [1,1,4],
+      required: "🧰",
+    },
+    "🗡": {
+      name: "Dagger",
+      itemsNeeded: ["🪵","🪨"],
+      amountsNeeded: [1,3],
+      required: "🧰",
+    },
+    "⛏": {
+      name: "Pickaxe",
+      itemsNeeded: ["🪵","🪨"],
+      amountsNeeded: [1,4],
+      required: "🧰",
+    },
+    "🪓": {
+      name: "Axe",
+      itemsNeeded: ["🪵","🪨"],
+      amountsNeeded: [1,4],
       required: "🧰",
     },
     "🔪": {
@@ -1583,7 +1623,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "👢": {
       name: "Tall Boot",
       itemsNeeded: ["💠","🪶","✨","🔥"],
-      amountsNeeded: [4,2,1],
+      amountsNeeded: [4,2,1,1],
       required: "🧰",
     },
     "🧱​": {
@@ -1648,7 +1688,7 @@ document.addEventListener("DOMContentLoaded", function () {
       output: "💩",
       currentQuest: 2,
       quest2: ["I'll give you some new fruit to grow if you can get me a good old beer (you'll need to make a brewery with glass)","🍇","🍺"],
-      quest3: ["Thanks for the crops, to make things more automatic, get me some more and I'll help make it easier.","🚜","🌽","🌽","🌽","🌽","🌽","🌽","🌽","🍅","🍅","🍅","🍅","🍅","🍅","🍅","🥬","🥬","🥬","🥬","🥬","🥬","🥬","🫘","🫘","🫘","🫘","🫘","🫘","🫘","🥔","🥔","🥔","🥔","🥔"],
+      quest3: ["Thanks for the drink, to make things more automatic, get me some more and I'll help make it easier.","🚜","🌽","🌽","🌽","🌽","🌽","🌽","🌽","🍅","🍅","🍅","🍅","🍅","🍅","🍅","🥬","🥬","🥬","🥬","🥬","🥬","🥬","🫘","🫘","🫘","🫘","🫘","🫘","🫘","🥔","🥔","🥔","🥔","🥔"],
       quest4: ["I'll give you some new fruit to grow if you can get me a nice wine (I'm not an alcoholic, I swear)","🍉","🍷"],
       quest5: ["There's nothing I love more than dogs. I'll give you one of mine for something","🐕","🦴","🍹"],
       quest6: ["There's nothing I love more than dogs. I'll give you one of mine for something","🐶","🦴","🍺","🍷"],
@@ -1850,6 +1890,32 @@ document.addEventListener("DOMContentLoaded", function () {
     },
   };
   
+  var itemNames = {
+    "🎖️": { name: "Military Medal" },
+    "🗝️": { name: "Dungeon Key" },
+    "🔑": { name: "Key" },
+    "🔫": { name: "Pistol" },
+    "🏹": { name: "Bow" },
+    "➶ ": { name: "Arrow" },
+    "• ": { name: "Bullet" },
+    "🎣": { name: "Fishing Pole" },
+    "📕": { name: "Book" },
+    "🪣": { name: "Bucket" },
+    "🧺": { name: "Basket" },
+    "🌌": { name: "Magical Essence" },
+    "🌠": { name: "Magical Star" },
+    "🩸": { name: "Blood" },
+    "🍖": { name: "Flesh" },
+    "🦴": { name: "Bone" },
+    "🐭": { name: "Mouse Head" },
+    "🃏": { name: "Joker Card" },
+    "🎭": { name: "Happy Sad Mask" },
+    "👁": { name: "Eye" },
+    "🫀": { name: "Heart" },
+    "❤‍🔥": { name: "Burning Heart" },
+    "🐉": { name: "Dragon" },
+  };
+  
   var farmCrops = {
     "🍅": {"name": "Tomato", "seed": "𓇠"},
     "🌽": {"name": "Corn", "seed": "𓇢"},
@@ -1864,6 +1930,8 @@ document.addEventListener("DOMContentLoaded", function () {
     "🌲": {"name": "Evergreen Tree", "seed": "↟"},
     "🍄": {"name": "Mushroom", "seed": "𓍊"},
     "🌿": {"name": "Herb", "seed": "⸙"},
+    "🌸": {"name": "Cherry Blossom", "seed": "❀"},
+    "🌷": {"name": "Tulip", "seed": "⚘"},
   };
   
   var bosses = {
@@ -1905,7 +1973,7 @@ document.addEventListener("DOMContentLoaded", function () {
       base_emoji: "🤡",
       hearts: "🤍",
       health: 60,
-      loot: ["🏆","🎭","🎈"],
+      loot: ["🏆","🎭","🃏"],
       enraged: "😵‍💫",
       angry: "🤬",
       damage: 15,
@@ -1916,7 +1984,7 @@ document.addEventListener("DOMContentLoaded", function () {
       base_emoji: "🪬",
       hearts: "🫀",
       health: 70,
-      loot: ["🏆","👁"],
+      loot: ["🏆","👁","🫀"],
       enraged: "😰",
       angry: "🪬",
       damage: 20,
@@ -1927,7 +1995,7 @@ document.addEventListener("DOMContentLoaded", function () {
       base_emoji: "🐲",
       hearts: "💚",
       health: 80,
-      loot: ["🏆","🌌","🌌","🐉"],
+      loot: ["🏆","🌌","🌌","🀄","🐉"],
       enraged: "😤",
       angry: "🐉",
       damage: 25,
@@ -1966,7 +2034,7 @@ document.addEventListener("DOMContentLoaded", function () {
    [ "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊" ],
    [ "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊" ],
    [ "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊" ],
-   [ "🌊", "🌊", "🌊", "🌊", "🌊", "️☘", "🌲", " ", "🌿", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊" ],
+   [ "🌊", "🌊", "🌊", "🌊", "🌊", "️☘️", "🌲", " ", "🌿", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊" ],
    [ "🌊", "🌊", "🌊", "🌊", "🌊", "🌿", " ", "🌳", " ", " ", "🌾", " ", " ", " ", " ", " ", " ", "🌵", " ", " ", "🌴", " ", "🌊", "🌊", "🌊", "🌊" ],
    [ "🌊", "🌊", "🌊", "🌊", "🌲", " ", " ", "🌿", " ", " ", " ", " ", "🌳", " ", " ", " ", "🌱", " ", "🌵", " ", " ", "🌵", "🌊", "🌊", "🌊", "🌊" ],
    [ "🌊", "🌊", "🌊", "🌊", " ", "🌲", "🌿", " ", "🌲", "🌱", "🌾", " ", " ", " ", "🌾", " ", " ", " ", " ", "🌵", " ", " ", "🌊", "🌊", "🌊", "🌊" ],
@@ -1981,8 +2049,8 @@ document.addEventListener("DOMContentLoaded", function () {
    [ "🌊", "🌊", "🌊", "🌊", "🌴", " ", " ", " ", " ", " ", "🌳", " ", " ", " ", " ", " ", " ", " ", "🏔️", "🌷", "🏢", " ", "🌊", "🌊", "🌊", "🌊" ],
    [ "🌊", "🌊", "🌊", "🌊", "🏖", "🌽", "🌽", "🌽", "🌽", "🌽", "🌽", " ", "🛖", " ", " ", "🌳", "🏠", "🗻", "🏔️", " ", " ", " ", "🌊", "🌊", "🌊", "🌊" ],
    [ "🌊", "🌊", "🌊", "🌊", " ", "🥬", "🥬", "🥬", "🥬", "🥬", "🥬", " ", "🌾", " ", " ", " ", " ", "🗻", " ", " ", "🌋", " ", "🌊", "🌊", "🌊", "🌊" ],
-   [ "🌊", "🌊", "🌊", "🌊", " ", "🫘", "🫘", "🫘", "🫘", "🫘", "🫘", " ", " ", " ", " ", " ", " ", " ", "🌸", " ", " ", " ", "🌊", "🌊", "🌊", "🌊" ],
-   [ "🌊", "🌊", "🌊", "🌊", " ", "🥔", "🥔", "🥔", "🥔", "🥔", "🥔", "", "🌷", " ", " ", " ", "🌱", " ", " ", "🌱", " ", "🌊", "🌊", "🌊", "🌊", "🌊" ],
+   [ "🌊", "🌊", "🌊", "🌊", " ", "🫘", "🫘", "🫘", "🫘", "🫘", "🫘", " ", " ", " ", " ", " ", " ", " ", "🌸", "🐝", " ", " ", "🌊", "🌊", "🌊", "🌊" ],
+   [ "🌊", "🌊", "🌊", "🌊", " ", "🥔", "🥔", "🥔", "🥔", "🥔", "🥔", " ", "🌷", " ", " ", " ", "🌱", " ", " ", "🌱", " ", "🌊", "🌊", "🌊", "🌊", "🌊" ],
    [ "🌊", "🌊", "🌊", "🌊", "🌊", "🍅", "🍅", "🍅", "🍅", "🍅", "🍅", " ", " ", " ", " ", " ", " ", " ", " ", "🌷", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊" ],
    [ "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊" ],
    [ "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊" ],
@@ -2029,7 +2097,7 @@ document.addEventListener("DOMContentLoaded", function () {
     [" "," "," ","⬛"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","⬛"," "," "," "],
     [" "," "," ","⬛"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","⬛"," "," "," "],
     [" "," "," ","⬛"," "," "," "," "," "," ","🧱","🧱","🪟","🧱","🧱","🪟","🧱","🪟","🧱"," "," "," ","⬛"," "," "," "],
-    [" "," "," ","⬛"," "," "," "," "," "," ","🧱","🛋️","🪑","📺","🧱","🗑️","🛋️","📻","🧱"," "," "," ","⬛"," "," "," "],
+    [" "," "," ","⬛"," "," "," "," "," "," ","🧱","🛋️","🪑","📺","🧱","🗑️","⚔️","📻","🧱"," "," "," ","⬛"," "," "," "],
     [" "," "," ","⬛"," "," "," "," "," "," ","🧱"," ","🧑‍🔧"," ","🧱"," ","🥷"," ","🧱"," "," "," ","⬛"," "," "," "],
     [" "," "," ","⬛"," "," "," "," "," "," ","🧱"," "," "," ","🧱"," "," "," ","🧱"," "," "," ","⬛"," "," "," "],
     [" "," "," ","⬛"," "," "," "," "," "," ","🧱"," "," ","🛏️","🧱","🛏️"," "," ","🧱"," "," "," ","⬛"," "," "," "],
@@ -2038,7 +2106,7 @@ document.addEventListener("DOMContentLoaded", function () {
     [" "," "," ","⬛"," "," "," "," "," "," ","🟥","🚪","🟥","🟥","🟪","🟪","🟪","🚪","🟪","🌫️","🧝‍♂️","🌫️","⬛"," "," "," "],
     [" "," "," ","⬛"," "," "," "," "," "," ","🪟"," "," ","🟥","🟪"," "," "," ","🟪","🚪"," ","🪟","⬛"," "," "," "],
     [" "," "," ","⬛"," "," "," "," "," "," ","🟥"," "," ","🟥","🟪"," "," "," ","🟪","🌫️"," ","🪟","⬛"," "," "," "],
-    [" "," "," ","⬛"," "," "," "," "," "," ","🪟"," "," ","🟥","🟪","🔮","🧙‍♂️","🧙","🟪","🌫️"," ","🌫️","⬛"," "," "," "],
+    [" "," "," ","⬛"," "," "," "," "," "," ","🪟"," "," ","🟥","🟪","🪄","🧙‍♂️","🧙","🟪","🌫️"," ","🌫️","⬛"," "," "," "],
     [" "," "," ","⬛"," "," "," "," "," "," ","🟥","🧑‍🌾","🧺","🟥","🟪","🪟","🟪","🪟","🟪","🌫️"," ","🌫️","⬛"," "," "," "],
     [" "," "," ","⬛"," "," "," "," "," "," ","🟥","🟥","🟥","🟥"," "," "," "," "," ","🪟"," ","🌫️","⬛"," "," "," "],
     [" "," "," ","⬛"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","🌫️","🎯","🌫️","⬛"," "," "," "],
@@ -2316,6 +2384,7 @@ var dungeon_map = [
       swapItems(Inventory,s1,s2,s3,s4);
       swapItems(inventoryValue,s1,s2,s3,s4);
     }
+    HAND_EMOJI = Inventory[0][currentSlot - 1]
   }
 
   function goBack() {
@@ -2934,7 +3003,7 @@ var dungeon_map = [
     }
     
     // Surface related events
-    if (time > 250 && Math.random() < 0.08 && current_map == terrain_map) {
+    if (time > 260 && Math.random() < 0.05 && current_map == terrain_map) {
       let rng = Math.floor(Math.random() * 4);
       switch (rng) {
         case 0:
@@ -2958,6 +3027,7 @@ var dungeon_map = [
       moveMob(terrain_map,"🦆");
       moveMob(terrain_map,"🐓");
       moveMob(terrain_map,"🐔");
+      moveMob(terrain_map,"🐝");
     }
     
     // Pets
@@ -3013,7 +3083,7 @@ var dungeon_map = [
     }
     
     // Sky related events
-    if (Math.random() < 0.2 && current_map == sky_map) {
+    if (Math.random() < 0.15 && current_map == sky_map) {
       let rng = Math.floor(Math.random() * 7);
       switch (rng) {
         case 0:
@@ -3051,7 +3121,7 @@ var dungeon_map = [
     }
     
     // Space related events
-    if (Math.random() < 0.2 && current_map == space_map) {
+    if (Math.random() < 0.12 && current_map == space_map) {
       let rng = Math.floor(Math.random() * 5);
       switch (rng) {
         case 0:
@@ -3075,7 +3145,7 @@ var dungeon_map = [
     }
     
     // Hell related events
-    if (Math.random() < 0.3 && current_map == hell_map) {
+    if (Math.random() < 0.18 && current_map == hell_map) {
       let rng = Math.floor(Math.random() * 2);
       switch (rng) {
         case 0:
@@ -3147,7 +3217,6 @@ var dungeon_map = [
     
     // Day Night cycle
     if (time <= 800) {
-      phaseOnce = false;
       phase = moonPhases[moonIndex];
       if (phaseOnce) {
         phaseOnce = false;
@@ -3342,8 +3411,8 @@ var dungeon_map = [
       checkCraftingPossibility(items);
     } updateProj(dim());
     multiple("🧱​",8,"🧱");
-    multiple("➶​",8,"➶");
-    multiple("•​",10,"•");
+    multiple("➶​",16,"➶ ");
+    multiple("•​",16,"• ");
     multiple("𓆩𓆪​",1,wings);
 
     if (testFor("",2)) {
@@ -3402,11 +3471,15 @@ var dungeon_map = [
     // Inventory, Armor, Sun/Moon, and Crafting
     let s = " ".repeat(3);
     let space = " ".repeat(15);
+    let craftName = " ";
+    if (craftingDictionary[possible[posIndex]] || false) {
+      craftName += craftingDictionary[possible[posIndex]].name;
+    }
     const extra = [
       s + armor[0] + space + "⚒ Crafting 🛠",
       s + armor[1] + space + "   Press 'n'/'m' to cycle.",
       s + armor[2] + space + "     Press 'c' to craft.",
-      s + armor[3] + space + space + (possible[posIndex] !== undefined ? possible[posIndex] : ""),
+      s + armor[3] + space + space + (possible[posIndex] !== undefined ? possible[posIndex] : "") + craftName,
       s + armor[4],
       s + phase
     ];
@@ -3421,7 +3494,7 @@ var dungeon_map = [
   function startPunching(map,dir,y,x) {
     if (current_map[moveY + y][moveX + x] in objectProperties && HAND_EMOJI in weaponProperties) {
       if (Jpress && direction == dir && objectProperties[current_map[moveY + y][moveX + x]].toolRequired === weaponProperties[HAND_EMOJI].itemType) {
-        if (Math.random() < 0.05 && objectProperties[current_map[moveY + y][moveX + x]].name == "Tree") {
+        if (Math.random() < 0.02 && objectProperties[current_map[moveY + y][moveX + x]].name == "Tree") {
           let rng = Math.floor(Math.random() * 3);
           switch (rng) {
             case 0:
@@ -3482,30 +3555,32 @@ var dungeon_map = [
   }
 
   function build(map,item) {
-    if (direction == "up" && adjacent[0] == " ") {
-      map[moveY + 3][moveX + 4] = item;
-      removeInventory(item);
-      updateAdjacent();
-      if (item in bosses) {if (bosses[item].level == level) 
-        {loadBossFight(item); currentBoss = item}}
-    } else if (direction == "down" && adjacent[1] == " ") {
-      map[moveY + 5][moveX + 4] = item;
-      removeInventory(item);
-      updateAdjacent();
-      if (item in bosses) {if (bosses[item].level == level) 
-        {loadBossFight(item);} currentBoss = item}
-    } else if (direction == "left" && adjacent[2] == " ") {
-      map[moveY + 4][moveX + 3] = item;
-      removeInventory(item);
-      updateAdjacent();
-      if (item in bosses) {if (bosses[item].level == level) 
-        {loadBossFight(item);} currentBoss = item}
-    } else if (direction == "right" && adjacent[3] == " ") {
-      map[moveY + 4][moveX + 5] = item;
-      removeInventory(item);
-      updateAdjacent();
-      if (item in bosses) {if (bosses[item].level == level) 
-        {loadBossFight(item);} currentBoss = item}
+    if (item !== "🌸" && item !== "🌷") {
+      if (direction == "up" && adjacent[0] == " ") {
+        map[moveY + 3][moveX + 4] = item;
+        removeInventory(item);
+        updateAdjacent();
+        if (item in bosses) {if (bosses[item].level == level) 
+          {loadBossFight(item); currentBoss = item}}
+      } else if (direction == "down" && adjacent[1] == " ") {
+        map[moveY + 5][moveX + 4] = item;
+        removeInventory(item);
+        updateAdjacent();
+        if (item in bosses) {if (bosses[item].level == level) 
+          {loadBossFight(item);} currentBoss = item}
+      } else if (direction == "left" && adjacent[2] == " ") {
+        map[moveY + 4][moveX + 3] = item;
+        removeInventory(item);
+        updateAdjacent();
+        if (item in bosses) {if (bosses[item].level == level) 
+          {loadBossFight(item);} currentBoss = item}
+      } else if (direction == "right" && adjacent[3] == " ") {
+        map[moveY + 4][moveX + 5] = item;
+        removeInventory(item);
+        updateAdjacent();
+        if (item in bosses) {if (bosses[item].level == level) 
+          {loadBossFight(item);} currentBoss = item}
+      }
     }
     if (level == 0 && item == "🏠") {
       // Build the house
@@ -3616,6 +3691,10 @@ var dungeon_map = [
               }
             }
             addInventory(possible[posIndex]);
+            
+            if (possible[posIndex] == "🧀") {
+              addInventory("🪣");
+            }
             canCraft.splice(possible[posIndex], 99);
             checkCraftingPossibility(possible[posIndex]);
             tooltip.innerHTML = `${possible[posIndex]} crafted!`;
@@ -3625,7 +3704,7 @@ var dungeon_map = [
       }
       
       // Display message if unsuccessful
-      if (!success && !adjacent.includes(required) && required != "") {
+      if (!adjacent.includes(required) && required != "") {
         let itemsAndAmounts = '';
         for (let i = 0; i < itemsNeeded.length; i++) {
           itemsAndAmounts += `${amountsNeeded[i]} ${itemsNeeded[i]}`;
@@ -3635,7 +3714,7 @@ var dungeon_map = [
         }
         console.log(`You need\n[${itemsAndAmounts}],\n[${required} required]`); // ??
         tooltip.innerHTML = `You need\n[${itemsAndAmounts}],\n[${required} required]`;
-      } else if (!success) {
+      } else {
         let itemsAndAmounts = '';
         for (let i = 0; i < itemsNeeded.length; i++) {
           itemsAndAmounts += `${amountsNeeded[i]} ${itemsNeeded[i]}`;
@@ -3731,20 +3810,20 @@ var dungeon_map = [
     if (emoji == "🏹") {
       if (inventoryValue[0][currentSlot - 1] == "💞") {
         ammoRNG == 0.5;
-        shoot(dim(),"➶","💘","💘​","💘​​","💘​​​",12);
+        shoot(dim(),"➶ ","💘","💘​","💘​​","💘​​​",12);
       } else if (inventoryValue[0][currentSlot - 1] == "③") {
         ammoRNG == 0.25;
-        shoot(dim(),"➶","⤊","⤋","⬱","⇶",9);
+        shoot(dim(),"➶ ","⤊","⤋","⬱","⇶",9);
       } else if (inventoryValue[0][currentSlot - 1] == "②") {
         ammoRNG == 0.1;
-        shoot(dim(),"➶","⇈","⇊","⇇","⇉",6);
+        shoot(dim(),"➶ ","⇈","⇊","⇇","⇉",6);
       } else {
         ammoRNG == 0;
-        shoot(dim(),"➶","➶","➴","↢","➵",3);
+        shoot(dim(),"➶ ","➶","➴","↢","➵",3);
       }
     } else if (emoji == "🔫") {
       ammoRNG == 0.3;
-      shoot(dim(),"•","'","'​","-","-​",15);
+      shoot(dim(),"• ","'","'​","-","-​",15);
     } else if (emoji == "🪄") {
       if (magic(dim(),"✨",3)) {
         hunger(-1);
@@ -3769,7 +3848,7 @@ var dungeon_map = [
     }
     
     // Special reforges
-    if (inventoryValue[0][currentSlot - 1] == "☘") {
+    if (inventoryValue[0][currentSlot - 1] == "☘️") {
       if (Math.random() < 0.08) {
         magic(dim(),"☘",4);
       } else if (Math.random() < 0.02) {
@@ -3929,6 +4008,9 @@ var dungeon_map = [
       if (HAND_EMOJI in weaponProperties) {
         item = `${weaponProperties[HAND_EMOJI].name}  [${weaponProperties[HAND_EMOJI].damage}${weaponProperties[HAND_EMOJI].itemType}]`;
       }
+      if (HAND_EMOJI in itemNames) {
+        item = itemNames[HAND_EMOJI].name;
+      }
       if (HAND_EMOJI in bosses) {
         item = `${bosses[HAND_EMOJI].name}  [${bosses[HAND_EMOJI].health}⚔] [${bosses[HAND_EMOJI].loot}]`;
       }
@@ -3964,6 +4046,14 @@ var dungeon_map = [
           hunger(foodProperties[HAND_EMOJI].nutrition);
           
           if (HAND_EMOJI == "🥛") {
+            addInventory("🪣");
+          } if (HAND_EMOJI == "🍺") {
+            addInventory("🪣");
+          } if (HAND_EMOJI == "🍷") {
+            addInventory("🪣");
+          } if (HAND_EMOJI == "🍹") {
+            addInventory("🪣");
+          } if (HAND_EMOJI == "☕") {
             addInventory("🪣");
           } else if (HAND_EMOJI == "🫖") {
             addInventory("💨");
@@ -4044,6 +4134,16 @@ var dungeon_map = [
         updateAdjacent();
         removeInventory("🪣");
         addInventory("🥛");
+      }
+      if (adjacent.includes("🐝") && HAND_EMOJI == "🌸") {
+        updateAdjacent();
+        removeInventory("🌸");
+        addInventory("🍯");
+      }
+      if (adjacent.includes("🐝") && HAND_EMOJI == "🌷") {
+        updateAdjacent();
+        removeInventory("🌷");
+        addInventory("🍯");
       }
       if (adjacent.includes("⛲") && HAND_EMOJI == "🪙") {
         updateAdjacent();
@@ -4307,13 +4407,13 @@ var dungeon_map = [
       }
     }
     
-    if (playerTile == "🕳️") {
+    if (playerTile == "🕳️" && !tractorMode) {
       goBack();
       level = -1;
     } else if (playerTile == "🪜") {
       goBack();
       level = 0;
-    } else if (playerTile == "🏠" || playerTile == "🏚️" || playerTile == "🏢" || playerTile == "🛖") {
+    } else if ((playerTile == "🏠" || playerTile == "🏚️" || playerTile == "🏢" || playerTile == "🛖") && !tractorMode ) {
       goBack();
       if (level == 0) {
         level = 3;
@@ -4448,11 +4548,11 @@ var dungeon_map = [
       
       // Specific Boss Properties
       if (currentBoss == "🤖") {
-        if (Math.random() < 0.08) {
+        if (Math.random() < 0.09) {
           boss_move = false;
 
           const interval = setInterval(function() {
-            bossShoot("⚙️",2);
+            bossShoot("⚙️",4);
           }, speed);
 
           setTimeout(function() {
