@@ -26,6 +26,8 @@ Shift + Space >> Fly downwards
 
 q >> Escape mount
 
+Ctrl+Z >> Undo trade with NPC (prevents accidents)
+
 z >> Custom emote (for fun)
 
 p >> Save world
