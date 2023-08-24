@@ -30,6 +30,8 @@ Ctrl+Z >> Undo trade with NPC (prevents accidents)
 
 z >> Custom emote (for fun)
 
+o >> Toggle Light Mode or Dark Mode
+
 p >> Save world
 
 Enter >> Load world
