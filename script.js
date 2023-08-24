@@ -78,6 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var Jpress = false;
   var durability = 0;
   var raisedShield = false;
+  var questGive = ["🔮","🔪"];
   
   var moveX = 5;
   var moveY = 5;
@@ -849,6 +850,13 @@ document.addEventListener("DOMContentLoaded", function () {
       toolRequired: "⛏️",
       loot: "🔩"
     },
+    "🚧": {
+      name: "Construction Blocker",
+      canBeWalkedOn: false,
+      durability: 10,
+      toolRequired: "⛏",
+      loot: "🚧"
+    },
     "🌕": {
       name: "Full Moon Rock",
       description: "From the brightest side of the moon",
@@ -1524,6 +1532,12 @@ document.addEventListener("DOMContentLoaded", function () {
       amountsNeeded: [1,1],
       required: "🧰",
     },
+    "❤": {
+      name: "Red Heart",
+      itemsNeeded: ["🌈","🌟"],
+      amountsNeeded: [1,1],
+      required: "🔮",
+    },
     "📕": {
       name: "Book",
       itemsNeeded: ["🪵","🪶","🌾"],
@@ -1740,6 +1754,16 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   };
   
+  var questDesc = {
+    "🧑‍🔧": {desc:""},
+    "🧑‍🌾": {desc:""},
+    "🥷": {desc:""},
+    "🧝‍♂️": {desc:""},
+    "🧙‍♂️": {desc:""},
+    "🧙": {desc:""},
+    "👷‍♂️": {desc:""},
+  };
+  
   var weaponProperties = {
     "👊": {
       name: "Fist",
@@ -1904,6 +1928,9 @@ document.addEventListener("DOMContentLoaded", function () {
     "🧺": { name: "Basket" },
     "🌌": { name: "Magical Essence" },
     "🌠": { name: "Magical Star" },
+    "🌟": { name: "Glowing Star" },
+    "🌈": { name: "Rainbow" },
+    "❤": { name: "Red Heart" },
     "🩸": { name: "Blood" },
     "🍖": { name: "Flesh" },
     "🦴": { name: "Bone" },
@@ -3531,7 +3558,7 @@ var dungeon_map = [
               const lootEntry = boxLoot[i];
               const valueEntry = boxValueLoot[i];
 
-              if (moveX + x == lootEntry[0] && moveY + y == lootEntry[1] && level == lootEntry[2]) {
+              if (moveX + x == lootEntry[0] && moveY + y == lootEntry[1]) {
                 found = true;
                 const restOfLoot = lootEntry.slice(3, 40);
                 if (restOfLoot.every(val => val === "")) {
@@ -3623,19 +3650,19 @@ var dungeon_map = [
         }
       } else {
         if (direction == "up") {
-          currentProjectiles.push([up,playerPosition.x,playerPosition.y,0,damage]);
+          currentProjectiles.push([up,playerPosition.x,playerPosition.y,0,damage,"player"]);
           if (Math.random() > ammoRNG) {removeInventory(ammo);}
           return true;
         } else if (direction == "down") {
-          currentProjectiles.push([down,playerPosition.x,playerPosition.y,1,damage]);
+          currentProjectiles.push([down,playerPosition.x,playerPosition.y,1,damage,"player"]);
           if (Math.random() > ammoRNG) {removeInventory(ammo);}
           return true;
         } else if (direction == "left") {
-          currentProjectiles.push([left,playerPosition.x,playerPosition.y,2,damage]);
+          currentProjectiles.push([left,playerPosition.x,playerPosition.y,2,damage,"player"]);
           if (Math.random() > ammoRNG) {removeInventory(ammo);}
           return true;
         } else if (direction == "right") {
-          currentProjectiles.push([down,playerPosition.x,playerPosition.y,3,damage]);
+          currentProjectiles.push([down,playerPosition.x,playerPosition.y,3,damage,"player"]);
           if (Math.random() > ammoRNG) {removeInventory(ammo);}
           return true;
         }
@@ -3644,7 +3671,7 @@ var dungeon_map = [
     return false;
   }
   
-  function magic(map, proj, damage) {
+  function magic(map, proj, damage, hone) {
     updateAdjacent();
     if (!boss_mode) {
       if (direction == "up" && adjacent[0] == " ") {
@@ -3661,7 +3688,10 @@ var dungeon_map = [
         return true;
       }
     } else {
-      if (direction == "up") {
+      if (hone !== "") {
+        currentProjectiles.push([proj, playerPosition.x, playerPosition.y, 4, damage, "player"]);
+        return true;
+      } else if (direction == "up") {
         currentProjectiles.push([proj, playerPosition.x, playerPosition.y, 0, damage, "player"]);
         return true;
       } else if (direction == "down") {
@@ -3712,7 +3742,6 @@ var dungeon_map = [
             itemsAndAmounts += ', ';
           }
         }
-        console.log(`You need\n[${itemsAndAmounts}],\n[${required} required]`); // ??
         tooltip.innerHTML = `You need\n[${itemsAndAmounts}],\n[${required} required]`;
       } else {
         let itemsAndAmounts = '';
@@ -3810,7 +3839,12 @@ var dungeon_map = [
     if (emoji == "🏹") {
       if (inventoryValue[0][currentSlot - 1] == "💞") {
         ammoRNG == 0.5;
-        shoot(dim(),"➶ ","💘","💘​","💘​​","💘​​​",12);
+        if (!boss_mode) {
+          shoot(dim(),"➶ ","💘","💘​","💘​​","💘​​​",12);
+        } else {
+          currentProjectiles.push(["💘",playerPosition.x,playerPosition.y,4,2,"player"]);
+          if (Math.random() > ammoRNG) {removeInventory("➶ ");}
+        }
       } else if (inventoryValue[0][currentSlot - 1] == "③") {
         ammoRNG == 0.25;
         shoot(dim(),"➶ ","⤊","⤋","⬱","⇶",9);
@@ -3825,20 +3859,20 @@ var dungeon_map = [
       ammoRNG == 0.3;
       shoot(dim(),"• ","'","'​","-","-​",15);
     } else if (emoji == "🪄") {
-      if (magic(dim(),"✨",3)) {
+      if (magic(dim(),"✨",3,"")) {
         hunger(-1);
       }
     } else if (emoji == "🎻") {
       if (Math.random() < 0.75) {
-        magic(dim(),"🎵",5);
+        magic(dim(),"🎵",5,"");
       } else {
-        magic(dim(),"🎶",6);
+        magic(dim(),"🎶",6,"");
       }
     } else if (emoji == "🎸") {
       if (Math.random() < 0.6) {
-        magic(dim(),"🎵",7);
+        magic(dim(),"🎵",7,"");
       } else {
-        magic(dim(),"🎶",8);
+        magic(dim(),"🎶",5,"hone");
       }
     } else {
       startPunching(dim(),"up", 3, 4);
@@ -3850,24 +3884,24 @@ var dungeon_map = [
     // Special reforges
     if (inventoryValue[0][currentSlot - 1] == "☘️") {
       if (Math.random() < 0.08) {
-        magic(dim(),"☘",4);
+        magic(dim(),"☘",4,"");
       } else if (Math.random() < 0.02) {
-        magic(dim(),"🍀",5);
+        magic(dim(),"🍀",5,"");
       }
     }
     if (inventoryValue[0][currentSlot - 1] == "📖") {
       if (Math.random() < 0.1) {
-        magic(dim(),"🌀",4);
+        magic(dim(),"🌀",4,"");
         if (FOOD_HEALTH > 0) {
           hunger(1);
         }
       } else if (Math.random() < 0.1) {
-        magic(dim(),"🍀",5);
+        magic(dim(),"🍀",5,"hone");
         if (FOOD_HEALTH > 0) {
           hunger(1);
         }
       } else if (Math.random() < 0.02) {
-        magic(dim(),"⭐",10);
+        magic(dim(),"⭐",10,"");
         PLAYER_EMOJI = "🤩";
         if (FOOD_HEALTH > 0) {
           hunger(2);
@@ -3876,22 +3910,22 @@ var dungeon_map = [
     }
     if (inventoryValue[0][currentSlot - 1] == "📚") {
       if (Math.random() < 0.1) {
-        magic(dim(),"❄️​",4);
+        magic(dim(),"❄️​",4,"");
         if (FOOD_HEALTH > 0) {
           hunger(1);
         }
       } else if (Math.random() < 0.1) {
-        magic(dim(),"🔥​",4);
+        magic(dim(),"🔥​",4,"");
         if (FOOD_HEALTH > 0) {
           hunger(1);
         }
       } else if (Math.random() < 0.2) {
-        magic(dim(),"🐰",4);
+        magic(dim(),"🐰",4,"");
         if (FOOD_HEALTH > 0) {
           hunger(1);
         }
       } else if (Math.random() < 0.2) {
-        magic(dim(),"🐸",10);
+        magic(dim(),"🐸",5,"hone");
         if (FOOD_HEALTH > 0) {
           hunger(2);
         }
@@ -3935,18 +3969,22 @@ var dungeon_map = [
       if (!boss_mode) {moveY --;}
       else {dy --;}
       direction = "up";
+      questGive = [];
     } else if (key === "ArrowDown" || key === "s" || key === "S") {
       if (!boss_mode) {moveY ++;}
       else {dy ++;}
       direction = "down";
+      questGive = [];
     } else if (key === "ArrowLeft" || key === "a" || key === "A") {
       if (!boss_mode) {moveX --;}
       else {dx --;}
       direction = "left";
+      questGive = [];
     } else if (key === "ArrowRight" || key === "d" || key === "D") {
       if (!boss_mode) {moveX ++;}
       else {dx ++;}
       direction = "right";
+      questGive = [];
     } else if (key === "k") {
       if (direction == "right" || direction == "down") {
         showFistEmojiTemporarily("👉");
@@ -3969,6 +4007,19 @@ var dungeon_map = [
       if (testFor(wings,1) && level >= 0 && level < 1) {level++;}
       else if (testFor("🚀",1) && level >= 0 && level < 2) {level++;}
       else if (testFor("🕹️",1) && level >= -2 && level < 2) {level++;}
+    }
+    else if (event.ctrlKey && event.key === 'z') {
+      for (let i = 0; i < questGive.length; i++) {
+        const item = questGive[i];
+        addInventory(item);
+        for (let j = 0; j < 3; j++) {
+          if (adjacent[j] in quests || false) {
+            quests[adjacent[j]].qrequired.push(item);
+          }
+        }
+        questGive.splice(i, 1);
+        i--;
+      }
     }
     else if (key == "z") {
       if (currentIndex == baseEmote.length - 1) {
@@ -4122,7 +4173,11 @@ var dungeon_map = [
     } else if (event.button == 2 || key === "l" || key === "L") {
       time ++;
       if (HAND_EMOJI in objectProperties) {
-        build(dim(),HAND_EMOJI);
+        if (HAND_EMOJI == "🏠" && house_map[moveY + 4][moveX + 4] == " " && house_map[moveY + 3][moveX + 4] == " " && house_map[moveY + 5][moveX + 4] == " " && house_map[moveY + 4][moveX + 3] == " " && house_map[moveY + 4][moveX + 5] == " ") {
+          build(dim(),HAND_EMOJI);
+        } else if (HAND_EMOJI != "🏠") {
+          build(dim(),HAND_EMOJI);
+        }
       } 
       
       // Specific Interactions
@@ -4202,18 +4257,21 @@ var dungeon_map = [
           
           if (requiredIndex !== -1) {
             thing.qrequired.splice(requiredIndex, 1);
+            questGive.push(HAND_EMOJI);
             removeInventory(HAND_EMOJI);
-            console.log(thing.qrequired);
+
             if (thing.qrequired.length === 0) {              
               addInventory(thing.output);
 
               if (`quest${thing.currentQuest}` in thing) {
                 objectProperties[item].description = thing[`quest${thing.currentQuest}`][0];
+                questDesc[item].desc = thing[`quest${thing.currentQuest}`][0];
                 thing.output = thing[`quest${thing.currentQuest}`][1];
                 const remainingRequired = thing[`quest${thing.currentQuest}`].slice(2);
                 thing.qrequired.push(...remainingRequired);
 
                 thing.currentQuest++;
+                questGive = [];
               }
             }
             // Elements class
@@ -4309,6 +4367,7 @@ var dungeon_map = [
       window.localStorage.setItem("boxValueData", JSON.stringify(boxValueLoot));
       
       window.localStorage.setItem("questData", JSON.stringify(quests));
+      window.localStorage.setItem("questDescData", JSON.stringify(questDesc));
       window.localStorage.setItem("dragonData", JSON.stringify(dragonDefeated));
       window.localStorage.setItem("timeData", JSON.stringify(time));
       window.localStorage.setItem("phaseData", JSON.stringify(phase));
@@ -4334,15 +4393,6 @@ var dungeon_map = [
       showFistEmojiTemporarily("🫶");
     } else if (event.key == "Enter") {
       // Load World
-      boss_mode = false;
-      playerPosition = { x: 5, y: 5 };
-      moveY = -10;
-      moveX = 5;
-      level = 0;
-      setTimeout(function(){
-        moveY = 5;
-        tooltip.innerHTML = "World loaded!";
-      }, speed);
       Inventory = JSON.parse(localStorage.getItem("inventoryData"));
       inventoryValue = JSON.parse(localStorage.getItem("inventoryValueData"));
       armor = JSON.parse(localStorage.getItem("armorData"));
@@ -4354,6 +4404,7 @@ var dungeon_map = [
       boxValueLoot = JSON.parse(localStorage.getItem("boxValueData"));
       
       quests = JSON.parse(localStorage.getItem("questData"));
+      questDesc = JSON.parse(localStorage.getItem("questDescData"));
       dragonDefeated = JSON.parse(localStorage.getItem("dragonData"));
       time = JSON.parse(localStorage.getItem("timeData"));
       phase = JSON.parse(localStorage.getItem("phaseData"));
@@ -4374,6 +4425,20 @@ var dungeon_map = [
       dungeon_map = JSON.parse(localStorage.getItem("dungeonData"));
       house_map = JSON.parse(localStorage.getItem("houseData"));
       moon_map = JSON.parse(localStorage.getItem("moonData"));
+      
+      // Other setup things
+      boss_mode = false;
+      playerPosition = { x: 5, y: 5 };
+      moveY = -10;
+      moveX = 5;
+      level = 0;
+      setTimeout(function(){
+        moveY = 5;
+        tooltip.innerHTML = "World loaded!";
+      }, speed);
+      for (let thing in questDesc) {
+        objectProperties[thing].description = questDesc[thing].desc;
+      }
     } else {
       // All other presses
       Jpress = false;
@@ -4652,7 +4717,6 @@ var dungeon_map = [
           const randomIndex = Math.floor(Math.random() * x.length);
           x.splice(randomIndex, 1);
           y.splice(randomIndex, 1);
-          console.log(y)
           
           for (let i = 0; i < x.length; i++) {
             currentProjectiles.push(["👾",x[i],y[i],1,5,"boss",100]);
