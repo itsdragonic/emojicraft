@@ -1,6 +1,6 @@
 # Emojicraft
 
-https://itsdragonic.github.io/emojicraft/
+Play here: https://itsdragonic.github.io/emojicraft/
 
 ## Basic Commands
 
