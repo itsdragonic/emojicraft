@@ -78,7 +78,8 @@ document.addEventListener("DOMContentLoaded", function () {
   var Jpress = false;
   var durability = 0;
   var raisedShield = false;
-  var questGive = ["🔮","🔪"];
+  var questGive = [];
+  var lightMode = false;
   
   var moveX = 5;
   var moveY = 5;
@@ -3990,7 +3991,23 @@ var dungeon_map = [
         showFistEmojiTemporarily("👉");
       } else {showFistEmojiTemporarily("👈")}
     } else if (key === "u") {
-      showFistEmojiTemporarily("👆");
+      if (lightMode) {lightMode = false;}
+      else {lightMode = true;}
+      
+      // Light & Dark Mode
+      if (lightMode) {
+        cellColor = "#EEE";
+        color = "#E46565";
+        damage(0);
+        document.body.style.backgroundColor = "white";
+        document.body.style.color = "black";
+      } else {
+        cellColor = "#222";
+        color = "#992222";
+        damage(0);
+        document.body.style.backgroundColor = "black";
+        document.body.style.color = "white";
+      }
     } else if (key === "i") {
       showFistEmojiTemporarily("🤘");
     } else if (key === "o") {
