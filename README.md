@@ -32,7 +32,7 @@ z >> Custom emote (for fun)
 
 o >> Toggle Light Mode or Dark Mode
 
-p >> Save world
+p >> Save world / Save screenshot to clipboard
 
 Enter >> Load world
 
