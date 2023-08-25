@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelector(".corner").style.fontSize = "12px";
     document.querySelector("#foodHealth").style.fontSize = "12px";
     document.querySelector("#sunmoon").style.bottom = "115px";
+    document.querySelector("#day").style.bottom = "115px";
     document.querySelector("#item-name").style.height = "955px";
     document.querySelector(".viewport").transform = "translate(10%, 10%)";
   } else {
@@ -48,6 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var cellColor = "#222";
   var damageColor = cellColor;
   var color = "#992222";
+  var square = "⬜";
   
   var BOSS_EMOJI = "💩";
   var BOSS = "💩";
@@ -786,12 +788,29 @@ document.addEventListener("DOMContentLoaded", function () {
       toolRequired: "🗡️",
       loot: "🪶"
     },
-    "🕊️": {
+    "🕊": {
       name: "Dove",
       description: "Coo-oo",
       isAnimal: true,
       canBeWalkedOn: false,
       durability: 3,
+      toolRequired: "🗡️",
+      loot: "🪶"
+    },
+    "🦉": {
+      name: "Owl",
+      description: "Hoot-hoot",
+      isAnimal: true,
+      canBeWalkedOn: false,
+      durability: 4,
+      toolRequired: "🗡️",
+      loot: "🪶"
+    },
+    "🦔": {
+      name: "Hedgehog",
+      isAnimal: true,
+      canBeWalkedOn: false,
+      durability: 4,
       toolRequired: "🗡️",
       loot: "🪶"
     },
@@ -1150,6 +1169,20 @@ document.addEventListener("DOMContentLoaded", function () {
       toolRequired: "🪓",
       loot: "🪑"
     },
+    "📺": {
+      name: "TV",
+      canBeWalkedOn: true,
+      durability: 10,
+      toolRequired: "⛏️",
+      loot: "📺"
+    },
+    "🛋": {
+      name: "Sofa",
+      canBeWalkedOn: true,
+      durability: 8,
+      toolRequired: "⛏️",
+      loot: "🛋"
+    },
     "🛏️": {
       name: "Bed",
       canBeWalkedOn: true,
@@ -1164,6 +1197,14 @@ document.addEventListener("DOMContentLoaded", function () {
       durability: 10,
       toolRequired: "⛏️",
       loot: "🎯"
+    },
+    "⚙️": {
+      name: "Gear",
+      description: "Use a wrench to edit",
+      canBeWalkedOn: false,
+      durability: 10,
+      toolRequired: "⛏️",
+      loot: "⚙️"
     },
     "🗑️": {
       name: "Trash Bin",
@@ -2478,6 +2519,7 @@ var dungeon_map = [
   let tooltip = document.getElementById("tooltip");
   let itemName = document.getElementById("item-name");
   let sunmoon = document.getElementById("sunmoon");
+  let days = document.getElementById("day");
   var inputBox = document.getElementById("inputBox");
   var phaseOnce = true;
   
@@ -2915,7 +2957,9 @@ var dungeon_map = [
               
               updateAdjacent();
               if ((Col == moveX + 4 && Row == moveY + 4) || adjacent.includes(mob)) {
-                if (time % 3 == 0) {damage(amount);}               
+                if (Math.random() < 0.5) {
+                  damage(amount); 
+                }
               }
             }
           }
@@ -3244,6 +3288,7 @@ var dungeon_map = [
       moveMob(terrain_map,"🐓");
       moveMob(terrain_map,"🐔");
       moveMob(terrain_map,"🐝");
+      moveMob(terrain_map,"🦔");
     }
     
     if (Math.random() < 0.1 && (current_map == house_map || current_map == dungeon_map)) {
@@ -3342,6 +3387,12 @@ var dungeon_map = [
       }
     }
     
+    if (time < 266 && time > 566 && Math.random() < 0.1 && current_map == sky_map) {
+      summonMob(sky_map,"🦉");
+    } if (time < 266 && time > 566 && Math.random() < 0.1 && current_map == terrain_map) {
+      summonMob(terrain_map,"🦔");
+    }
+    
     if (Math.random() < 0.7 && current_map == sky_map) {
       moveMob(sky_map,"👼");
       moveMob(sky_map,"😇");
@@ -3349,7 +3400,9 @@ var dungeon_map = [
       moveMob(sky_map,"🕊️");
       moveMob(sky_map,"🌪️");
       moveMob(sky_map,"🦄");
-      if (dragonDefeated) {moveMob(sky_map,"🧞");}
+      moveMob(sky_map,"🦉");
+      moveMob(sky_map,"🧚");
+      moveMob(sky_map,"🧞");
     }
     
     // Space related events
@@ -3492,7 +3545,7 @@ var dungeon_map = [
       phase = moonPhases[moonIndex];
     }
     
-    // Bottom-right display
+    // Bottom display
     function convertToClock() {
       // Calculate hours and minutes
       let hours = time * 3 / 100;
@@ -3511,6 +3564,7 @@ var dungeon_map = [
       return formattedTime;
     }
     
+    days.innerHTML = "Day " + day;
     sunmoon.innerHTML = effects + convertToClock() + " " + phase;
     if (fireRes == 0) {effects = effects.replace(new RegExp("🔥", 'g'), '');}
     if (regeneration == 0) {effects = effects.replace(new RegExp("💗", 'g'), '');}
@@ -3660,7 +3714,7 @@ var dungeon_map = [
     // Sleep
     if (playerTile == "🛏️") {
       PLAYER_EMOJI = "🛌";
-      time += 9;
+      time += 12;
     } else if (playerTile != "🛏️" && PLAYER_EMOJI == "🛌") {PLAYER_EMOJI = "😄"}
     
     // Crafting
@@ -3733,7 +3787,7 @@ var dungeon_map = [
       craftName += craftingDictionary[possible[posIndex]].name;
     }
     const extra = [
-      s + armor[0] + space + "⚒ Crafting 🛠",
+      s + armor[0] + space + "⚒️ Crafting 🛠️",
       s + armor[1] + space + "   Press 'n'/'m' to cycle.",
       s + armor[2] + space + "     Press 'c' to craft.",
       s + armor[3] + space + space + (possible[posIndex] !== undefined ? possible[posIndex] : "") + craftName,
@@ -3743,7 +3797,7 @@ var dungeon_map = [
 
     showInv = '\n' + Inventory.map((row, index) => {
       const append = extra[index % armor.length];
-      return row.map(item => (item === "") ? "⬜" : item).join('') + "       " + append;
+      return row.map(item => (item === "") ? square : item).join('') + "       " + append;
     }).join('\n')
     + '\n' + chestText + chestData;
   }
@@ -4149,6 +4203,11 @@ var dungeon_map = [
           hunger(1);
         }
       } else if (Math.random() < 0.2) {
+        magic(dim(),"✴",4,"");
+        if (FOOD_HEALTH > 0) {
+          hunger(1);
+        }
+      } else if (Math.random() < 0.2) {
         magic(dim(),"🐰",4,"");
         if (FOOD_HEALTH > 0) {
           hunger(1);
@@ -4235,13 +4294,17 @@ var dungeon_map = [
       if (lightMode) {
         cellColor = "#EEE";
         color = "#E46565";
+        square = "⬛";
         damage(0);
+        
         document.body.style.backgroundColor = "white";
         document.body.style.color = "black";
       } else {
         cellColor = "#222";
         color = "#992222";
+        square = "⬜";
         damage(0);
+        
         document.body.style.backgroundColor = "black";
         document.body.style.color = "white";
       }
@@ -4486,6 +4549,10 @@ var dungeon_map = [
       }
       
       // Wrench & Paintbrush
+      if (adjacent.includes("⚙️") && Inventory[0][currentSlot - 1] == "🔧" && !testFor("⚡",5)) {
+        addInventory("⚡");
+      }
+      
       updateAdjacent();
       if (Inventory[0][currentSlot - 1] == "🖌️") {
         setAdjacent(dim(),"🧱","◼️");
@@ -4497,8 +4564,17 @@ var dungeon_map = [
         setAdjacent(dim(),"🟥","🟧");
         setAdjacent(dim(),"◼️","🟥");
         
-        setAdjacent(dim(), "🇨🇳", "◼️");
-        setAdjacent(dim(), "🇧🇷", "🇨🇳");
+        setAdjacent(dim(), "🇪🇺", "◼️");
+        setAdjacent(dim(), "🇯🇵", "🇪🇺");
+        setAdjacent(dim(), "🇰🇷", "🇯🇵");
+        setAdjacent(dim(), "🇨🇳", "🇰🇷");
+        setAdjacent(dim(), "🇷🇺", "🇨🇳");
+        setAdjacent(dim(), "🇮🇳", "🇷🇺");
+        setAdjacent(dim(), "🇧🇷", "🇮🇳");
+        setAdjacent(dim(), "🇦🇺", "🇧🇷");
+        setAdjacent(dim(), "🇿🇦", "🇦🇺");
+        setAdjacent(dim(), "🇺🇳", "🇿🇦");
+        setAdjacent(dim(), "🇧🇷", "🇺🇳");
         setAdjacent(dim(), "🇫🇷", "🇧🇷");
         setAdjacent(dim(), "🇩🇪", "🇫🇷");
         setAdjacent(dim(), "🇮🇹", "🇩🇪");
@@ -4513,7 +4589,6 @@ var dungeon_map = [
         setAdjacent(dim(),"🏳️","🏴");
         setAdjacent(dim(),"◼️","🏳️");
       }
-      
       
       // Fishing & Water
       if (adjacent.includes("🌊") && Inventory[0][currentSlot - 1] == "🪣" && !testFor("💧",5)) {
@@ -4681,8 +4756,14 @@ var dungeon_map = [
       window.localStorage.setItem("dungeonData", JSON.stringify(dungeon_map));
       window.localStorage.setItem("houseData", JSON.stringify(house_map));
       window.localStorage.setItem("moonData", JSON.stringify(moon_map));
-      
       tooltip.innerHTML = "World saved!";
+      
+      let newString = corner.innerHTML.slice(0, 20) + "  " + document.getElementById("foodHealth").textContent + corner.innerHTML.slice(20);
+      let map = current_map.map(row => row.map(item => (item === " ") ? "⬜" : item).join('')).join('\n');
+      let sp = " ".repeat(100);
+
+      navigator.clipboard.writeText(newString+'\n'+map+'\n'+days.innerHTML+sp+sunmoon.innerHTML);
+
       showFistEmojiTemporarily("🫶");
     } else if (event.key == "Enter") {
 
