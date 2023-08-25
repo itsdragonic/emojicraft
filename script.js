@@ -84,6 +84,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var moveX = 5;
   var moveY = 5;
   var time = 266;
+  var day = 1;
   var phase = "";
   var burning = 0;
   var burn = false;
@@ -101,6 +102,11 @@ document.addEventListener("DOMContentLoaded", function () {
   var elixir = 0;
   var effects = "";
   var ammoRNG = 0;
+  
+  var possible = [];
+  var canCraft = [];
+  var adjacent = [];
+  var posIndex = 0;
 
   // Generate Slots
   const slot1 = document.getElementById("slot1");
@@ -498,6 +504,34 @@ document.addEventListener("DOMContentLoaded", function () {
       toolRequired: "⛏️",
       loot: "🌫️"
     },
+    "🏳️": {
+      name: "White Flag",
+      canBeWalkedOn: true,
+      durability: 5,
+      toolRequired: "",
+      loot: "🏳️"
+    },
+    "🏴": {
+      name: "Black Flag",
+      canBeWalkedOn: true,
+      durability: 5,
+      toolRequired: "",
+      loot: "🏴"
+    },
+    "🏁": {
+      name: "Checkered Flag",
+      canBeWalkedOn: true,
+      durability: 5,
+      toolRequired: "",
+      loot: "🏁"
+    },
+    "🚩": {
+      name: "Triangular Flag",
+      canBeWalkedOn: true,
+      durability: 5,
+      toolRequired: "",
+      loot: "🚩"
+    },
     "🟪": {
       name: "Purple Wall",
       canBeWalkedOn: false,
@@ -519,15 +553,50 @@ document.addEventListener("DOMContentLoaded", function () {
       toolRequired: "⛏️",
       loot: "🟥"
     },
+    "🟧": {
+      name: "Orange Wall",
+      canBeWalkedOn: false,
+      durability: 20,
+      toolRequired: "⛏️",
+      loot: "🟧"
+    },
+    "🟨": {
+      name: "Yellow Wall",
+      canBeWalkedOn: false,
+      durability: 20,
+      toolRequired: "⛏️",
+      loot: "🟨"
+    },
+    "🟩": {
+      name: "Green Wall",
+      canBeWalkedOn: false,
+      durability: 20,
+      toolRequired: "⛏️",
+      loot: "🟩"
+    },
+    "🟦": {
+      name: "Blue Wall",
+      canBeWalkedOn: false,
+      durability: 20,
+      toolRequired: "⛏️",
+      loot: "🟦"
+    },
+    "🟫": {
+      name: "Brown Wall",
+      canBeWalkedOn: false,
+      durability: 20,
+      toolRequired: "⛏️",
+      loot: "🟫"
+    },
     "⬜": {
-      name: "White",
+      name: "",
       canBeWalkedOn: false,
       durability: 999,
       toolRequired: "⛏️",
       loot: "⬜"
     },
     "⬛": {
-      name: "Black",
+      name: "",
       canBeWalkedOn: false,
       durability: 99,
       toolRequired: "",
@@ -995,6 +1064,38 @@ document.addEventListener("DOMContentLoaded", function () {
       toolRequired: "🪓",
       loot: "🪵"
     },
+    "🏡": {
+      name: "House with Garden",
+      description: "Even nicer place to live",
+      canBeWalkedOn: true,
+      durability: 20,
+      toolRequired: "🪓",
+      loot: "🪵"
+    },
+    "🏚": {
+      name: "Abandoned House",
+      description: "Not the nicest place to live",
+      canBeWalkedOn: true,
+      durability: 20,
+      toolRequired: "🪓",
+      loot: "🪵"
+    },
+    "🛖": {
+      name: "House",
+      description: "It ain't much but it's nice",
+      canBeWalkedOn: true,
+      durability: 20,
+      toolRequired: "🪓",
+      loot: "🪵"
+    },
+    "🏢": {
+      name: "Building",
+      description: "'Big' place to live",
+      canBeWalkedOn: true,
+      durability: 20,
+      toolRequired: "⛏",
+      loot: "🪨"
+    },
     "💎": {
       name: "Gem",
       description: "Ooh shiny!",
@@ -1081,7 +1182,31 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     "🏭": {
       name: "Factory",
-      description: "Coming soon...",
+      description: "Use hammer to change what it outputs.",
+      canBeWalkedOn: false,
+      durability: 10,
+      toolRequired: "⛏️",
+      loot: "🏭"
+    },
+    "🏭​": {
+      name: "Factory [🍗]",
+      description: "Use hammer to change output. Outputs every 12 hrs.",
+      canBeWalkedOn: false,
+      durability: 10,
+      toolRequired: "⛏️",
+      loot: "🏭"
+    },
+    "🏭​​": {
+      name: "Factory [💎]",
+      description: "Use hammer to change output. Outputs every 12 hrs.",
+      canBeWalkedOn: false,
+      durability: 10,
+      toolRequired: "⛏️",
+      loot: "🏭"
+    },
+    "🏭​​​": {
+      name: "Factory [🪵]",
+      description: "Use hammer to change output. Outputs every 12 hrs.",
       canBeWalkedOn: false,
       durability: 10,
       toolRequired: "⛏️",
@@ -1197,6 +1322,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }, "🌭": {
       name: "Hot Dog",
       nutrition: 6,
+    }, "🍨": {
+      name: "Ice Cream",
+      nutrition: 4,
+    }, "🍰": {
+      name: "Cake",
+      nutrition: 5,
+    }, "🍩": {
+      name: "Doughnut",
+      nutrition: 4,
     }, "🫖": {
       name: "Tea Pot",
       nutrition: 2,
@@ -1357,6 +1491,12 @@ document.addEventListener("DOMContentLoaded", function () {
       name: "House",
       itemsNeeded: ["🪵","🧱","🪟"],
       amountsNeeded: [8,16,3],
+      required: "🧰",
+    },
+    "🏡": {
+      name: "House with Garden",
+      itemsNeeded: ["🪵","🧱","🪟","🌿","🌷","🌸"],
+      amountsNeeded: [8,16,3,3,1,1],
       required: "🧰",
     },
     "🥧": {
@@ -1545,13 +1685,13 @@ document.addEventListener("DOMContentLoaded", function () {
       amountsNeeded: [1,1,4],
       required: "🧰",
     },
-    "🗡": {
+    "🗡️": {
       name: "Dagger",
       itemsNeeded: ["🪵","🪨"],
       amountsNeeded: [1,3],
       required: "🧰",
     },
-    "⛏": {
+    "⛏️": {
       name: "Pickaxe",
       itemsNeeded: ["🪵","🪨"],
       amountsNeeded: [1,4],
@@ -1567,6 +1707,24 @@ document.addEventListener("DOMContentLoaded", function () {
       name: "Blade",
       itemsNeeded: ["🪵","🔩"],
       amountsNeeded: [1,5],
+      required: "🧰",
+    },
+    "🔧": {
+      name: "Wrench",
+      itemsNeeded: ["🔩"],
+      amountsNeeded: [4],
+      required: "🧰",
+    },
+    "🔨": {
+      name: "Hammer",
+      itemsNeeded: ["🪵","🔩"],
+      amountsNeeded: [1,3],
+      required: "🧰",
+    },
+    "🖌": {
+      name: "Paintbrush",
+      itemsNeeded: ["🪵","🪶"],
+      amountsNeeded: [2,2],
       required: "🧰",
     },
     "🛡️": {
@@ -1647,6 +1805,18 @@ document.addEventListener("DOMContentLoaded", function () {
       amountsNeeded: [2,1],
       required: "🧰",
     },
+    "🌫️": {
+      name: "Marble",
+      itemsNeeded: ["🪨","⏳"],
+      amountsNeeded: [2,1],
+      required: "🧰",
+    },
+    "🏳️": {
+      name: "Flag",
+      itemsNeeded: ["🪵","🪶"],
+      amountsNeeded: [2,3],
+      required: "🧰",
+    },
     "🔦": {
       name: "Flashlight",
       itemsNeeded: ["🪟","🔩"],
@@ -1659,7 +1829,7 @@ document.addEventListener("DOMContentLoaded", function () {
       amountsNeeded: [1,3,3,1],
       required: "🧰",
     },
-    "•​": {
+    "⁍​": {
       name: "Bullet",
       itemsNeeded: ["🔩"],
       amountsNeeded: [1],
@@ -1922,17 +2092,25 @@ document.addEventListener("DOMContentLoaded", function () {
     "🔫": { name: "Pistol" },
     "🏹": { name: "Bow" },
     "➶ ": { name: "Arrow" },
-    "• ": { name: "Bullet" },
+    "⁍ ": { name: "Bullet" },
     "🎣": { name: "Fishing Pole" },
+    "🕸️": { name: "Web" },
+    "🖌️": { name: "Paintbrush" },
+    "🔨": { name: "Hammer" },
+    "🔧": { name: "Wrench" },
     "📕": { name: "Book" },
     "🪣": { name: "Bucket" },
     "🧺": { name: "Basket" },
     "🌌": { name: "Magical Essence" },
-    "🌠": { name: "Magical Star" },
+    "🌠": { name: "Shooting Star" },
     "🌟": { name: "Glowing Star" },
     "🌈": { name: "Rainbow" },
-    "❤": { name: "Red Heart" },
+    "✨": { name: "Fairy Dust" },
+    "🫖": { name: "Genie Bottle" },
+    "💨": { name: "Djinn Air" },
+    "❤️": { name: "Red Heart" },
     "🩸": { name: "Blood" },
+    "💧": { name: "Water" },
     "🍖": { name: "Flesh" },
     "🦴": { name: "Bone" },
     "🐭": { name: "Mouse Head" },
@@ -1943,6 +2121,8 @@ document.addEventListener("DOMContentLoaded", function () {
     "❤‍🔥": { name: "Burning Heart" },
     "🐉": { name: "Dragon" },
   };
+  
+  var unstackable = ["🗡️","⛏️","🪓","🔧","🖌️","🔨","🔪","⚔️","⚒️","🪚","🪄","🎻","🎸","🔫","🎣"];
   
   var farmCrops = {
     "🍅": {"name": "Tomato", "seed": "𓇠"},
@@ -2069,7 +2249,7 @@ document.addEventListener("DOMContentLoaded", function () {
    [ "🌊", "🌊", "🌊", "🌊", "🌿", "🌷", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "🌵", " ", " ", " ", "🌊", "🌊", "🌊", "🌊" ],
    [ "🌊", "🌊", "🌊", "🌊", " ", "🌲", "🌿", " ", "🌳", " ", " ", " ", "🌱", "🌳", " ", " ", " ", " ", "🌵", " ", " ", " ", "🌊", "🌊", "🌊", "🌊" ],
    [ "🌊", "🌊", "🌊", "🌊", "🌸", " ", " ", "🌾", " ", " ", " ", "🌱", " ", " ", " ", " ", " ", " ", " ", " ", " ", "🌵", "🌊", "🌊", "🌊", "🌊" ],
-   [ "🌊", "🌊", "🌊", "🌊", "🌴", " ", " ", " ", " ", " ", "🌳", " ", "🏠", " ", " ", " ", "🏠", " ", "🌱", " ", " ", " ", "🌊", "🌊", "🌊", "🌊" ],
+   [ "🌊", "🌊", "🌊", "🌊", "🌴", " ", " ", " ", " ", " ", "🌳", " ", "🏠", " ", " ", " ", "🏡", " ", "🌱", " ", " ", " ", "🌊", "🌊", "🌊", "🌊" ],
    [ "🌊", "🌊", "🌊", "🌊", " ", " ", "🕳️", " ", " ", " ", " ", " ", " ", " ", " ", " ", "🌱", " ", " ", " ", " ", "🏖", "🌊", "🌊", "🌊", "🌊" ],
    [ "🌊", "🌊", "🌊", "🌊", " ", " ", " ", " ", " ", " ", " ", " ", "🌾", " ", "🌳", " ", " ", "🌾", " ", " ", " ", "🏖", "🌊", "🌊", "🌊", "🌊" ],
    [ "🌊", "🌊", "🌊", "🌊", "🏖", " ", "🌱", " ", "🌾", " ", " ", " ", " ", " ", "⛲", " ", " ", " ", " ", " ", "🗻", " ", "🌊", "🌊", "🌊", "🌊" ],
@@ -2525,7 +2705,7 @@ var dungeon_map = [
     let success = false;
     for (let i = 0; i < Inventory.length; i++) {
       for (let j = 0; j < Inventory[i].length; j++) {
-        if (Inventory[i][j] === slot) {
+        if (Inventory[i][j] === slot && !(slot in unstackable)) {
           if (inventoryValue[i][j] == "") {
             inventoryValue[i][j] = " ";
             success = true;
@@ -2586,6 +2766,10 @@ var dungeon_map = [
     cellElement.textContent = emoji;
 
     return cellElement;
+  }
+  
+  function updateAdjacent() {
+    adjacent = [current_map[moveY + 3][moveX + 4],current_map[moveY + 5][moveX + 4],current_map[moveY + 4][moveX + 3],current_map[moveY + 4][moveX + 5]];
   }
   
   function summonMob(matrix,mob) {
@@ -2699,10 +2883,6 @@ var dungeon_map = [
             let dy = moveY + 4 - Row;
             let absDx = Math.abs(dx);
             let absDy = Math.abs(dy);
-            
-            if (Col == moveX + 4 && Row == moveY + 4 || adjacent.includes(mob)) {
-              if (time % 3 == 0) {damage(amount)}
-            }
 
             if (absDx > absDy) {
               Col += dx > 0 ? 1 : -1;
@@ -2732,6 +2912,11 @@ var dungeon_map = [
                 matrix[row][col] = " ";
                 matrix[Row][Col] = mob;
               }
+              
+              updateAdjacent();
+              if ((Col == moveX + 4 && Row == moveY + 4) || adjacent.includes(mob)) {
+                if (time % 3 == 0) {damage(amount);}               
+              }
             }
           }
         }
@@ -2747,13 +2932,14 @@ var dungeon_map = [
       for (let col = 0; col < matrix[row].length; col++) {
         const currentCell = matrix[row][col];
         let list = ["➶","➴","↢","➵", "✨","✨​","✨​​","✨​​​",
-                    "'","'​","-","-​", "☘","☘​","☘​​","☘​​​",
+                    "'","'​","⁌","⁍", "☘","☘​","☘​​","☘​​​",
                     "🍀","🍀​","🍀​​","🍀​​​", "🌀","🌀​","🌀​​","🌀​​​",
                     "⭐","⭐​","⭐​​","⭐​​​", "❄️​","❄️​​","❄️​​​","❄️​​​​",
                     "🔥​","🔥​​","🔥​​​","🔥​​​​", "🐰","🐰​","🐰​​","🐰​​​",
                     "🐸","🐸​","🐸​​","🐸​​​", "🎵","🎵​","🎵​​","🎵​​​",
                     "🎶","🎶​","🎶​​","🎶​​​", "⇈","⇊","⇇","⇉",
-                    "⤊","⤋","⬱","⇶", "💘","💘​","💘​​","💘​​​"];
+                    "⤊","⤋","⬱","⇶", "💘","💘​","💘​​","💘​​​",
+                    "🌟","🌟​","🌟​​","🌟​​​", "✴","✴​","✴​​","✴​​​"];
 
         // Arrow
         for (let i = 0; i < list.length; i += 4) {
@@ -2791,11 +2977,6 @@ var dungeon_map = [
       }
     });
   }
-  
-  var possible = [];
-  var canCraft = [];
-  var adjacent = [];
-  var posIndex = 0;
   
   function bossShoot(projectile,damage) {
     currentProjectiles.push([projectile,bossPosition.x,bossPosition.y,0,damage,"boss"]);
@@ -2889,6 +3070,13 @@ var dungeon_map = [
       map[moveY + y][moveX + x] = replace;
       return true;
     }
+  }
+  
+  function setAdjacent(map,req,replace) {
+    setBlock(map,3,4,req,replace);
+    setBlock(map,5,4,req,replace);
+    setBlock(map,4,3,req,replace);
+    setBlock(map,4,5,req,replace);
   }
   
   var openBracket;
@@ -3058,13 +3246,29 @@ var dungeon_map = [
       moveMob(terrain_map,"🐝");
     }
     
+    if (Math.random() < 0.1 && (current_map == house_map || current_map == dungeon_map)) {
+      moveMob(house_map,"🧑‍🔧");
+      moveMob(house_map,"🧑‍🌾");
+      moveMob(house_map,"🥷");
+      moveMob(house_map,"🧝‍♂️");
+      moveMob(house_map,"🧙‍♂️");
+      moveMob(house_map,"🧙");
+      moveMob(dungeon_map,"👷‍♂️");
+    }
+    
     // Pets
-    if (Math.random() < 0.6 && current_map == terrain_map) {
-      movePet(terrain_map,"🐶");
-      movePet(terrain_map,"🐱");
-      movePet(terrain_map,"🐕");
-      movePet(terrain_map,"🐈");
-      movePet(terrain_map,"🐤");
+    if (Math.random() < 0.6) {
+      movePet(dim(),"🐶");
+      movePet(dim(),"🐱");
+      movePet(dim(),"🐕");
+      movePet(dim(),"🐈");
+      movePet(dim(),"🐤");
+    }
+    
+    if (Math.random() < 0.3) {
+      movePet(dim(),"🚚");
+      movePet(dim(),"🚛");
+      movePet(dim(),"🛻");
     }
     
     if (Math.random() < 0.4 && current_map == dungeon_map) {
@@ -3198,6 +3402,7 @@ var dungeon_map = [
     // Time related events
     if (time >= 800) {
       time = 0;
+      day ++;
     } else {time ++;}
     if (time % 160 == 0) {hunger(-1);} 
     if (time % 15 == 0 && FOOD_HEALTH == 0) {
@@ -3208,6 +3413,30 @@ var dungeon_map = [
       hunger(-1);
     }
     
+    function factoryTruck(map,fact,truck,times) {
+      if (time % times == 0) {
+        for (let row = 0; row < current_map.length; row++) {
+          for (let col = 0; col < current_map[row].length; col++) {
+            if (current_map[row][col] === fact) {
+              if (map[row+1][col] == " ") {
+                map[row+1][col] = truck;
+              } else if (map[row-1][col] == " ") {
+                map[row-1][col] = truck;
+              } else if (map[row][col+1] == " ") {
+                map[row][col+1] = truck;
+              } else if (map[row][col-1] == " ") {
+                map[row][col-1] = truck;
+              }
+            }
+          }
+        }
+      }
+    }
+    factoryTruck(dim(),"🏭​","🚚",400);
+    factoryTruck(dim(),"🏭​​","🛻",400);
+    factoryTruck(dim(),"🏭​​​","🚛",400);
+    
+    // Hatch Baby Chick
     if (time == 680 || time == 266) {
       for (let row = 0; row < terrain_map.length; row++) {
         for (let col = 0; col < terrain_map[row].length; col++) {
@@ -3431,7 +3660,7 @@ var dungeon_map = [
     // Sleep
     if (playerTile == "🛏️") {
       PLAYER_EMOJI = "🛌";
-      time += 8;
+      time += 9;
     } else if (playerTile != "🛏️" && PLAYER_EMOJI == "🛌") {PLAYER_EMOJI = "😄"}
     
     // Crafting
@@ -3440,7 +3669,7 @@ var dungeon_map = [
     } updateProj(dim());
     multiple("🧱​",8,"🧱");
     multiple("➶​",16,"➶ ");
-    multiple("•​",16,"• ");
+    multiple("⁍​",16,"⁍ ");
     multiple("𓆩𓆪​",1,wings);
 
     if (testFor("",2)) {
@@ -3526,11 +3755,14 @@ var dungeon_map = [
           let rng = Math.floor(Math.random() * 3);
           switch (rng) {
             case 0:
-              addInventory("🍎"); break;
+              addInventory("🍎");
+              break;
             case 1:
-              addInventory("🍏"); break;
+              addInventory("🍏");
+              break;
             case 2:
-              addInventory("🍊"); break;
+              addInventory("🍊");
+              break;
           }
         }
         if (durability == 0) {
@@ -3577,10 +3809,6 @@ var dungeon_map = [
       }
     }
   }
-  
-  function updateAdjacent() {
-    adjacent = [current_map[moveY + 3][moveX + 4],current_map[moveY + 5][moveX + 4],current_map[moveY + 4][moveX + 3],current_map[moveY + 4][moveX + 5]];
-  }
 
   function build(map,item) {
     if (item !== "🌸" && item !== "🌷") {
@@ -3610,7 +3838,7 @@ var dungeon_map = [
           {loadBossFight(item);} currentBoss = item}
       }
     }
-    if (level == 0 && item == "🏠") {
+    if (level == 0 && (item == "🏠" || item == "🏡")) {
       // Build the house
       let x = [2,2,2,2,2, 6,6,6,6,6, 3,4,5,3,4,5];
       let y = [2,3,4,5,6, 2,3,4,5,6, 2,2,2,6,6,6];
@@ -3858,7 +4086,7 @@ var dungeon_map = [
       }
     } else if (emoji == "🔫") {
       ammoRNG == 0.3;
-      shoot(dim(),"• ","'","'​","-","-​",15);
+      shoot(dim(),"⁍ ","'","'​","⁌","⁍",15);
     } else if (emoji == "🪄") {
       if (magic(dim(),"✨",3,"")) {
         hunger(-1);
@@ -3956,6 +4184,15 @@ var dungeon_map = [
       matrix[row1][col1] = matrix[row2][col2];
       matrix[row2][col2] = temp;
     }
+  }
+  
+  function isCharInArray(char, array) {
+    for (const item of array) {
+      if (item.includes(char)) {
+        return true;
+      }
+    }
+    return false;
   }
   
   let currentCoordinate = "";
@@ -4190,9 +4427,9 @@ var dungeon_map = [
     } else if (event.button == 2 || key === "l" || key === "L") {
       time ++;
       if (HAND_EMOJI in objectProperties) {
-        if (HAND_EMOJI == "🏠" && house_map[moveY + 4][moveX + 4] == " " && house_map[moveY + 3][moveX + 4] == " " && house_map[moveY + 5][moveX + 4] == " " && house_map[moveY + 4][moveX + 3] == " " && house_map[moveY + 4][moveX + 5] == " ") {
+        if ((HAND_EMOJI == "🏠" || HAND_EMOJI == "🏡") && house_map[moveY + 4][moveX + 4] == " " && house_map[moveY + 3][moveX + 4] == " " && house_map[moveY + 5][moveX + 4] == " " && house_map[moveY + 4][moveX + 3] == " " && house_map[moveY + 4][moveX + 5] == " ") {
           build(dim(),HAND_EMOJI);
-        } else if (HAND_EMOJI != "🏠") {
+        } else if (HAND_EMOJI != "🏠" && HAND_EMOJI != "🏡") {
           build(dim(),HAND_EMOJI);
         }
       } 
@@ -4229,25 +4466,59 @@ var dungeon_map = [
       if (adjacent.includes("🔐") && HAND_EMOJI == "🗝") {
         updateAdjacent();
         removeInventory("🗝");
-        setBlock(dim(),3,4,"🔐","🔓");
-        setBlock(dim(),5,4,"🔐","🔓");
-        setBlock(dim(),4,3,"🔐","🔓");
-        setBlock(dim(),4,5,"🔐","🔓");
+        setAdjacent(dim(),"🔐","🔓");
       }
       if (adjacent.includes("🔒") && HAND_EMOJI == "🔑") {
         updateAdjacent();
         removeInventory("🔑");
-        setBlock(dim(),3,4,"🔒","🔓");
-        setBlock(dim(),5,4,"🔒","🔓");
-        setBlock(dim(),4,3,"🔒","🔓");
-        setBlock(dim(),4,5,"🔒","🔓");
+        setAdjacent(dim(),"🔒","🔓");
       }
       
-      if (adjacent.includes("🌊") && Inventory[0][currentSlot - 1] == "🪣") {
+      // Factory
+      if (isCharInArray("🏭",adjacent) && Inventory[0][currentSlot - 1] == "🔨") {
+        PLAYER_EMOJI = "🤑";
+        
+        setAdjacent(dim(),"🏭​​​","🏭​​​​");
+        setAdjacent(dim(),"🏭​​","🏭​​​");
+        setAdjacent(dim(),"🏭​","🏭​​");
+        setAdjacent(dim(),"🏭​​​​","🏭​");
+        setAdjacent(dim(),"🏭","🏭​");
+      }
+      
+      // Wrench & Paintbrush
+      updateAdjacent();
+      if (Inventory[0][currentSlot - 1] == "🖌️") {
+        setAdjacent(dim(),"🧱","◼️");
+        setAdjacent(dim(),"🟫","🧱");
+        setAdjacent(dim(),"🟦","🟫");
+        setAdjacent(dim(),"🟩","🟦");
+        setAdjacent(dim(),"🟨","🟩");
+        setAdjacent(dim(),"🟧","🟨");
+        setAdjacent(dim(),"🟥","🟧");
+        setAdjacent(dim(),"◼️","🟥");
+        
+        setAdjacent(dim(), "🇨🇳", "◼️");
+        setAdjacent(dim(), "🇧🇷", "🇨🇳");
+        setAdjacent(dim(), "🇫🇷", "🇧🇷");
+        setAdjacent(dim(), "🇩🇪", "🇫🇷");
+        setAdjacent(dim(), "🇮🇹", "🇩🇪");
+        setAdjacent(dim(), "🇪🇸", "🇮🇹");
+        setAdjacent(dim(), "🇬🇧", "🇪🇸");
+        setAdjacent(dim(), "🇨🇦", "🇬🇧");
+        setAdjacent(dim(), "🇺🇸", "🇨🇦");
+        setAdjacent(dim(), "🏴‍☠️", "🇺🇸");
+        setAdjacent(dim(),"🚩","🏴‍☠️");
+        setAdjacent(dim(),"🏁","🚩");
+        setAdjacent(dim(),"🏴","🏁");
+        setAdjacent(dim(),"🏳️","🏴");
+        setAdjacent(dim(),"◼️","🏳️");
+      }
+      
+      
+      // Fishing & Water
+      if (adjacent.includes("🌊") && Inventory[0][currentSlot - 1] == "🪣" && !testFor("💧",5)) {
         addInventory("💧");
       }
-      
-      // Fishing
       if (adjacent.includes("🌊") && Inventory[0][currentSlot - 1] == "🎣" && fishing == maxFishing) {
         fishing --;
       }
@@ -4386,9 +4657,10 @@ var dungeon_map = [
       window.localStorage.setItem("questData", JSON.stringify(quests));
       window.localStorage.setItem("questDescData", JSON.stringify(questDesc));
       window.localStorage.setItem("dragonData", JSON.stringify(dragonDefeated));
-      window.localStorage.setItem("timeData", JSON.stringify(time));
+      window.localStorage.setItem("timeData", JSON.stringify(time));      
+      window.localStorage.setItem("dayData", JSON.stringify(day));
       window.localStorage.setItem("phaseData", JSON.stringify(phase));
-      window.localStorage.setItem("phaseData", JSON.stringify(moonIndex));
+      window.localStorage.setItem("moonData", JSON.stringify(moonIndex));
       
       window.localStorage.setItem("tractorData", JSON.stringify(tractorMode));
       window.localStorage.setItem("regenData", JSON.stringify(regeneration));
@@ -4396,6 +4668,10 @@ var dungeon_map = [
       window.localStorage.setItem("elixirData", JSON.stringify(elixir));
       window.localStorage.setItem("effectsData", JSON.stringify(effects));
       window.localStorage.setItem("burningData", JSON.stringify(burning));
+      
+      window.localStorage.setItem("levelData", JSON.stringify(level));
+      window.localStorage.setItem("xData", JSON.stringify(moveX));
+      window.localStorage.setItem("yData", JSON.stringify(moveY));
       
       window.localStorage.setItem("terrainData", JSON.stringify(terrain_map));
       window.localStorage.setItem("caveData", JSON.stringify(cave_map));
@@ -4409,6 +4685,7 @@ var dungeon_map = [
       tooltip.innerHTML = "World saved!";
       showFistEmojiTemporarily("🫶");
     } else if (event.key == "Enter") {
+
       // Load World
       Inventory = JSON.parse(localStorage.getItem("inventoryData"));
       inventoryValue = JSON.parse(localStorage.getItem("inventoryValueData"));
@@ -4424,6 +4701,8 @@ var dungeon_map = [
       questDesc = JSON.parse(localStorage.getItem("questDescData"));
       dragonDefeated = JSON.parse(localStorage.getItem("dragonData"));
       time = JSON.parse(localStorage.getItem("timeData"));
+      day = JSON.parse(localStorage.getItem("dayData"));
+
       phase = JSON.parse(localStorage.getItem("phaseData"));
       moonIndex = JSON.parse(localStorage.getItem("moonIndex"));
       
@@ -4433,6 +4712,10 @@ var dungeon_map = [
       elixir = JSON.parse(localStorage.getItem("elixirData"));
       effects = JSON.parse(localStorage.getItem("effectsData"));
       burning = JSON.parse(localStorage.getItem("burningData"));
+      
+      level = JSON.parse(localStorage.getItem("levelData"));
+      moveX = JSON.parse(localStorage.getItem("xData"));
+      moveY = -10;
       
       terrain_map = JSON.parse(localStorage.getItem("terrainData"));
       cave_map = JSON.parse(localStorage.getItem("caveData"));
@@ -4446,13 +4729,10 @@ var dungeon_map = [
       // Other setup things
       boss_mode = false;
       playerPosition = { x: 5, y: 5 };
-      moveY = -10;
-      moveX = 5;
-      level = 0;
       setTimeout(function(){
-        moveY = 5;
+        moveY = JSON.parse(localStorage.getItem("yData"));
         tooltip.innerHTML = "World loaded!";
-      }, speed);
+      }, 800);
       for (let thing in questDesc) {
         objectProperties[thing].description = questDesc[thing].desc;
       }
@@ -4495,7 +4775,7 @@ var dungeon_map = [
     } else if (playerTile == "🪜") {
       goBack();
       level = 0;
-    } else if ((playerTile == "🏠" || playerTile == "🏚️" || playerTile == "🏢" || playerTile == "🛖") && !tractorMode ) {
+    } else if ((playerTile == "🏠" || playerTile == "🏡" || playerTile == "🏚️" || playerTile == "🏢" || playerTile == "🛖") && !tractorMode ) {
       goBack();
       if (level == 0) {
         level = 3;
@@ -4538,33 +4818,21 @@ var dungeon_map = [
       damage(4);
       PLAYER_EMOJI = "😵‍💫";
       setBlock(dim(),4,4,"🧨","💥");
-      setBlock(dim(),3,4," ","💥");
-      setBlock(dim(),5,4," ","💥");
-      setBlock(dim(),4,3," ","💥");
-      setBlock(dim(),4,5," ","💥");
+      setAdjacent(dim()," ","💥");
 
       setTimeout(function(){
         setBlock(dim(),4,4,"💥"," ");
-        setBlock(dim(),3,4,"💥"," ");
-        setBlock(dim(),5,4,"💥"," ");
-        setBlock(dim(),4,5,"💥"," ");
-        setBlock(dim(),4,3,"💥"," ");
+        setAdjacent(dim(),"💥"," ");
       },400)
     } else if (playerTile == "💣") {
       damage(4);
       PLAYER_EMOJI = "😵‍💫";
       setBlock(dim(),4,4,"💣","💥");
-      setBlock(dim(),3,4," ","💥");
-      setBlock(dim(),5,4," ","💥");
-      setBlock(dim(),4,3," ","💥");
-      setBlock(dim(),4,5," ","💥");
+      setAdjacent(dim()," ","💥");
 
       setTimeout(function(){
         setBlock(dim(),4,4,"💥"," ");
-        setBlock(dim(),3,4,"💥"," ");
-        setBlock(dim(),5,4,"💥"," ");
-        setBlock(dim(),4,5,"💥"," ");
-        setBlock(dim(),4,3,"💥"," ");
+        setAdjacent(dim(),"💥"," ");
       },400)
     }
     // Tractor-things
@@ -4583,6 +4851,52 @@ var dungeon_map = [
         }
       }
     }
+    
+    // Trucks
+    else if (playerTile == "🚚") {
+      let rng = Math.floor(Math.random() * 3);
+      switch (rng) {
+        case 0:
+          addInventory("🍨");
+          break;
+        case 1:
+          addInventory("🍰");
+          break;
+        case 2:
+          addInventory("🍩");
+          break;
+      }
+      setBlock(dim(),4,4,"🚚"," ")
+    } else if (playerTile == "🛻") {
+      let rng = Math.floor(Math.random() * 3);
+      switch (rng) {
+        case 0:
+          addInventory("🔩");
+          break;
+        case 1:
+          addInventory("💎");
+          break;
+        case 2:
+          addInventory("💠");
+          break;
+      }
+      setBlock(dim(),4,4,"🛻"," ")
+    } else if (playerTile == "🚛") {
+      let rng = Math.floor(Math.random() * 3);
+      switch (rng) {
+        case 0:
+          addInventory("🪵");
+          break;
+        case 1:
+          addInventory("🪶");
+          break;
+        case 2:
+          addInventory("🪵");
+          break;
+      }
+      setBlock(dim(),4,4,"🚛"," ")
+    }
+    
     else if (playerTile == "🗑️") {
       removeInventory(HAND_EMOJI);
     } else if (playerTile == "❄️" || playerTile == "🌨️") {
@@ -4821,13 +5135,17 @@ var dungeon_map = [
             let rng = Math.floor(Math.random() * 4);
             switch (rng) {
               case 0:
-                obj[1] --; break;
+                obj[1] --;
+                break;
               case 1:
-                obj[1] ++; break;
+                obj[1] ++;
+                break;
               case 2:
-                obj[2] --; break;
+                obj[2] --;
+                break;
               case 3:
-                obj[2] ++; break;
+                obj[2] ++;
+                break;
             }
           }
           obj[6] --;
