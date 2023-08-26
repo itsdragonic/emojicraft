@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelector("#item-name").style.height = "955px";
     document.querySelector(".viewport").transform = "translate(10%, 10%)";
   } else {
-    document.getElementById("inputBox").style.display = "none";
+    //document.getElementById("inputBox").style.display = "none";
   }
   
   var sandboxMode = false;
@@ -821,7 +821,7 @@ document.addEventListener("DOMContentLoaded", function () {
       canBeWalkedOn: false,
       durability: 3,
       toolRequired: "🗡️",
-      loot: "🕸"
+      loot: "🕸️"
     },
     "🦇": {
       name: "Bat",
@@ -2516,11 +2516,10 @@ var dungeon_map = [
   var coordinatesElement = document.getElementById("coordinates");
   var healthBarElement = document.getElementById("healthBar");
   var viewportElement = document.getElementById("viewport");
-  let tooltip = document.getElementById("tooltip");
-  let itemName = document.getElementById("item-name");
-  let sunmoon = document.getElementById("sunmoon");
-  let days = document.getElementById("day");
-  var inputBox = document.getElementById("inputBox");
+  var tooltip = document.getElementById("tooltip");
+  var itemName = document.getElementById("item-name");
+  var sunmoon = document.getElementById("sunmoon");
+  var days = document.getElementById("day");
   var phaseOnce = true;
   
   let playerPosition = { x: 5, y: 5 };
@@ -2532,6 +2531,134 @@ var dungeon_map = [
   // Generate box loot
   var boxLoot = [];
   var boxValueLoot = [];
+  
+  // Import .json file
+  function saveWorld() {
+    // Save World
+    window.localStorage.setItem("inventoryData", JSON.stringify(Inventory));
+    window.localStorage.setItem("inventoryValueData", JSON.stringify(inventoryValue));
+    window.localStorage.setItem("armorData", JSON.stringify(armor));
+    window.localStorage.setItem("healthData", JSON.stringify(playerHealth));
+    window.localStorage.setItem("hungerData", JSON.stringify(FOOD_HEALTH));
+
+    window.localStorage.setItem("chestData", JSON.stringify(chestPosition));
+    window.localStorage.setItem("boxData", JSON.stringify(boxLoot));
+    window.localStorage.setItem("boxValueData", JSON.stringify(boxValueLoot));
+
+    window.localStorage.setItem("questData", JSON.stringify(quests));
+    window.localStorage.setItem("questDescData", JSON.stringify(questDesc));
+    window.localStorage.setItem("dragonData", JSON.stringify(dragonDefeated));
+    window.localStorage.setItem("timeData", JSON.stringify(time));      
+    window.localStorage.setItem("dayData", JSON.stringify(day));
+    window.localStorage.setItem("phaseData", JSON.stringify(phase));
+    window.localStorage.setItem("moonData", JSON.stringify(moonIndex));
+
+    window.localStorage.setItem("tractorData", JSON.stringify(tractorMode));
+    window.localStorage.setItem("regenData", JSON.stringify(regeneration));
+    window.localStorage.setItem("fireresData", JSON.stringify(fireRes));
+    window.localStorage.setItem("elixirData", JSON.stringify(elixir));
+    window.localStorage.setItem("effectsData", JSON.stringify(effects));
+    window.localStorage.setItem("burningData", JSON.stringify(burning));
+
+    window.localStorage.setItem("levelData", JSON.stringify(level));
+    window.localStorage.setItem("movexData", JSON.stringify(moveX));
+    window.localStorage.setItem("moveyData", JSON.stringify(moveY));
+
+    window.localStorage.setItem("terrainData", JSON.stringify(terrain_map));
+    window.localStorage.setItem("caveData", JSON.stringify(cave_map));
+    window.localStorage.setItem("hellData", JSON.stringify(hell_map));
+    window.localStorage.setItem("skyData", JSON.stringify(sky_map));
+    window.localStorage.setItem("spaceData", JSON.stringify(space_map));
+    window.localStorage.setItem("dungeonData", JSON.stringify(dungeon_map));
+    window.localStorage.setItem("houseData", JSON.stringify(house_map));
+    window.localStorage.setItem("moonData", JSON.stringify(moon_map));
+    tooltip.innerHTML = "World saved!";
+  }
+  
+  function parse(str,amount) {
+    if (amount == 1) {
+      return JSON.parse(localStorage.getItem(str));
+    } else if (amount == 2) {
+      return JSON.parse(JSON.parse(localStorage.getItem(str)));
+    }
+  }
+  
+  function loadWorld(Parse) {
+    // Load World
+    Inventory = parse("inventoryData",Parse);
+    inventoryValue = parse("inventoryValueData",Parse);
+    armor = parse("armorData",Parse);
+    playerHealth = parse("healthData",Parse);
+    FOOD_HEALTH = parse("hungerData",Parse);
+
+    chestPosition = parse("chestData",Parse);
+    boxLoot = parse("boxData",Parse);
+    boxValueLoot = parse("boxValueData",Parse);
+
+    quests = parse("questData",Parse);
+    questDesc = parse("questDescData",Parse);
+    dragonDefeated = parse("dragonData",Parse);
+    time = parse("timeData",Parse);
+    day = parse("dayData",Parse);
+
+    phase = parse("phaseData",Parse);
+    moonIndex = parse("moonIndex",Parse);
+
+    tractorMode = parse("tractorData",Parse);
+    regeneration = parse("regenData",Parse);
+    fireRes = parse("fireresData",Parse);
+    elixir = parse("elixirData",Parse);
+    effects = parse("effectsData",Parse);
+    burning = parse("burningData",Parse);
+
+    level = parse("levelData",Parse);
+    moveX = parse("movexData",Parse);
+    moveY = -10;
+
+    terrain_map = parse("terrainData",Parse);
+    cave_map = parse("caveData",Parse);
+    hell_map = parse("hellData",Parse);
+    sky_map = parse("skyData",Parse);
+    space_map = parse("spaceData",Parse);
+    dungeon_map = parse("dungeonData",Parse);
+    house_map = parse("houseData",Parse);
+    moon_map = parse("moonData",Parse);
+
+    // Set-up other things
+    boss_mode = false;
+    playerPosition = { x: 5, y: 5 };
+    setTimeout(function(){
+      moveY = parse("moveyData",Parse);
+      tooltip.innerHTML = "World loaded!";
+    }, 800);
+    for (let thing in questDesc) {
+      objectProperties[thing].description = questDesc[thing].desc;
+    }
+  }
+  
+  // Open save file
+  var inputBox = document.getElementById("inputBox");
+  var fileInput = document.getElementById("fileInput");
+
+  inputBox.addEventListener("click", () => {
+    fileInput.click();
+  });
+
+  fileInput.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const importedData = JSON.parse(e.target.result);
+        for (let key in importedData) {
+          window.localStorage.setItem(key, importedData[key]);
+        }
+      };
+      reader.readAsText(file);
+    }
+    loadWorld(1);
+  });
   
   function RNG(n) {
     const randomValue = Math.random();
@@ -2650,13 +2777,13 @@ var dungeon_map = [
     }
   }
   
-  function encrypt(str) {
+  function encrypt(str,seed) {
     let charArray = str.split("");
     // Iterate through the array and increase ASCII value by one
     for (let i = 0; i < charArray.length; i++) {
       let char = charArray[i];
       let charCode = char.charCodeAt(0);
-      charArray[i] = String.fromCharCode(charCode + 3);
+      charArray[i] = String.fromCharCode(charCode + seed);
     }
 
     // Join the modified characters back to form the new string
@@ -4318,7 +4445,7 @@ var dungeon_map = [
     }
     
     // Moving Up and Down between maps
-      else if (event.shiftKey && event.code === "Space" && !boss_mode) {
+    else if (event.shiftKey && event.code === "Space" && !boss_mode) {
       if (testFor(wings,1) && level >= 0 && level < 2) {level--;}
       else if (testFor("🚀",1) && level > 0 && level < 3) {level--;}
       else if (testFor("🕹️",1) && level > -2 && level < 3) {level--;}
@@ -4736,47 +4863,23 @@ var dungeon_map = [
         if (showInv == "") {
           openInventory();
         } else {showInv = "";}
+    } if (event.ctrlKey && event.shiftKey && event.key === "S") {
+      // Retrieve contents from localStorage
+      saveWorld();
+      const localStorageData = JSON.stringify(localStorage);
+      const blob = new Blob([localStorageData], { type: "application/json" });
+
+      // Download file
+      const filename = prompt("Enter a filename:");
+      const downloadLink = document.createElement("a");
+      downloadLink.href = URL.createObjectURL(blob);
+      downloadLink.download = filename + ".json";
+      downloadLink.click();
+
     } else if (key === "p") {
-      // Save World
-      window.localStorage.setItem("inventoryData", JSON.stringify(Inventory));
-      window.localStorage.setItem("inventoryValueData", JSON.stringify(inventoryValue));
-      window.localStorage.setItem("armorData", JSON.stringify(armor));
-      window.localStorage.setItem("healthData", JSON.stringify(playerHealth));
-      window.localStorage.setItem("hungerData", JSON.stringify(FOOD_HEALTH));
+      saveWorld();
       
-      window.localStorage.setItem("chestData", JSON.stringify(chestPosition));
-      window.localStorage.setItem("boxData", JSON.stringify(boxLoot));
-      window.localStorage.setItem("boxValueData", JSON.stringify(boxValueLoot));
-      
-      window.localStorage.setItem("questData", JSON.stringify(quests));
-      window.localStorage.setItem("questDescData", JSON.stringify(questDesc));
-      window.localStorage.setItem("dragonData", JSON.stringify(dragonDefeated));
-      window.localStorage.setItem("timeData", JSON.stringify(time));      
-      window.localStorage.setItem("dayData", JSON.stringify(day));
-      window.localStorage.setItem("phaseData", JSON.stringify(phase));
-      window.localStorage.setItem("moonData", JSON.stringify(moonIndex));
-      
-      window.localStorage.setItem("tractorData", JSON.stringify(tractorMode));
-      window.localStorage.setItem("regenData", JSON.stringify(regeneration));
-      window.localStorage.setItem("fireresData", JSON.stringify(fireRes));
-      window.localStorage.setItem("elixirData", JSON.stringify(elixir));
-      window.localStorage.setItem("effectsData", JSON.stringify(effects));
-      window.localStorage.setItem("burningData", JSON.stringify(burning));
-      
-      window.localStorage.setItem("levelData", JSON.stringify(level));
-      window.localStorage.setItem("xData", JSON.stringify(moveX));
-      window.localStorage.setItem("yData", JSON.stringify(moveY));
-      
-      window.localStorage.setItem("terrainData", JSON.stringify(terrain_map));
-      window.localStorage.setItem("caveData", JSON.stringify(cave_map));
-      window.localStorage.setItem("hellData", JSON.stringify(hell_map));
-      window.localStorage.setItem("skyData", JSON.stringify(sky_map));
-      window.localStorage.setItem("spaceData", JSON.stringify(space_map));
-      window.localStorage.setItem("dungeonData", JSON.stringify(dungeon_map));
-      window.localStorage.setItem("houseData", JSON.stringify(house_map));
-      window.localStorage.setItem("moonData", JSON.stringify(moon_map));
-      tooltip.innerHTML = "World saved!";
-      
+      // Screenshot to clipboard
       let newString = corner.innerHTML.slice(0, 20) + "  " + document.getElementById("foodHealth").textContent + corner.innerHTML.slice(20);
       let map = current_map.map(row => row.map(item => (item === " ") ? "⬜" : item).join('')).join('\n');
       let sp = " ".repeat(100);
@@ -4785,57 +4888,7 @@ var dungeon_map = [
 
       showFistEmojiTemporarily("🫶");
     } else if (event.key == "Enter") {
-
-      // Load World
-      Inventory = JSON.parse(localStorage.getItem("inventoryData"));
-      inventoryValue = JSON.parse(localStorage.getItem("inventoryValueData"));
-      armor = JSON.parse(localStorage.getItem("armorData"));
-      playerHealth = JSON.parse(localStorage.getItem("healthData"));
-      FOOD_HEALTH = JSON.parse(localStorage.getItem("hungerData"));
-      
-      chestPosition = JSON.parse(localStorage.getItem("chestData"));
-      boxLoot = JSON.parse(localStorage.getItem("boxData"));
-      boxValueLoot = JSON.parse(localStorage.getItem("boxValueData"));
-      
-      quests = JSON.parse(localStorage.getItem("questData"));
-      questDesc = JSON.parse(localStorage.getItem("questDescData"));
-      dragonDefeated = JSON.parse(localStorage.getItem("dragonData"));
-      time = JSON.parse(localStorage.getItem("timeData"));
-      day = JSON.parse(localStorage.getItem("dayData"));
-
-      phase = JSON.parse(localStorage.getItem("phaseData"));
-      moonIndex = JSON.parse(localStorage.getItem("moonIndex"));
-      
-      tractorMode = JSON.parse(localStorage.getItem("tractorData"));
-      regeneration = JSON.parse(localStorage.getItem("regenData"));
-      fireRes = JSON.parse(localStorage.getItem("fireresData"));
-      elixir = JSON.parse(localStorage.getItem("elixirData"));
-      effects = JSON.parse(localStorage.getItem("effectsData"));
-      burning = JSON.parse(localStorage.getItem("burningData"));
-      
-      level = JSON.parse(localStorage.getItem("levelData"));
-      moveX = JSON.parse(localStorage.getItem("xData"));
-      moveY = -10;
-      
-      terrain_map = JSON.parse(localStorage.getItem("terrainData"));
-      cave_map = JSON.parse(localStorage.getItem("caveData"));
-      hell_map = JSON.parse(localStorage.getItem("hellData"));
-      sky_map = JSON.parse(localStorage.getItem("skyData"));
-      space_map = JSON.parse(localStorage.getItem("spaceData"));
-      dungeon_map = JSON.parse(localStorage.getItem("dungeonData"));
-      house_map = JSON.parse(localStorage.getItem("houseData"));
-      moon_map = JSON.parse(localStorage.getItem("moonData"));
-      
-      // Other setup things
-      boss_mode = false;
-      playerPosition = { x: 5, y: 5 };
-      setTimeout(function(){
-        moveY = JSON.parse(localStorage.getItem("yData"));
-        tooltip.innerHTML = "World loaded!";
-      }, 800);
-      for (let thing in questDesc) {
-        objectProperties[thing].description = questDesc[thing].desc;
-      }
+      loadWorld(1);
     } else {
       // All other presses
       Jpress = false;
