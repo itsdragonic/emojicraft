@@ -4873,7 +4873,7 @@ var dungeon_map = [
       const filename = prompt("Enter a filename:");
       const downloadLink = document.createElement("a");
       downloadLink.href = URL.createObjectURL(blob);
-      downloadLink.download = filename + ".json";
+      downloadLink.download = filename + ".emojicraft.json";
       downloadLink.click();
 
     } else if (key === "p") {
