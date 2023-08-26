@@ -26,7 +26,7 @@ Shift + Space >> Fly downwards
 
 q >> Escape mount
 
-Ctrl+Z >> Undo trade with NPC (prevents accidents)
+Ctrl+z >> Undo trade with NPC (prevents accidents)
 
 z >> Custom emote (for fun)
 
@@ -35,6 +35,8 @@ o >> Toggle Light Mode or Dark Mode
 p >> Save world / Save screenshot to clipboard
 
 Enter >> Load world
+
+Ctrl+Shift+S to export world to file. Click input box above to import file.
 
 ## Mobile Support
 
