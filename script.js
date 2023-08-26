@@ -1292,7 +1292,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "🧙": {
       name: "Witch NPC",
       description: "I'm in quite the mood for some milk and cookies! Tell you what, if you can get me some, I'll give you something in return :)",
-      canBeWalkedOn: false,
+      canBeWalkedOn: true,
       durability: 99,
       toolRequired: "🗡",
       loot: "🍖"
@@ -1300,7 +1300,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "🧙‍♂️": {
       name: "Wizard NPC",
       description: "If you can get me 5 glowing stars, I'll teach you the art of wizardry (hint: they're in the sky). The witch might be able to help you get there.",
-      canBeWalkedOn: false,
+      canBeWalkedOn: true,
       durability: 99,
       toolRequired: "🗡",
       loot: "🍖"
@@ -1308,7 +1308,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "🧝‍♂️": {
       name: "Archer NPC",
       description: "If you make a bow, I'll help make it twice as strong.",
-      canBeWalkedOn: false,
+      canBeWalkedOn: true,
       durability: 99,
       toolRequired: "🗡",
       loot: "🍖"
@@ -1316,7 +1316,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "🥷": {
       name: "Ninja NPC",
       description: "I can help you upgrade your sword.",
-      canBeWalkedOn: false,
+      canBeWalkedOn: true,
       durability: 99,
       toolRequired: "🗡",
       loot: "🍖"
@@ -1324,7 +1324,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "🧑‍🌾": {
       name: "Farmer NPC",
       description: "If you can get me 5 of each crop, I'll give you something special...",
-      canBeWalkedOn: false,
+      canBeWalkedOn: true,
       durability: 99,
       toolRequired: "🗡",
       loot: "🍖"
@@ -1332,7 +1332,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "🧑‍🔧": {
       name: "Mechanic NPC",
       description: "If you can get me a hamburger, I'll show you something I've been trying to build..",
-      canBeWalkedOn: false,
+      canBeWalkedOn: true,
       durability: 99,
       toolRequired: "🗡",
       loot: "🍖"
@@ -1340,7 +1340,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "👷‍♂️": {
       name: "Miner NPC",
       description: "If you can get me a pizza, I'll show you something...",
-      canBeWalkedOn: false,
+      canBeWalkedOn: true,
       durability: 99,
       toolRequired: "🗡",
       loot: "🍖"
@@ -3387,9 +3387,9 @@ var dungeon_map = [
       }
     }
     
-    if ((time < 266 || time > 566) && Math.random() < 0.1 && current_map == sky_map) {
+    if ((time < 266 || time > 660) && Math.random() < 0.1 && current_map == sky_map) {
       summonMob(sky_map,"🦉");
-    } if ((time < 266 || time > 566) && Math.random() < 0.1 && current_map == terrain_map) {
+    } if ((time < 266 || time > 660) && Math.random() < 0.1 && current_map == terrain_map) {
       summonMob(terrain_map,"🦔");
     }
     
@@ -3526,20 +3526,23 @@ var dungeon_map = [
     }
     
     // Day Night cycle
-    if (time <= 800) {
-      phase = moonPhases[moonIndex];
+    if (time >= 500 && time <= 600) {
+      phaseOnce = true;
+    }
+    
+    if (time <= 800 && time >= 660) {
       if (phaseOnce) {
         phaseOnce = false;
         if (moonIndex == moonPhases.length - 1) {
           moonIndex = 0;
         } else {moonIndex++;}
       }
+      phase = moonPhases[moonIndex];
     } if (time <= 660) {
       phase = "🌇";
     } if (time <= 585) {
       phase = "☀️";
     } if (time <= 300) {
-      phaseOnce = true;
       phase = "🌅";
     } if (time <= 200) {
       phase = moonPhases[moonIndex];
