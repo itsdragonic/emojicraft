@@ -36,7 +36,7 @@ p >> Save world / Save screenshot to clipboard
 
 Enter >> Load world
 
-Ctrl+Shift+S to export world to file. Click input box above to import file (Press Enter to load imported world).
+Ctrl+Shift+S to export world to file. Click input box above to import file.
 
 ## Mobile Support
 
