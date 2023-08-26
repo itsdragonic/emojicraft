@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
-
 <head>
+  <meta charset="UTF-8"/>
   <title>EmojiCraft</title>
   <link rel="shortcut icon" type="image/png" href="favicon.png">
   <link rel="stylesheet" href="style.css">
@@ -183,7 +183,7 @@
 
   <!-- Health, Food, and Inventory Bars -->
   <input type="text" id="inputBox" autocorrect="off" autocapitalize="off" onclick="this.setSelectionRange(0, this.value.length)"><input type="file" id="fileInput" style="display: none" accept=".json"></input></input>
-  <div class="corner" id="healthBar">❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️</div>
+  <div class="corner" id="healthBar"></div>
   <div class="hover-text">Text</div>
   
     <div class="corner" id="bossHealth"></div>
@@ -191,9 +191,9 @@
   <div class="viewport" id="viewport">
     <div class="grid" id="emojiGrid"></div>
     <div class="inventory" id="inventoryBar">
-      <div class="inv-item" id="slot1"> <span class="inv-number" id="s1"></span>🗡️</div>
-      <div class="inv-item" id="slot2"> <span class="inv-number" id="s2"></span>⛏️</div>
-      <div class="inv-item" id="slot3"> <span class="inv-number" id="s3"></span>🪓</div>
+      <div class="inv-item" id="slot1"> <span class="inv-number" id="s1"></span></div>
+      <div class="inv-item" id="slot2"> <span class="inv-number" id="s2"></span></div>
+      <div class="inv-item" id="slot3"> <span class="inv-number" id="s3"></span></div>
       <div class="inv-item" id="slot4"></div>
       <div class="inv-item" id="slot5"></div>
       <div class="inv-item" id="slot6"></div>
@@ -214,9 +214,8 @@
   
   <div class="tooltip" id="tooltip">Press Enter to Load Save ('P' to save)</div>
   <div id="day">Day</div>
-  <div id="sunmoon">☀</div>
+  <div id="sunmoon"></div>
   
   <script src="script.js"></script>
 </body>
-
 </html>
