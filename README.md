@@ -51,4 +51,6 @@ Craft a house and customize the interior to your liking as well as add crafting 
 
 You must complete NPC quests to get more bosses, items, potions, and upgrades
 
+Defeating the final boss Lucifer will make you official beat the game (more stuff including moon map coming soon)
+
 Have fun!
