@@ -2657,7 +2657,7 @@ var dungeon_map = [
       };
       reader.readAsText(file);
     }
-    loadWorld(1);
+    setTimeout(function(){loadWorld(1);},speed);
   });
   
   function RNG(n) {
@@ -3060,8 +3060,14 @@ var dungeon_map = [
             }
 
             if (matrix[Row][Col] == " ") { 
-            matrix[row][col] = " ";
-            matrix[Row][Col] = mob;
+              matrix[row][col] = " ";
+              matrix[Row][Col] = mob;
+              updateAdjacent();
+              if ((Col == moveX + 4 && Row == moveY + 4) || adjacent.includes(mob)) {
+                if (time % 5 == 0) {
+                  damage(amount); 
+                }
+              }
             } else {
               let randomDirection = Math.floor(Math.random() * 4);
               Row = row;
@@ -3080,13 +3086,6 @@ var dungeon_map = [
               if (Row >= 0 && Row < matrix.length && Col >= 0 && Col < matrix[row].length && matrix[Row][Col] == " ") {
                 matrix[row][col] = " ";
                 matrix[Row][Col] = mob;
-              }
-              
-              updateAdjacent();
-              if ((Col == moveX + 4 && Row == moveY + 4) || adjacent.includes(mob)) {
-                if (Math.random() < 0.5) {
-                  damage(amount); 
-                }
               }
             }
           }
@@ -5071,7 +5070,6 @@ var dungeon_map = [
     if (playerTile in objectProperties) {
       if (!objectProperties[playerTile].canBeWalkedOn) {goBack();}
     }
-    
     drawGrid();
   }
 
