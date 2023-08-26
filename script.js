@@ -1176,12 +1176,12 @@ document.addEventListener("DOMContentLoaded", function () {
       toolRequired: "⛏️",
       loot: "📺"
     },
-    "🛋": {
+    "🛋️": {
       name: "Sofa",
       canBeWalkedOn: true,
       durability: 8,
       toolRequired: "⛏️",
-      loot: "🛋"
+      loot: "🛋️"
     },
     "🛏️": {
       name: "Bed",
@@ -1656,26 +1656,26 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     "💊": {
       name: "Health Pill",
-      itemsNeeded: ["🌿","💧"],
-      amountsNeeded: [2,1],
-      required: "⚗️",
+      itemsNeeded: ["🌿","🌸","🌷"],
+      amountsNeeded: [2,1,1],
+      required: "🧰",
     },
     "🧪": {
       name: "Regeneration Potion",
-      itemsNeeded: ["🍄","🩸","🪟"],
-      amountsNeeded: [3,3,1],
+      itemsNeeded: ["🍄","🩸","💧","🪟"],
+      amountsNeeded: [3,3,1,1],
       required: "🔮",
     },
     "🌡️": {
       name: "Fire Potion",
-      itemsNeeded: ["🍄","🔥","🪟"],
-      amountsNeeded: [3,2,1],
+      itemsNeeded: ["🍄","🔥","💧","🪟"],
+      amountsNeeded: [3,2,1,1],
       required: "🔮",
     },
     "🏺": {
       name: "Elixir",
-      itemsNeeded: ["🌈","🔥","✨","🫖"],
-      amountsNeeded: [3,3,1,1],
+      itemsNeeded: ["🌈","🔥","✨","🫖","💧"],
+      amountsNeeded: [3,2,1,1,1],
       required: "🔮",
     },
     "🩹": {
@@ -1686,13 +1686,13 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     "🏹": {
       name: "Bow",
-      itemsNeeded: ["🪵","🕸"],
+      itemsNeeded: ["🪵","🕸️"],
       amountsNeeded: [3,4],
       required: "🧰",
     },
     "🎣": {
       name: "Fishing Pole",
-      itemsNeeded: ["🪵","🕸"],
+      itemsNeeded: ["🪵","🕸️"],
       amountsNeeded: [4,3],
       required: "🧰",
     },
@@ -1714,7 +1714,7 @@ document.addEventListener("DOMContentLoaded", function () {
       amountsNeeded: [1,1],
       required: "🧰",
     },
-    "❤": {
+    "❤️": {
       name: "Red Heart",
       itemsNeeded: ["🌈","🌟"],
       amountsNeeded: [1,1],
@@ -1762,7 +1762,7 @@ document.addEventListener("DOMContentLoaded", function () {
       amountsNeeded: [1,3],
       required: "🧰",
     },
-    "🖌": {
+    "🖌️": {
       name: "Paintbrush",
       itemsNeeded: ["🪵","🪶"],
       amountsNeeded: [2,2],
@@ -4483,6 +4483,22 @@ var dungeon_map = [
               ifBox(s2Row,s2Col,s1Row,s1Col);
             } else if (s1Row <= 5 && s2Row <= 5) {
               ifBox(s1Row,s1Col,s2Row,s2Col);
+            } else if (s1Row >= 7 && s2Row >= 7) {
+              s1Row -= 7;
+              s2Row -= 7;
+              if (s1Row >= 0 && s1Row <= 3 && s1Col >= 0 && s1Col <= 8 && s2Row >= 0 && s2Row <= 3 && s2Col >= 0 && s2Col <= 8 && adjacent.includes("📦")) {
+                for (let i = 0; i < boxLoot.length; i++) {
+                  let lootEntry = boxLoot[i];
+                  let valueEntry = boxValueLoot[i];
+
+                  if (chestPosition.x == lootEntry[0] && chestPosition.y == lootEntry[1] && level == lootEntry[2]) {
+                    let post1 = s1Row * 9 + s1Col + 3;
+                    let post2 = s2Row * 9 + s2Col + 3;
+                    [lootEntry[post1], lootEntry[post2]] = [lootEntry[post2], lootEntry[post1]];
+                    [valueEntry[post1], valueEntry[post2]] = [valueEntry[post2], valueEntry[post1]];
+                  }
+                }
+              }
             }
           }
           openInventory();
