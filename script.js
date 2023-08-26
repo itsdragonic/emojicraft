@@ -1292,7 +1292,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "🧙": {
       name: "Witch NPC",
       description: "I'm in quite the mood for some milk and cookies! Tell you what, if you can get me some, I'll give you something in return :)",
-      canBeWalkedOn: true,
+      canBeWalkedOn: false,
       durability: 99,
       toolRequired: "🗡",
       loot: "🍖"
@@ -1300,7 +1300,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "🧙‍♂️": {
       name: "Wizard NPC",
       description: "If you can get me 5 glowing stars, I'll teach you the art of wizardry (hint: they're in the sky). The witch might be able to help you get there.",
-      canBeWalkedOn: true,
+      canBeWalkedOn: false,
       durability: 99,
       toolRequired: "🗡",
       loot: "🍖"
@@ -1308,7 +1308,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "🧝‍♂️": {
       name: "Archer NPC",
       description: "If you make a bow, I'll help make it twice as strong.",
-      canBeWalkedOn: true,
+      canBeWalkedOn: false,
       durability: 99,
       toolRequired: "🗡",
       loot: "🍖"
@@ -1316,7 +1316,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "🥷": {
       name: "Ninja NPC",
       description: "I can help you upgrade your sword.",
-      canBeWalkedOn: true,
+      canBeWalkedOn: false,
       durability: 99,
       toolRequired: "🗡",
       loot: "🍖"
@@ -1324,7 +1324,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "🧑‍🌾": {
       name: "Farmer NPC",
       description: "If you can get me 5 of each crop, I'll give you something special...",
-      canBeWalkedOn: true,
+      canBeWalkedOn: false,
       durability: 99,
       toolRequired: "🗡",
       loot: "🍖"
@@ -1332,7 +1332,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "🧑‍🔧": {
       name: "Mechanic NPC",
       description: "If you can get me a hamburger, I'll show you something I've been trying to build..",
-      canBeWalkedOn: true,
+      canBeWalkedOn: false,
       durability: 99,
       toolRequired: "🗡",
       loot: "🍖"
@@ -1340,7 +1340,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "👷‍♂️": {
       name: "Miner NPC",
       description: "If you can get me a pizza, I'll show you something...",
-      canBeWalkedOn: true,
+      canBeWalkedOn: false,
       durability: 99,
       toolRequired: "🗡",
       loot: "🍖"
@@ -3415,16 +3415,6 @@ var dungeon_map = [
       moveMob(terrain_map,"🐔");
       moveMob(terrain_map,"🐝");
       moveMob(terrain_map,"🦔");
-    }
-    
-    if (Math.random() < 0.1 && (current_map == house_map || current_map == dungeon_map)) {
-      moveMob(house_map,"🧑‍🔧");
-      moveMob(house_map,"🧑‍🌾");
-      moveMob(house_map,"🥷");
-      moveMob(house_map,"🧝‍♂️");
-      moveMob(house_map,"🧙‍♂️");
-      moveMob(house_map,"🧙");
-      moveMob(dungeon_map,"👷‍♂️");
     }
     
     // Pets
