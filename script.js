@@ -4418,6 +4418,9 @@ var dungeon_map = [
         
         document.body.style.backgroundColor = "white";
         document.body.style.color = "black";
+        document.querySelector("#inputBox").style.backgroundColor = "#EEE";
+        document.querySelector("#inputBox").style.color = "#EFEFEF";
+        
       } else {
         cellColor = "#222";
         color = "#992222";
@@ -4426,6 +4429,8 @@ var dungeon_map = [
         
         document.body.style.backgroundColor = "black";
         document.body.style.color = "white";
+        document.querySelector("#inputBox").style.backgroundColor = "#222";
+        document.querySelector("#inputBox").style.color = "#333";
       }
     } else if (key === "i") {
       showFistEmojiTemporarily("🤘");
