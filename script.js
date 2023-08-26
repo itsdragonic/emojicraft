@@ -3514,9 +3514,9 @@ var dungeon_map = [
       }
     }
     
-    if ((time < 266 || time > 660) && Math.random() < 0.05 && current_map == sky_map) {
+    if ((time < 266 || time > 660) && Math.random() < 0.02 && current_map == sky_map) {
       summonMob(sky_map,"🦉");
-    } if ((time < 266 || time > 660) && Math.random() < 0.05 && current_map == terrain_map) {
+    } if ((time < 266 || time > 660) && Math.random() < 0.01 && current_map == terrain_map) {
       summonMob(terrain_map,"🦔");
     }
     
