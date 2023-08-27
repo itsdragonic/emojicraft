@@ -393,7 +393,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "🕳️": {
       name: "Hole",
       description: "Enter the caves",
-      canBeWalkedOn: false,
+      canBeWalkedOn: true,
       durability: 15,
       toolRequired: "",
       loot: ""
@@ -401,7 +401,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "🪜": {
       name: "Ladder",
       description: "Exit the caves",
-      canBeWalkedOn: false,
+      canBeWalkedOn: true,
       durability: 15,
       toolRequired: "",
       loot: ""
@@ -409,7 +409,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "🏰": {
       name: "Dungeon Castle",
       description: "Beware the dungeon",
-      canBeWalkedOn: false,
+      canBeWalkedOn: true,
       durability: 15,
       toolRequired: "",
       loot: ""
@@ -417,7 +417,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "⛩️": {
       name: "Gateway to Hell",
       description: "Beware the fiery realm",
-      canBeWalkedOn: false,
+      canBeWalkedOn: true,
       durability: 15,
       toolRequired: "",
       loot: ""
@@ -480,7 +480,7 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     "🔓": {
       name: "Opened lock",
-      canBeWalkedOn: false,
+      canBeWalkedOn: true,
       durability: 10,
       toolRequired: "⛏️",
       loot: "🔒"
