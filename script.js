@@ -389,6 +389,38 @@ document.addEventListener("DOMContentLoaded", function () {
       toolRequired: "⛏️",
       loot: "🪨"
     },
+    "🕳️": {
+      name: "Hole",
+      description: "Enter the caves",
+      canBeWalkedOn: false,
+      durability: 15,
+      toolRequired: "",
+      loot: ""
+    },
+    "🪜": {
+      name: "Ladder",
+      description: "Exit the caves",
+      canBeWalkedOn: false,
+      durability: 15,
+      toolRequired: "",
+      loot: ""
+    },
+    "🏰": {
+      name: "Dungeon Castle",
+      description: "Beware the dungeon",
+      canBeWalkedOn: false,
+      durability: 15,
+      toolRequired: "",
+      loot: ""
+    },
+    "⛩️": {
+      name: "Gateway to Hell",
+      description: "Beware the fiery realm",
+      canBeWalkedOn: false,
+      durability: 15,
+      toolRequired: "",
+      loot: ""
+    },
     "🧰": {
       name: "Toolbox",
       description: "Use to craft stuff",
@@ -426,22 +458,29 @@ document.addEventListener("DOMContentLoaded", function () {
       description: "Harvests crops quick",
       canBeWalkedOn: true,
       durability: 10,
-      toolRequired: "⛏",
+      toolRequired: "⛏️",
       loot: "🚜"
     },
     "🔐": {
       name: "Dungeon Lock",
       description: "You need a special key",
       canBeWalkedOn: false,
-      durability: 999,
-      toolRequired: "⛏️",
-      loot: "🔒"
+      durability: 99,
+      toolRequired: "",
+      loot: "🔐"
     },
     "🔒": {
-      name: "Dungeon Lock",
+      name: "Lock",
       description: "You need a key",
       canBeWalkedOn: false,
-      durability: 999,
+      durability: 99,
+      toolRequired: "",
+      loot: "🔒"
+    },
+    "🔓": {
+      name: "Opened lock",
+      canBeWalkedOn: false,
+      durability: 10,
       toolRequired: "⛏️",
       loot: "🔒"
     },
@@ -901,13 +940,13 @@ document.addEventListener("DOMContentLoaded", function () {
       toolRequired: "⛏️",
       loot: "🐲"
     },
-    "☄": {
+    "☄️": {
       name: "Comet",
       description: "Meteor Shower!",
       canBeWalkedOn: false,
       durability: 5,
       toolRequired: "⛏️",
-      loot: "☄"
+      loot: "☄️"
     },
     "🛸": {
       name: "UFO",
@@ -925,7 +964,7 @@ document.addEventListener("DOMContentLoaded", function () {
       toolRequired: "⛏️",
       loot: "👽"
     },
-    "🛰": {
+    "🛰️": {
       name: "Satellite",
       canBeWalkedOn: false,
       durability: 15,
@@ -936,6 +975,13 @@ document.addEventListener("DOMContentLoaded", function () {
       name: "Satellite Antenna",
       canBeWalkedOn: false,
       durability: 15,
+      toolRequired: "⛏️",
+      loot: "🔩"
+    },
+    "🏗️": {
+      name: "Building Construction",
+      canBeWalkedOn: false,
+      durability: 18,
       toolRequired: "⛏️",
       loot: "🔩"
     },
@@ -2491,12 +2537,12 @@ var dungeon_map = [
     ["🌕","🌕","🌕","⬛"," "," "," "," "," "," "," "," "," ","🌗"," "," "," "," "," "," "," "," ","⬛","🌑","🌑","🌑"],
     ["🌕","🌕","🌕","⬛"," "," "," "," "," "," "," "," "," ","🌗"," "," "," "," "," "," "," "," ","⬛","🌑","🌑","🌑"],
     ["🌕","🌕","🌕","⬛"," "," "," "," "," "," "," "," "," ","🌗"," "," "," "," "," "," "," "," ","⬛","🌑","🌑","🌑"],
-    ["🌕","🌕","🌕","⬛"," "," "," ","🛰","🌖"," "," "," "," ","🌗"," "," "," "," ","⛺"," "," "," ","⬛","🌑","🌑","🌑"],
+    ["🌕","🌕","🌕","⬛"," "," "," ","🛰️","🌖"," "," "," "," ","🌗"," "," "," "," ","⛺"," "," "," ","⬛","🌑","🌑","🌑"],
     ["🌕","🌕","🌕","⬛"," "," ","🏗️"," "," "," "," "," "," ","🌗"," "," ","🏕️"," "," ","⛺","🌘"," ","⬛","🌑","🌑","🌑"],
     ["🌕","🌕","🌕","⬛"," ","📡"," "," "," "," "," ","🚧"," ","🌗"," "," ","⛺"," "," "," "," "," ","⬛","🌑","🌑","🌑"],
     ["🌕","🌕","🌕","⬛"," "," ","👨‍🚀"," ","🏗️"," "," ","🚧"," ","🌗"," "," "," "," ","🧌"," "," "," ","⬛","🌑","🌑","🌑"],
     ["🌕","🌕","🌕","⬛","🏗️"," "," "," "," "," "," ","🚧"," ","🌗"," "," "," "," "," "," ","⛺"," ","⬛","🌑","🌑","🌑"],
-    ["🌕","🌕","🌕","⬛"," ","🛰"," ","📡"," "," "," ","🚧"," ","🌗"," "," "," ","⛺"," ","🏕️"," "," ","⬛","🌑","🌑","🌑"],
+    ["🌕","🌕","🌕","⬛"," ","🛰️"," ","📡"," "," "," ","🚧"," ","🌗"," "," "," ","⛺"," ","🏕️"," "," ","⬛","🌑","🌑","🌑"],
     ["🌕","🌕","🌕","⬛"," "," ","🚌"," "," "," "," "," "," ","🌗"," "," "," "," "," "," "," "," ","⬛","🌑","🌑","🌑"],
     ["🌕","🌕","🌕","⬛"," "," "," "," "," "," "," ","🌖"," ","🌗"," "," "," "," "," "," "," "," ","⬛","🌑","🌑","🌑"],
     ["🌕","🌕","🌕","⬛"," ","🌖"," "," "," "," "," "," "," ","🌗"," "," "," "," "," "," "," "," ","⬛","🌑","🌑","🌑"],
@@ -3528,13 +3574,13 @@ var dungeon_map = [
         case 0:
           summonMob(space_map,"🛸"); break;
         case 1:
-          summonMob(space_map,"☄"); break;
+          summonMob(space_map,"☄️"); break;
         case 2:
           summonMob(space_map,"👾"); break;
         case 3:
-          summonMob(space_map,"☄"); break;
+          summonMob(space_map,"☄️"); break;
         case 4:
-          summonMob(space_map,"🛰"); break;
+          summonMob(space_map,"🛰️"); break;
       }
     }
     
@@ -3542,7 +3588,7 @@ var dungeon_map = [
       moveEnemy(space_map,"🛸",1);
       moveMob(space_map,"👾");
       moveMob(space_map,"🪐");
-      moveMob(space_map,"🛰");
+      moveMob(space_map,"🛰️");
     }
     
     // Hell related events
@@ -4386,21 +4432,25 @@ var dungeon_map = [
       else {dy --;}
       direction = "up";
       questGive = [];
+      tooltip.innerHTML = "";
     } else if (key === "ArrowDown" || key === "s" || key === "S") {
       if (!boss_mode) {moveY ++;}
       else {dy ++;}
       direction = "down";
       questGive = [];
+      tooltip.innerHTML = "";
     } else if (key === "ArrowLeft" || key === "a" || key === "A") {
       if (!boss_mode) {moveX --;}
       else {dx --;}
       direction = "left";
       questGive = [];
+      tooltip.innerHTML = "";
     } else if (key === "ArrowRight" || key === "d" || key === "D") {
       if (!boss_mode) {moveX ++;}
       else {dx ++;}
       direction = "right";
       questGive = [];
+      tooltip.innerHTML = "";
     } else if (key === "k") {
       if (direction == "right" || direction == "down") {
         showFistEmojiTemporarily("👉");
@@ -4418,9 +4468,6 @@ var dungeon_map = [
         
         document.body.style.backgroundColor = "white";
         document.body.style.color = "black";
-        document.querySelector("#inputBox").style.backgroundColor = "#EEE";
-        document.querySelector("#inputBox").style.color = "#EFEFEF";
-        
       } else {
         cellColor = "#222";
         color = "#992222";
@@ -4429,8 +4476,6 @@ var dungeon_map = [
         
         document.body.style.backgroundColor = "black";
         document.body.style.color = "white";
-        document.querySelector("#inputBox").style.backgroundColor = "#222";
-        document.querySelector("#inputBox").style.color = "#333";
       }
     } else if (key === "i") {
       showFistEmojiTemporarily("🤘");
@@ -4886,7 +4931,6 @@ var dungeon_map = [
     } else {
       // All other presses
       Jpress = false;
-      tooltip.innerHTML = "";
       durability = 0;
       clickCounter = 0;
       raisedShield = false;
