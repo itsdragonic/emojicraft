@@ -1650,7 +1650,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "👹": {
       name: "Lucifer",
       itemsNeeded: ["👁","🫀","🎭","🔥"],
-      amountsNeeded: [1,1,10],
+      amountsNeeded: [1,1,1,10],
       required: "🧰",
     },
     "🍺": {
