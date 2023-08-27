@@ -42,6 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var PLAYER_EMOJI = "😄";
   var HAND_EMOJI = "👊";
   var RHAND_EMOJI = "🤚";
+  var deflt = "🤚";
   var HEART_EMOJI = "❤️";
   var DEAD_EMOJI = "🖤";
   var EMPTY_EMOJI = "⚫";
@@ -816,7 +817,7 @@ document.addEventListener("DOMContentLoaded", function () {
       canBeWalkedOn: true,
       durability: 5,
       toolRequired: "🗡️",
-      loot: ""
+      loot: "🦎"
     },
     "🐦": {
       name: "Bird",
@@ -1462,19 +1463,19 @@ document.addEventListener("DOMContentLoaded", function () {
       nutrition: 4,
     }, "🍹": {
       name: "Tropical Drink",
-      nutrition: 4,
+      nutrition: 5,
     }, "🍯": {
       name: "Honey",
       nutrition: 3,
     }, "🍸": {
       name: "Cocktail",
-      nutrition: 4,
+      nutrition: 5,
     }, "🍔": {
       name: "Hamburger",
       nutrition: 14,
     }, "🍪": {
       name: "Cookie",
-      nutrition: 4,
+      nutrition: 5,
     }, "🍟": {
       name: "Fries",
       nutrition: 5,
@@ -1791,7 +1792,7 @@ document.addEventListener("DOMContentLoaded", function () {
       required: "🧰",
     },
     "🔪": {
-      name: "Blade",
+      name: "Knife",
       itemsNeeded: ["🪵","🔩"],
       amountsNeeded: [1,5],
       required: "🧰",
@@ -1959,11 +1960,11 @@ document.addEventListener("DOMContentLoaded", function () {
       qrequired: ["🌽","🌽","🌽","🌽","🌽","🍅","🍅","🍅","🍅","🍅","🥬","🥬","🥬","🥬","🥬","🫘","🫘","🫘","🫘","🫘","🥔","🥔","🥔","🥔","🥔"],
       output: "💩",
       currentQuest: 2,
-      quest2: ["I'll give you some new fruit to grow if you can get me a good old beer (you'll need to make a brewery with glass)","🍇","🍺"],
+      quest2: ["I'll give you some new fruit to grow if you can get me a good old beer (you'll need to make a brewery with glass)","❦","🍺"],
       quest3: ["Thanks for the drink, to make things more automatic, get me some more and I'll help make it easier.","🚜","🌽","🌽","🌽","🌽","🌽","🌽","🌽","🍅","🍅","🍅","🍅","🍅","🍅","🍅","🥬","🥬","🥬","🥬","🥬","🥬","🥬","🫘","🫘","🫘","🫘","🫘","🫘","🫘","🥔","🥔","🥔","🥔","🥔"],
-      quest4: ["I'll give you some new fruit to grow if you can get me a nice wine (I'm not an alcoholic, I swear)","🍉","🍷"],
+      quest4: ["I'll give you some new fruit to grow if you can get me a nice wine (I'm not an alcoholic, I swear)",":･","🍷"],
       quest5: ["There's nothing I love more than dogs. I'll give you one of mine for something","🐕","🦴","🍹"],
-      quest6: ["There's nothing I love more than dogs. I'll give you one of mine for something","🐶","🦴","🍺","🍷"],
+      quest6: ["There's nothing I love more than dogs. I'll give you one of mine for something","🐶","🦴","🍺","🍸"],
       quest7: ["Thanks for doing all of my quests!","​","​"]
     },
     "🧑‍🔧": {
@@ -2047,7 +2048,7 @@ document.addEventListener("DOMContentLoaded", function () {
       sub: 0,
     },
     "🔪": {
-      name: "Blade",
+      name: "Knife",
       damage: 3,
       itemType: "🗡️",
       sub: 1,
@@ -2176,6 +2177,8 @@ document.addEventListener("DOMContentLoaded", function () {
     "🎖️": { name: "Military Medal" },
     "🗝️": { name: "Dungeon Key" },
     "🔑": { name: "Key" },
+    "🪽": { name: "Wings" },
+    "𓆩𓆪": { name: "Wings" },
     "🔫": { name: "Pistol" },
     "🏹": { name: "Bow" },
     "➶ ": { name: "Arrow" },
@@ -4452,9 +4455,11 @@ var dungeon_map = [
       questGive = [];
       tooltip.innerHTML = "";
     } else if (key === "k") {
-      if (direction == "right" || direction == "down") {
-        showFistEmojiTemporarily("👉");
-      } else {showFistEmojiTemporarily("👈")}
+      if (deflt == "🤚") {
+        deflt = "🖖";
+      } else if (deflt == "🖖") {
+        deflt = "🤚";
+      }
     } else if (key === "u") {
       if (lightMode) {lightMode = false;}
       else {lightMode = true;}
@@ -4715,9 +4720,9 @@ var dungeon_map = [
           addInventory("🎮");
         }
       }
-      if (adjacent.includes("🔐") && HAND_EMOJI == "🗝") {
+      if (adjacent.includes("🔐") && HAND_EMOJI == "🗝️") {
         updateAdjacent();
-        removeInventory("🗝");
+        removeInventory("🗝️");
         setAdjacent(dim(),"🔐","🔓");
       }
       if (adjacent.includes("🔒") && HAND_EMOJI == "🔑") {
@@ -4862,7 +4867,7 @@ var dungeon_map = [
         RHAND_EMOJI = "🛡️";
         raisedShield = true;
       } else {
-        RHAND_EMOJI = "🤚";
+        RHAND_EMOJI = deflt;
         raisedShield = false;
       }
       
