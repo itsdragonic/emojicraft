@@ -1569,6 +1569,12 @@ document.addEventListener("DOMContentLoaded", function () {
       amountsNeeded: [3],
       required: "🧰",
     },
+    "🪑": {
+      name: "Chair",
+      itemsNeeded: ["🪵"],
+      amountsNeeded: [3],
+      required: "🧰",
+    },
     "🥧": {
       name: "Apple Pie",
       itemsNeeded: ["🍞","🍎","🍏"],
