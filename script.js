@@ -5271,10 +5271,15 @@ var dungeon_map = [
       damage(1);
     }
    
+    // Bed & Chair
     if (playerTile == "🛏️") {
       PLAYER_EMOJI = "😴";
       time ++;
     } else if (playerTile != "🛏️" && PLAYER_EMOJI == "😴") {PLAYER_EMOJI = "😄"}
+    if (playerTile == "🪑") {
+      PLAYER_EMOJI = "😌";
+    } else if (playerTile != "🪑" && PLAYER_EMOJI == "😌") {PLAYER_EMOJI = "😄"}
+    
     if (playerTile in objectProperties) {
       if (!objectProperties[playerTile].canBeWalkedOn) {goBack();}
     }
