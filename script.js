@@ -1376,6 +1376,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }, "🌭": {
       name: "Hot Dog",
       nutrition: 6,
+    }, "🥘": {
+      name: "Omelette",
+      nutrition: 4,
     }, "🍨": {
       name: "Ice Cream",
       nutrition: 4,
@@ -1478,6 +1481,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }, "🥧": {
       name: "Apple Pie",
       nutrition: 9,
+    }, "🧇": {
+      name: "Waffle",
+      nutrition: 5,
     }, "🦞": {
       name: "Lobster",
       nutrition: 2,
@@ -1557,10 +1563,22 @@ document.addEventListener("DOMContentLoaded", function () {
       amountsNeeded: [8,16,3,3,1,1],
       required: "🧰",
     },
+    "🗑️": {
+      name: "Trash Bin",
+      itemsNeeded: ["🔩"],
+      amountsNeeded: [3],
+      required: "🧰",
+    },
     "🥧": {
       name: "Apple Pie",
       itemsNeeded: ["🍞","🍎","🍏"],
       amountsNeeded: [1,1,1],
+      required: "🍳",
+    },
+    "🧇": {
+      name: "Waffle",
+      itemsNeeded: ["🍞","🥚"],
+      amountsNeeded: [1,1],
       required: "🍳",
     },
     "🌭": {
@@ -1573,6 +1591,12 @@ document.addEventListener("DOMContentLoaded", function () {
       name: "Hamburger",
       itemsNeeded: ["🍞","🥩","🧀","🍅","🥬"],
       amountsNeeded: [2,1,1,1,1],
+      required: "🍳",
+    },
+    "🥘": {
+      name: "Omelette",
+      itemsNeeded: ["🥚"],
+      amountsNeeded: [1],
       required: "🍳",
     },
     "🍟": {
@@ -1619,8 +1643,8 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     "👹": {
       name: "Lucifer",
-      itemsNeeded: ["👁️","🫀","🎭","🌐","🔥"],
-      amountsNeeded: [1,1,1,1,10],
+      itemsNeeded: ["👁️","🫀","🎭","🌐","🔥","🥀"],
+      amountsNeeded: [1,1,1,1,10,5],
       required: "🧰",
     },
     "🍺": {
@@ -2207,7 +2231,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "🥔": {"name": "Potato", "seed": "𓄺"},
     "🥬": {"name": "Lettuce", "seed": "⌁"},
     "🍇": {"name": "Grapes", "seed": "❦"},
-    "🏖": {"name": "Sand", "seed": "𓇼"},
+    "🏖": {"name": "Sand", "seed": "𓇼", "loot": "⏳"},
     "🫘": {"name": "Beans", "seed": "𓇡"},
     "🌾": {"name": "Wheat", "seed": "."},
     "🍈": {"name": "Melon", "seed": ":･", "loot": "🍉"},
@@ -3914,6 +3938,18 @@ var dungeon_map = [
     replaceItem("🏹③","🏹","③");
     replaceItem("🏹💘","🏹","💘");
     
+    // Console Commands
+    if (inputBox.value == "/sandbox") {
+      if (sandboxMode) {
+        sandboxMode = false;
+        console.log("Sandbox mode disabled");
+      } else {
+        sandboxMode = true;
+        console.log("Sandbox mode enabled");
+      }
+      inputBox.value = "";
+    }
+    
     // Fishin' Stuff
     if (fishing < maxFishing) {
       fishing --;
@@ -4684,6 +4720,11 @@ var dungeon_map = [
       showFistEmojiTemporarily(HAND_EMOJI);
       time ++;
       
+      // Trow away trash
+      if (playerTile == "🗑️") {
+        removeInventory(HAND_EMOJI);
+      } 
+      
       // Eating
       if (HAND_EMOJI in foodProperties) {
         if (saturation < MAX_SATURATION && FOOD_HEALTH < MAX_FOOD_HEALTH && !adjacent.includes("🧑‍🌾")) {
@@ -5156,7 +5197,11 @@ var dungeon_map = [
         if (playerTile === emoji) {
           const crop = farmCrops[emoji];
           if (setBlock(dim(), 4, 4, emoji, crop.seed)) {
-            addInventory(emoji);
+            if (crop?.loot) {
+              addInventory(crop.loot)
+            } else {
+              addInventory(emoji);
+            }
           }
           break; // Exit the loop after finding a match
         }
@@ -5208,9 +5253,7 @@ var dungeon_map = [
       setBlock(dim(),4,4,"🚛"," ")
     }
     
-    else if (playerTile == "🗑️") {
-      removeInventory(HAND_EMOJI);
-    } else if (playerTile == "❄️" || playerTile == "🌨️") {
+    else if (playerTile == "❄️" || playerTile == "🌨️") {
       PLAYER_EMOJI = "🥶";
       burning = 0;
     } else if (adjacent.includes("🌊")) {
