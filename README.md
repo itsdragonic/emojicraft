@@ -4,39 +4,39 @@ Play here: https://itsdragonic.github.io/emojicraft/
 
 ## Basic Commands
 
-WASD >> up-down-left-right
+`WASD` >> up-down-left-right
 
-1-9 >> First 9 inventory slots 
+`1-9` >> First 9 inventory slots 
 
 Select 2 coordinates to swap items in inventory either by pressing 4 numbers or clicking on 2 locations
 
-Left-click / j >> destroy / attack / eat
+`Left-click` / j >> destroy / attack / eat
 
-Right-click / l >> interact / use shield
+`Right-click` / l >> interact / use shield
 
-e >> Open inventory
+`e` >> Open inventory
 
-n / m >> Cycle through crafting
+`n / m` >> Cycle through crafting
 
-c >> Craft item
+`c` >> Craft item
 
-Space >> Fly upwards
+`Space` >> Fly upwards
 
-Shift + Space >> Fly downwards
+`Shift+Space` >> Fly downwards
 
-q >> Escape mount
+`q` >> Escape mount
 
-Ctrl+z >> Undo trade with NPC (prevents accidents)
+`Ctrl+z` >> Undo trade with NPC (prevents accidents)
 
-z >> Custom emote (for fun)
+`z` >> Custom emote (for fun)
 
-o >> Toggle Light Mode or Dark Mode
+`o` >> Toggle Light Mode or Dark Mode
 
-p >> Save world / Save screenshot to clipboard
+`p` >> Save world / Save screenshot to clipboard
 
-Enter >> Load world
+`Enter` >> Load world
 
-Ctrl+Shift+S to export world to file. Click input box above to import file.
+`Ctrl+Shift+S` to export world to file. Click input box above to import file.
 
 ## Mobile Support
 
