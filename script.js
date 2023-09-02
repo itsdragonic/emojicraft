@@ -25,14 +25,18 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   
   var sandboxMode = false;
-  let divisor;
-  let wings;
+  var divisor;
+  var wings;
+  var device = "other";
+  
   if (navigator.userAgent.indexOf("Chromebook") !== -1) {
     divisor = 26;
     wings = "🪽";
+    device = "chromebook";
   } else if (navigator.userAgent.indexOf("Windows") !== -1) {
     divisor = 30;
     wings = "𓆩𓆪";
+    device = "windows";
   } else {
     divisor = 26;
     wings = "🪽";
@@ -148,52 +152,6 @@ document.addEventListener("DOMContentLoaded", function () {
   ];
   
   var armor = ["🧢","","","","",""];
-  
-  // Hovering Text
-  var hover = "";
-  var iRow = 0;
-  var iCol = 0;
-  const corner = document.querySelector('.corner');
-  const hoverText = document.querySelector('.hover-text');
-
-  corner.addEventListener('mousemove', (event) => {
-    hoverText.style.left = `${event.clientX}px`;
-    hoverText.style.top = `${event.clientY + 10}px`;
-    
-    // Hover Text
-    const clickArea = document.getElementById('healthBar');
-    const mouseX = event.clientX - clickArea.getBoundingClientRect().left;
-    const mouseY = event.clientY - clickArea.getBoundingClientRect().top;
-
-    let s1Row = parseInt(Math.round((mouseY - 30) / divisor)); // Make sure divisor is defined
-    let s1Col = parseInt(Math.round((mouseX - 3) / divisor)); // Make sure divisor is defined
-    iRow = s1Row;
-    iCol = s1Col;
-
-    if (s1Row >= 0 && s1Row < Inventory.length && s1Col >= 0 && s1Col < Inventory[0].length) {
-      hover = Inventory[s1Row][s1Col] + inventoryValue[s1Row][s1Col] ?? "";
-    } else if (s1Row >= 7 && s1Row <= 10 && s1Col <=8) {
-      s1Row -= 7;
-      for (let i = 0; i < boxLoot.length; i++) {
-        const lootEntry = boxLoot[i];
-        const valueEntry = boxValueLoot[i];
-        if (chestPosition.x == lootEntry[0] && chestPosition.y == lootEntry[1] && level == lootEntry[2]) {
-          let pos = s1Row * 9 + s1Col + 3;
-          hover = lootEntry[pos] + valueEntry[pos];
-        }
-      }
-    } else {hover = "";}
-    hoverText.textContent = hover;
-  });
-
-  corner.addEventListener('mouseenter', () => {
-    hoverText.style.left = '0';
-    hoverText.style.top = '0';
-  });
-
-  corner.addEventListener('mouseleave', () => {
-    hoverText.style.left = '-9999px';
-  });
 
   var objectProperties = {
     "🌊": {
@@ -575,14 +533,14 @@ document.addEventListener("DOMContentLoaded", function () {
       loot: "🚩"
     },
     "🟪": {
-      name: "Purple Wall",
+      name: "Dungeon Brick",
       canBeWalkedOn: false,
       durability: 40,
       toolRequired: "",
       loot: "🟪"
     },
     "♒": {
-      name: "Chiseled Purple Wall",
+      name: "Chiseled Dungeon Brick",
       canBeWalkeedOn: false,
       durability: 40,
       toolRequired: "",
@@ -593,42 +551,42 @@ document.addEventListener("DOMContentLoaded", function () {
       canBeWalkedOn: false,
       durability: 20,
       toolRequired: "⛏️",
-      loot: "🟥"
+      loot: "🧱"
     },
     "🟧": {
       name: "Orange Wall",
       canBeWalkedOn: false,
       durability: 20,
       toolRequired: "⛏️",
-      loot: "🟧"
+      loot: "🧱"
     },
     "🟨": {
       name: "Yellow Wall",
       canBeWalkedOn: false,
       durability: 20,
       toolRequired: "⛏️",
-      loot: "🟨"
+      loot: "🧱"
     },
     "🟩": {
       name: "Green Wall",
       canBeWalkedOn: false,
       durability: 20,
       toolRequired: "⛏️",
-      loot: "🟩"
+      loot: "🧱"
     },
     "🟦": {
       name: "Blue Wall",
       canBeWalkedOn: false,
       durability: 20,
       toolRequired: "⛏️",
-      loot: "🟦"
+      loot: "🧱"
     },
     "🟫": {
       name: "Brown Wall",
       canBeWalkedOn: false,
       durability: 20,
       toolRequired: "⛏️",
-      loot: "🟫"
+      loot: "🧱"
     },
     "⬜": {
       name: "",
@@ -828,7 +786,7 @@ document.addEventListener("DOMContentLoaded", function () {
       toolRequired: "🗡️",
       loot: "🪶"
     },
-    "🕊": {
+    "🕊️": {
       name: "Dove",
       description: "Coo-oo",
       isAnimal: true,
@@ -1122,6 +1080,14 @@ document.addEventListener("DOMContentLoaded", function () {
       toolRequired: "👊",
       loot: "🍉"
     },
+    "🚪": {
+      name: "Door",
+      description: "Enter/exit house",
+      canBeWalkedOn: true,
+      durability: 10,
+      toolRequired: "🪓",
+      loot: "🚪"
+    },
     "🏠": {
       name: "House",
       description: "Nice place to live",
@@ -1341,7 +1307,7 @@ document.addEventListener("DOMContentLoaded", function () {
       description: "I'm in quite the mood for some milk and cookies! Tell you what, if you can get me some, I'll give you something in return :)",
       canBeWalkedOn: false,
       durability: 99,
-      toolRequired: "🗡",
+      toolRequired: "",
       loot: "🍖"
     },
     "🧙‍♂️": {
@@ -1349,7 +1315,7 @@ document.addEventListener("DOMContentLoaded", function () {
       description: "If you can get me 5 glowing stars, I'll teach you the art of wizardry (hint: they're in the sky). The witch might be able to help you get there.",
       canBeWalkedOn: false,
       durability: 99,
-      toolRequired: "🗡",
+      toolRequired: "",
       loot: "🍖"
     },
     "🧝‍♂️": {
@@ -1357,7 +1323,7 @@ document.addEventListener("DOMContentLoaded", function () {
       description: "If you make a bow, I'll help make it twice as strong.",
       canBeWalkedOn: false,
       durability: 99,
-      toolRequired: "🗡",
+      toolRequired: "",
       loot: "🍖"
     },
     "🥷": {
@@ -1365,7 +1331,7 @@ document.addEventListener("DOMContentLoaded", function () {
       description: "I can help you upgrade your sword.",
       canBeWalkedOn: false,
       durability: 99,
-      toolRequired: "🗡",
+      toolRequired: "",
       loot: "🍖"
     },
     "🧑‍🌾": {
@@ -1373,7 +1339,7 @@ document.addEventListener("DOMContentLoaded", function () {
       description: "If you can get me 5 of each crop, I'll give you something special...",
       canBeWalkedOn: false,
       durability: 99,
-      toolRequired: "🗡",
+      toolRequired: "",
       loot: "🍖"
     },
     "🧑‍🔧": {
@@ -1381,7 +1347,7 @@ document.addEventListener("DOMContentLoaded", function () {
       description: "If you can get me a hamburger, I'll show you something I've been trying to build..",
       canBeWalkedOn: false,
       durability: 99,
-      toolRequired: "🗡",
+      toolRequired: "",
       loot: "🍖"
     },
     "👷‍♂️": {
@@ -1389,7 +1355,7 @@ document.addEventListener("DOMContentLoaded", function () {
       description: "If you can get me a pizza, I'll show you something...",
       canBeWalkedOn: false,
       durability: 99,
-      toolRequired: "🗡",
+      toolRequired: "",
       loot: "🍖"
     },
   };
@@ -1448,10 +1414,10 @@ document.addEventListener("DOMContentLoaded", function () {
       nutrition: 2,
     }, "🥛": {
       name: "Milk",
-      nutrition: 2,
+      nutrition: 3,
     }, "🧀": {
       name: "Cheese",
-      nutrition: 2,
+      nutrition: 4,
     }, "🍺": {
       name: "Beer",
       nutrition: 4,
@@ -1527,6 +1493,10 @@ document.addEventListener("DOMContentLoaded", function () {
       name: "Regeneration Potion",
       nutrition: 0,
       effect: "regeneration",
+    }, "💉": {
+      name: "Vitality Shot",
+      nutrition: 0,
+      effect: "vitality",
     }, "🌡️": {
       name: "Fire Potion",
       nutrition: 0,
@@ -1555,7 +1525,7 @@ document.addEventListener("DOMContentLoaded", function () {
       name: "Cooking Pan",
       itemsNeeded: ["🔩"],
       amountsNeeded: [3],
-      required: "",
+      required: "🧰",
     },
     "🗿": {
       name: "Stone Statue",
@@ -1649,8 +1619,8 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     "👹": {
       name: "Lucifer",
-      itemsNeeded: ["👁","🫀","🎭","🔥"],
-      amountsNeeded: [1,1,1,10],
+      itemsNeeded: ["👁️","🫀","🎭","🌐","🔥"],
+      amountsNeeded: [1,1,1,1,10],
       required: "🧰",
     },
     "🍺": {
@@ -1711,6 +1681,12 @@ document.addEventListener("DOMContentLoaded", function () {
       name: "Regeneration Potion",
       itemsNeeded: ["🍄","🩸","💧","🪟"],
       amountsNeeded: [3,3,1,1],
+      required: "🔮",
+    },
+      "💉": {
+      name: "Vitality Shot",
+      itemsNeeded: ["❤️","🩸","💧","🪟"],
+      amountsNeeded: [2,3,1,1],
       required: "🔮",
     },
     "🌡️": {
@@ -1899,6 +1875,12 @@ document.addEventListener("DOMContentLoaded", function () {
       amountsNeeded: [2,1],
       required: "🧰",
     },
+    "🟪": {
+      name: "Dungeon Brick",
+      itemsNeeded: ["🪨","🦎"],
+      amountsNeeded: [2,1],
+      required: "🧰",
+    },
     "🏳️": {
       name: "Flag",
       itemsNeeded: ["🪵","🪶"],
@@ -1939,7 +1921,7 @@ document.addEventListener("DOMContentLoaded", function () {
       currentQuest: 2,
       quest2: ["If you want help for getting into the dungeon, I'll need you to do me a favor...","🗝️","🐭"],
       quest4: ["If you get the right materials I could make you the best thing for your head.","👑","🪙","🪙","🪙","🪙","🪙","💠"],
-      quest3: ["Are you the prophesized one that will slay the dragon?","🐲","🌈","🌈","🌈","🌈","🌟","🌟","🌟","⚡","⚡"],
+      quest3: ["Are you the prophesized one that will slay the dragon?","🐲","🌈","🌈","🌈","🌈","🌟","🌟","🌟","🌟","🌟","⚡","⚡"],
       quest4: ["Wow! You slayed the dragon! If you get the right materials I could make you something even stronger than a shield.","💍","💎","💎","💎","💠","💠","💠","🌌"],
       quest7: ["Thanks for doing all of my quests!","​","​"]
     },
@@ -1981,8 +1963,8 @@ document.addEventListener("DOMContentLoaded", function () {
       qrequired: ["🍕"],
       output: "🐀",
       currentQuest: 2,
-      quest2: ["I'll help you upgrade your pickaxe!","⚒","⛏️","🔩","🔩","🔩","🔩","🔩","🔩","🪙","💎","💠","⚙️"],
-      quest3: ["I'll help you upgrade your axe!","🪚","🪓","🔩","🔩","🔩","🔩","🔩","🔩","🪙","🪵","🪵","🪵","🪵","🪵","🪵","🪵","🪵","🪵","🪵","🪵"],
+      quest2: ["I'll help you upgrade your pickaxe!","⚒","⛏️","🔩","🔩","🔩","🪙","🪙","🪙","💎","💠","⚙️"],
+      quest3: ["I'll help you upgrade your axe!","🪚","🪓","🔩","🔩","🔩","🪙","🪙","🪙","🪵","🪵","🪵","🪵","🪵","🪵","🪵","🪵","🪵","🪵","🪵"],
       quest4: ["Whenever I feel lonely I think about pets. I'll give you one of mine for something","🐈","🐟"],
       quest5: ["Whenever I feel lonely I think about pets. I'll give you one of mine for something","🐱","🐟"],
       quest6: ["Thanks for doing all of my quests!","​","​"]
@@ -2175,6 +2157,8 @@ document.addEventListener("DOMContentLoaded", function () {
   
   var itemNames = {
     "🎖️": { name: "Military Medal" },
+    "🏅": { name: "Winning Medal" },
+    "🥇": { name: "Boss Medal" },
     "🗝️": { name: "Dungeon Key" },
     "🔑": { name: "Key" },
     "🪽": { name: "Wings" },
@@ -2206,13 +2190,16 @@ document.addEventListener("DOMContentLoaded", function () {
     "🐭": { name: "Mouse Head" },
     "🃏": { name: "Joker Card" },
     "🎭": { name: "Happy Sad Mask" },
-    "👁": { name: "Eye" },
+    "👁️": { name: "Eye" },
     "🫀": { name: "Heart" },
+    "🌐": { name: "World" },
     "❤‍🔥": { name: "Burning Heart" },
     "🐉": { name: "Dragon" },
   };
   
   var unstackable = ["🗡️","⛏️","🪓","🔧","🖌️","🔨","🔪","⚔️","⚒️","🪚","🪄","🎻","🎸","🔫","🎣"];
+  var pets = ["🐶","🐕‍🦺","🦮","🐩","🐱","🐈","🐈‍⬛","🐤","🐥"];
+  var hostileMobs = ["🕷️","🧟‍♀","🧟‍♂","🧛","👻","👿","😈","🛸"];
   
   var farmCrops = {
     "🍅": {"name": "Tomato", "seed": "𓇠"},
@@ -2223,9 +2210,9 @@ document.addEventListener("DOMContentLoaded", function () {
     "🏖": {"name": "Sand", "seed": "𓇼"},
     "🫘": {"name": "Beans", "seed": "𓇡"},
     "🌾": {"name": "Wheat", "seed": "."},
-    "🍈": {"name": "Melon", "seed": ":･"},
-    "🌳": {"name": "Tree", "seed": "˖"},
-    "🌲": {"name": "Evergreen Tree", "seed": "↟"},
+    "🍈": {"name": "Melon", "seed": ":･", "loot": "🍉"},
+    "🌳": {"name": "Tree", "seed": "˖", "loot": "🪵"},
+    "🌲": {"name": "Evergreen Tree", "seed": "↟", "loot": "🪵"},
     "🍄": {"name": "Mushroom", "seed": "𓍊"},
     "🌿": {"name": "Herb", "seed": "⸙"},
     "🌸": {"name": "Cherry Blossom", "seed": "❀"},
@@ -2282,7 +2269,7 @@ document.addEventListener("DOMContentLoaded", function () {
       base_emoji: "🪬",
       hearts: "🫀",
       health: 70,
-      loot: ["🏆","👁","🫀"],
+      loot: ["🏆","👁️","🫀"],
       enraged: "😰",
       angry: "🪬",
       damage: 20,
@@ -2304,7 +2291,7 @@ document.addEventListener("DOMContentLoaded", function () {
       base_emoji: "👽",
       hearts: "💙",
       health: 90,
-      loot: ["🏆","💫"],
+      loot: ["🏆","💫","🌐"],
       enraged: "😣",
       angry: "👽",
       damage: 25,
@@ -2571,15 +2558,82 @@ var dungeon_map = [
   var days = document.getElementById("day");
   var phaseOnce = true;
   
-  let playerPosition = { x: 5, y: 5 };
-  let bossPosition = { x: 1, y: 1 };
-  let chestPosition = {};
-  let limitedVision = {};
-  let blackSquare = "⬛";
+  var playerPosition = { x: 5, y: 5 };
+  var bossPosition = { x: 1, y: 1 };
+  var chestPosition = {};
+  var limitedVision = {};
+  var blackSquare = "⬛";
   
   // Generate box loot
   var boxLoot = [];
   var boxValueLoot = [];
+  
+    // Hovering Text
+  var hover = "";
+  var iRow = 0;
+  var iCol = 0;
+  const corner = document.querySelector('.corner');
+  const hoverText = document.querySelector('.hover-text');
+
+  corner.addEventListener('mousemove', (event) => {
+    hoverText.style.left = `${event.clientX}px`;
+    hoverText.style.top = `${event.clientY + 10}px`;
+    
+    // Hover Text
+    const clickArea = document.getElementById('healthBar');
+    const mouseX = event.clientX - clickArea.getBoundingClientRect().left;
+    const mouseY = event.clientY - clickArea.getBoundingClientRect().top;
+
+    let s1Row = parseInt(Math.round((mouseY - 30) / divisor));
+    let s1Col = parseInt(Math.round((mouseX - 3) / divisor));
+    iRow = s1Row;
+    iCol = s1Col;
+
+    if (s1Row >= 0 && s1Row < Inventory.length && s1Col >= 0 && s1Col < Inventory[0].length) {
+      hover = Inventory[s1Row][s1Col] + inventoryValue[s1Row][s1Col] ?? "";
+    } else if (s1Row >= 7 && s1Row <= 10 && s1Col <=8) {
+      s1Row -= 7;
+      for (let i = 0; i < boxLoot.length; i++) {
+        const lootEntry = boxLoot[i];
+        const valueEntry = boxValueLoot[i];
+        if (chestPosition.x == lootEntry[0] && chestPosition.y == lootEntry[1] && level == lootEntry[2]) {
+          let pos = s1Row * 9 + s1Col + 3;
+          hover = lootEntry[pos] + valueEntry[pos];
+        }
+      }
+    } else if (s1Col == 11 || s1Col == 10) {
+      for (let i = 0; i < 4; i ++) {
+        if (s1Row == i && armor[i] in armorProperties) {
+          hover = `${armor[i]} [${armorProperties[armor[i]].protection}🛡️]`;
+        }
+      }
+    } else {
+      hover = "";
+    }
+    
+    hoverText.textContent = hover;
+  });
+
+  corner.addEventListener('mouseenter', () => {
+    hoverText.style.left = '0';
+    hoverText.style.top = '0';
+  });
+
+  corner.addEventListener('mouseleave', () => {
+    hoverText.style.left = '-9999px';
+  });
+  
+  function replaceItem(items,replace,value) {
+    for (let i = 0; i < Inventory.length; i++) {
+      for (let j = 0; j < Inventory[i].length; j++) {
+        if (Inventory[i][j] === items) {
+          Inventory[i][j] = replace;
+          inventoryValue[i][j] = value;
+          return;
+        }
+      }
+    }
+  }
   
   // Import .json file
   function saveWorld() {
@@ -2588,6 +2642,7 @@ var dungeon_map = [
     window.localStorage.setItem("inventoryValueData", JSON.stringify(inventoryValue));
     window.localStorage.setItem("armorData", JSON.stringify(armor));
     window.localStorage.setItem("healthData", JSON.stringify(playerHealth));
+    window.localStorage.setItem("maxHealthData", JSON.stringify(MAX_PLAYER_HEALTH));
     window.localStorage.setItem("hungerData", JSON.stringify(FOOD_HEALTH));
 
     window.localStorage.setItem("chestData", JSON.stringify(chestPosition));
@@ -2599,8 +2654,8 @@ var dungeon_map = [
     window.localStorage.setItem("dragonData", JSON.stringify(dragonDefeated));
     window.localStorage.setItem("timeData", JSON.stringify(time));      
     window.localStorage.setItem("dayData", JSON.stringify(day));
-    window.localStorage.setItem("phaseData", JSON.stringify(phase));
-    window.localStorage.setItem("moonData", JSON.stringify(moonIndex));
+    window.localStorage.setItem("phaseData", JSON.stringify(phaseOnce));
+    window.localStorage.setItem("moonIndexData", JSON.stringify(moonIndex));
 
     window.localStorage.setItem("tractorData", JSON.stringify(tractorMode));
     window.localStorage.setItem("regenData", JSON.stringify(regeneration));
@@ -2634,10 +2689,15 @@ var dungeon_map = [
   
   function loadWorld(Parse) {
     // Load World
+    if (playerHealth <= 0) {playerHealth = 1;}
+    if (HEART_EMOJI == "🖤") {HEART_EMOJI = "❤️";}
+    if (PLAYER_EMOJI == "💀") {PLAYER_EMOJI = "😄";}
+    
     Inventory = parse("inventoryData",Parse);
     inventoryValue = parse("inventoryValueData",Parse);
     armor = parse("armorData",Parse);
     playerHealth = parse("healthData",Parse);
+    MAX_PLAYER_HEALTH = parse("maxHealthData",Parse);
     FOOD_HEALTH = parse("hungerData",Parse);
 
     chestPosition = parse("chestData",Parse);
@@ -2650,8 +2710,8 @@ var dungeon_map = [
     time = parse("timeData",Parse);
     day = parse("dayData",Parse);
 
-    phase = parse("phaseData",Parse);
-    moonIndex = parse("moonIndex",Parse);
+    phaseOnce = parse("phaseData",Parse);
+    moonIndex = parse("moonIndexData",Parse);
 
     tractorMode = parse("tractorData",Parse);
     regeneration = parse("regenData",Parse);
@@ -2674,6 +2734,16 @@ var dungeon_map = [
     moon_map = parse("moonData",Parse);
 
     // Set-up other things
+    if (device == "windows") {
+      replaceItem("🪽","𓆩𓆪"," ");
+    } else {
+      replaceItem("𓆩𓆪","🪽"," ");
+    }
+    
+    if (MAX_PLAYER_HEALTH < 10) {
+      MAX_PLAYER_HEALTH = 10;
+    }
+    
     boss_mode = false;
     playerPosition = { x: 5, y: 5 };
     setTimeout(function(){
@@ -2681,6 +2751,9 @@ var dungeon_map = [
       tooltip.innerHTML = "World loaded!";
     }, 800);
     for (let thing in questDesc) {
+      if (questDesc[thing].desc == "") {
+        questDesc[thing].desc = objectProperties[thing].description;
+      }
       objectProperties[thing].description = questDesc[thing].desc;
     }
   }
@@ -2762,18 +2835,6 @@ var dungeon_map = [
     }
   }
   
-  function replaceItem(items,replace,value) {
-    for (let i = 0; i < Inventory.length; i++) {
-      for (let j = 0; j < Inventory[i].length; j++) {
-        if (Inventory[i][j] === items) {
-          Inventory[i][j] = replace;
-          inventoryValue[i][j] = value;
-          return;
-        }
-      }
-    }
-  }
-  
   function ifBox(s1,s2,s3,s4) {
     if (adjacent.includes("📦")) {
       for (let i = 0; i < boxLoot.length; i++) {
@@ -2811,6 +2872,7 @@ var dungeon_map = [
       swapItems(inventoryValue,s1,s2,s3,s4);
     }
     HAND_EMOJI = Inventory[0][currentSlot - 1]
+    if (HAND_EMOJI == "") {HAND_EMOJI = "👊";}
   }
 
   function goBack() {
@@ -2971,6 +3033,10 @@ var dungeon_map = [
           } else if (inventoryValue[i][j] >= 3) {
             inventoryValue[i][j]--;
             return;
+          } else {
+            Inventory[i][j] = "";
+            inventoryValue[i][j]== "";
+            return;
           }
         }
       }
@@ -3023,73 +3089,6 @@ var dungeon_map = [
     }
   }
   
-    
-  function movePet(matrix,mob) {
-    for (let row = 0; row < matrix.length; row++) {
-      for (let col = 0; col < matrix[row].length; col++) {
-        if (matrix[row][col] === mob) {
-          
-          // Random
-          if (Math.random() < 0.55) {
-            let rng = Math.floor(Math.random() * 4);
-            if (matrix[row + 1][col] === " " && rng == 0) {
-              matrix[row][col] = " ";
-              matrix[row + 1][col] = mob;
-            } else if (matrix[row - 1][col] === " " && rng == 1) {
-              matrix[row][col] = " ";
-              matrix[row - 1][col] = mob;
-            } else if (matrix[row][col + 1] === " " && rng == 2) {
-              matrix[row][col] = " ";
-              matrix[row][col + 1] = mob;
-            } else if (matrix[row][col - 1] === " " && rng == 3) {
-              matrix[row][col] = " ";
-              matrix[row][col - 1] = mob;
-            }
-          }
-          // Intentional
-          else {
-            let Row = row;
-            let Col = col;
-            let dx = moveX + 4 - Col;
-            let dy = moveY + 4 - Row;
-            let absDx = Math.abs(dx);
-            let absDy = Math.abs(dy);
-
-            if (absDx > absDy) {
-              Col += dx > 0 ? 1 : -1;
-            } else {
-              Row += dy > 0 ? 1 : -1;
-            }
-
-            if (matrix[Row][Col] == " ") { 
-            matrix[row][col] = " ";
-            matrix[Row][Col] = mob;
-            } else {
-              let randomDirection = Math.floor(Math.random() * 4);
-              Row = row;
-              Col = col;
-
-              if (randomDirection === 0) {
-                Row += 1; // Move down
-              } else if (randomDirection === 1) {
-                Row -= 1; // Move up
-              } else if (randomDirection === 2) {
-                Col += 1; // Move right
-              } else if (randomDirection === 3) {
-                Col -= 1; // Move left
-              }
-
-              if (Row >= 0 && Row < matrix.length && Col >= 0 && Col < matrix[row].length && matrix[Row][Col] == " ") {
-                matrix[row][col] = " ";
-                matrix[Row][Col] = mob;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  
   function moveEnemy(matrix,mob,amount) {
     if (!boss_mode) {
       for (let row = 0; row < matrix.length; row++) {
@@ -3135,6 +3134,89 @@ var dungeon_map = [
               if (Row >= 0 && Row < matrix.length && Col >= 0 && Col < matrix[row].length && matrix[Row][Col] == " ") {
                 matrix[row][col] = " ";
                 matrix[Row][Col] = mob;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  function moveToLocation(matrix,mob,x,y,isPet) {
+    for (let row = 0; row < matrix.length; row++) {
+      for (let col = 0; col < matrix[row].length; col++) {
+        if (matrix[row][col] === mob) {
+          
+          // Random
+          if (Math.random() < 0.35) {
+            let rng = Math.floor(Math.random() * 4);
+            if (matrix[row + 1][col] === " " && rng == 0) {
+              matrix[row][col] = " ";
+              matrix[row + 1][col] = mob;
+            } else if (matrix[row - 1][col] === " " && rng == 1) {
+              matrix[row][col] = " ";
+              matrix[row - 1][col] = mob;
+            } else if (matrix[row][col + 1] === " " && rng == 2) {
+              matrix[row][col] = " ";
+              matrix[row][col + 1] = mob;
+            } else if (matrix[row][col - 1] === " " && rng == 3) {
+              matrix[row][col] = " ";
+              matrix[row][col - 1] = mob;
+            }
+          }
+          // Intentional
+          else {
+            let Row = row;
+            let Col = col;
+            let dx = x - Col;
+            let dy = y - Row;
+            let absDx = Math.abs(dx);
+            let absDy = Math.abs(dy);
+
+            if (absDx > absDy) {
+              Col += dx > 0 ? 1 : -1;
+            } else {
+              Row += dy > 0 ? 1 : -1;
+            }
+
+            if (matrix[Row][Col] == " ") { 
+            matrix[row][col] = " ";
+            matrix[Row][Col] = mob;
+            } else {
+              let randomDirection = Math.floor(Math.random() * 4);
+              Row = row;
+              Col = col;
+
+              if (randomDirection === 0) {
+                Row += 1; // Move down
+              } else if (randomDirection === 1) {
+                Row -= 1; // Move up
+              } else if (randomDirection === 2) {
+                Col += 1; // Move right
+              } else if (randomDirection === 3) {
+                Col -= 1; // Move left
+              }
+
+              if (Row >= 0 && Row < matrix.length && Col >= 0 && Col < matrix[row].length && matrix[Row][Col] == " ") {
+                matrix[row][col] = " ";
+                matrix[Row][Col] = mob;
+              }
+            }
+            
+            // Pet attacks hostile mobs
+            if (isPet) {
+              if (hostileMobs.includes(matrix[Row+1][Col])) {
+                addInventory(objectProperties[matrix[Row+1][Col]].loot);
+                matrix[Row+1][Col] = " ";
+              } else if (hostileMobs.includes(matrix[Row-1][Col])) {
+                addInventory(objectProperties[matrix[Row-1][Col]].loot);
+                matrix[Row-1][Col] = " ";
+              } else if (hostileMobs.includes(matrix[Row][Col+1])) {
+                addInventory(objectProperties[matrix[Row][Col+1]].loot);
+                matrix[Row][Col+1] = " ";
+              } else if (hostileMobs.includes(matrix[Row][Col-1])) {
+                addInventory(objectProperties[matrix[Row][Col-1]].loot);
+                matrix[Row][Col-1] = " ";
               }
             }
           }
@@ -3228,7 +3310,8 @@ var dungeon_map = [
       
       for (let i = 0; i < Inventory.length; i++) {
         for (let j = 0; j < Inventory[i].length; j++) {
-          if (Inventory[i][j] === itemsNeeded[h] && !possible.includes(itemName)) {
+          updateAdjacent();
+          if (Inventory[i][j] === itemsNeeded[h] && !possible.includes(itemName) && (adjacent.includes(required) || required == "")) {
             possible.push(itemName);
           }
         }
@@ -3468,17 +3551,15 @@ var dungeon_map = [
     
     // Pets
     if (Math.random() < 0.6) {
-      movePet(dim(),"🐶");
-      movePet(dim(),"🐱");
-      movePet(dim(),"🐕");
-      movePet(dim(),"🐈");
-      movePet(dim(),"🐤");
+      for (let i = 0; i < pets.length; i ++) {
+        moveToLocation(dim(),pets[i],moveX+4,moveY+4,true);
+      }
     }
     
     if (Math.random() < 0.3) {
-      movePet(dim(),"🚚");
-      movePet(dim(),"🚛");
-      movePet(dim(),"🛻");
+      moveToLocation(dim(),"🚚",moveX+4,moveY+4,false);
+      moveToLocation(dim(),"🚛",moveX+4,moveY+4,false);
+      moveToLocation(dim(),"🛻",moveX+4,moveY+4,false);
     }
     
     if (Math.random() < 0.4 && current_map == dungeon_map) {
@@ -3491,7 +3572,9 @@ var dungeon_map = [
         case 2:
           summonMob(dungeon_map,"🧛"); break;
         case 3:
-          summonMob(dungeon_map,"👻"); break;
+          if (Math.random() < 0.5) {
+            summonMob(dungeon_map,"👻"); break;
+          }
       }
     }
     
@@ -3626,7 +3709,7 @@ var dungeon_map = [
     if (time % 15 == 0 && FOOD_HEALTH == 0) {
       damage(1);
       time ++;
-    } if (time % 20 == 0 && playerHealth < 10 && FOOD_HEALTH > 0) {
+    } if (time % 20 == 0 && playerHealth < MAX_PLAYER_HEALTH && FOOD_HEALTH > 0) {
       playerHealth ++;
       hunger(-1);
     }
@@ -3674,7 +3757,11 @@ var dungeon_map = [
         for (let j = 0; j < terrain_map[i].length; j++) {
           for (let item in farmCrops) {
             if (terrain_map[i][j] === farmCrops[item].seed) {
-              terrain_map[i][j] = item;
+              if (farmCrops[item].loot || false) {
+                terrain_map[i][j] = farmCrops[item].loot;
+              } else {
+                terrain_map[i][j] = item;
+              }
             }
           }
         }
@@ -3683,7 +3770,11 @@ var dungeon_map = [
         for (let j = 0; j < cave_map[i].length; j++) {
           for (let item in farmCrops) {
             if (cave_map[i][j] === farmCrops[item].seed) {
-              cave_map[i][j] = item;
+              if (farmCrops[item].loot || false) {
+                cave_map[i][j] = farmCrops[item].loot;
+              } else {
+                cave_map[i][j] = item;
+              }
             }
           }
         }
@@ -3761,7 +3852,7 @@ var dungeon_map = [
     
     // Special Effects
     if (sandboxMode) {
-      playerHealth = 10;
+      playerHealth = MAX_PLAYER_HEALTH;
       armorProperties[armor[0]].protection = 999;
     }
     if (level == 2 || level == 4) {
@@ -3787,6 +3878,7 @@ var dungeon_map = [
       playerHealth ++;
       playerPosition = { x : 5, y : 5 };
       HEART_EMOJI = "🖤";
+      burning = 0;
       moveX = 6;
       moveY = 5;
       level = 0;
@@ -3798,7 +3890,7 @@ var dungeon_map = [
     if (playerHealth == 2 && HEART_EMOJI == "🖤") {
       HEART_EMOJI = "❤️";
     }
-    if (playerHealth == 10 && (PLAYER_EMOJI == "🤕" || PLAYER_EMOJI == "💀")) {
+    if (playerHealth == 5 && (PLAYER_EMOJI == "🤕" || PLAYER_EMOJI == "💀")) {
       PLAYER_EMOJI = "😄";
     }
     
@@ -3881,9 +3973,9 @@ var dungeon_map = [
     
     // Sleep
     if (playerTile == "🛏️") {
-      PLAYER_EMOJI = "🛌";
+      PLAYER_EMOJI = "😴";
       time += 12;
-    } else if (playerTile != "🛏️" && PLAYER_EMOJI == "🛌") {PLAYER_EMOJI = "😄"}
+    } else if (playerTile != "🛏️" && PLAYER_EMOJI == "😴") {PLAYER_EMOJI = "😄"}
     
     // Crafting
     for (items in craftingDictionary) {
@@ -4124,7 +4216,7 @@ var dungeon_map = [
   
   function magic(map, proj, damage, hone) {
     updateAdjacent();
-    if (!boss_mode) {
+    if (!boss_mode && FOOD_HEALTH != 0) {
       if (direction == "up" && adjacent[0] == " ") {
         map[moveY + 3][moveX + 4] = proj;
         return true;
@@ -4138,7 +4230,7 @@ var dungeon_map = [
         map[moveY + 4][moveX + 5] = proj + "​​​";
         return true;
       }
-    } else {
+    } else if (FOOD_HEALTH != 0) {
       if (hone !== "") {
         currentProjectiles.push([proj, playerPosition.x, playerPosition.y, 4, damage, "player"]);
         return true;
@@ -4320,8 +4412,10 @@ var dungeon_map = [
         magic(dim(),"🎶",6,"");
       }
     } else if (emoji == "🎸") {
-      if (Math.random() < 0.6) {
+      if (Math.random() < 0.5) {
         magic(dim(),"🎵",7,"");
+      } else if (Math.random() < 0.2) {
+        magic(dim(),"🎼",7,"");
       } else {
         magic(dim(),"🎶",5,"hone");
       }
@@ -4435,24 +4529,28 @@ var dungeon_map = [
       else {dy --;}
       direction = "up";
       questGive = [];
+      possible = [];
       tooltip.innerHTML = "";
     } else if (key === "ArrowDown" || key === "s" || key === "S") {
       if (!boss_mode) {moveY ++;}
       else {dy ++;}
       direction = "down";
       questGive = [];
+      possible = [];
       tooltip.innerHTML = "";
     } else if (key === "ArrowLeft" || key === "a" || key === "A") {
       if (!boss_mode) {moveX --;}
       else {dx --;}
       direction = "left";
       questGive = [];
+      possible = [];
       tooltip.innerHTML = "";
     } else if (key === "ArrowRight" || key === "d" || key === "D") {
       if (!boss_mode) {moveX ++;}
       else {dx ++;}
       direction = "right";
       questGive = [];
+      possible = [];
       tooltip.innerHTML = "";
     } else if (key === "k") {
       if (deflt == "🤚") {
@@ -4606,8 +4704,7 @@ var dungeon_map = [
           }
           
           removeInventory(HAND_EMOJI);
-        } else if (foodProperties[HAND_EMOJI].effect) {
-
+        } if (foodProperties[HAND_EMOJI]?.effect) {
           // Special effects properties
           if (foodProperties[HAND_EMOJI].effect == "health4") {
             if (playerHealth + 4 > MAX_PLAYER_HEALTH) {
@@ -4623,6 +4720,10 @@ var dungeon_map = [
           } else if (foodProperties[HAND_EMOJI].effect == "fireres") {
             fireRes = 100;
             effects += "🔥";
+          } else if (foodProperties[HAND_EMOJI].effect == "vitality") {
+            if (MAX_PLAYER_HEALTH < 30) {
+              MAX_PLAYER_HEALTH ++;
+            }
           } else if (foodProperties[HAND_EMOJI].effect == "elixir") {
             elixir = 15;
             effects += "🛡️";
@@ -4758,6 +4859,10 @@ var dungeon_map = [
         setAdjacent(dim(),"🟥","🟧");
         setAdjacent(dim(),"◼️","🟥");
         
+        setAdjacent(dim(),"♒","<>");
+        setAdjacent(dim(),"🟪","♒");
+        setAdjacent(dim(),"<>","🟪");
+        
         setAdjacent(dim(), "🇪🇺", "◼️");
         setAdjacent(dim(), "🇯🇵", "🇪🇺");
         setAdjacent(dim(), "🇰🇷", "🇯🇵");
@@ -4826,6 +4931,7 @@ var dungeon_map = [
                 thing.output = thing[`quest${thing.currentQuest}`][1];
                 const remainingRequired = thing[`quest${thing.currentQuest}`].slice(2);
                 thing.qrequired.push(...remainingRequired);
+                delete thing[`quest${thing.currentQuest}`];
 
                 thing.currentQuest++;
                 questGive = [];
@@ -4908,9 +5014,10 @@ var dungeon_map = [
       openInventory();
     } else if (key == "e") {
       // Inventory Stuff
-        if (showInv == "") {
-          openInventory();
-        } else {showInv = "";}
+      possible = [];
+      if (showInv == "") {
+        openInventory();
+      } else {showInv = "";}
     } if (event.ctrlKey && event.shiftKey && event.key === "S") {
       // Retrieve contents from localStorage
       saveWorld();
@@ -4969,6 +5076,7 @@ var dungeon_map = [
       }
     }
     
+    // Block Conditions
     if (playerTile == "🕳️" && !tractorMode) {
       goBack();
       level = -1;
@@ -5009,13 +5117,16 @@ var dungeon_map = [
     } else if (playerTile == "🌔") {
       goBack();
       level = 4;
+    } else if (adjacent == ["🌊","🌊","🌊","🌊"]) {
+      moveX = 5;
+      moveY = 5;
     }
-    
+        
     // Explosives
     else if (playerTile == "💥") {
       setBlock(dim(),4,4,"💥"," ");
     } else if (playerTile == "🧨") {
-      damage(4);
+      damage(9);
       PLAYER_EMOJI = "😵‍💫";
       setBlock(dim(),4,4,"🧨","💥");
       setAdjacent(dim()," ","💥");
@@ -5025,7 +5136,7 @@ var dungeon_map = [
         setAdjacent(dim(),"💥"," ");
       },400)
     } else if (playerTile == "💣") {
-      damage(4);
+      damage(9);
       PLAYER_EMOJI = "😵‍💫";
       setBlock(dim(),4,4,"💣","💥");
       setAdjacent(dim()," ","💥");
@@ -5112,9 +5223,9 @@ var dungeon_map = [
     }
    
     if (playerTile == "🛏️") {
-      PLAYER_EMOJI = "🛌";
+      PLAYER_EMOJI = "😴";
       time ++;
-    } else if (playerTile != "🛏️" && PLAYER_EMOJI == "🛌") {PLAYER_EMOJI = "😄"}
+    } else if (playerTile != "🛏️" && PLAYER_EMOJI == "😴") {PLAYER_EMOJI = "😄"}
     if (playerTile in objectProperties) {
       if (!objectProperties[playerTile].canBeWalkedOn) {goBack();}
     }
@@ -5275,17 +5386,28 @@ var dungeon_map = [
       if (bossHealth <= 0) {
         // Boss is defeated
         BOSS_EMOJI = "☠️";
+        BOSS = "☠️";
         PLAYER_EMOJI = "🥳";
         win = true;
-        playerPosition = { x: 5, y: 5 };
-        boss_mode = false;
-        for (let i = 0; i < BOSS_LOOT.length; i++) {
-          addInventory(BOSS_LOOT[i]);
-        }
+        bossHealth = 1;
+        BOSS_HEARTS = "🖤";
+
+        setTimeout(function() {
+          for (let i = BOSS_LOOT.length - 1; i >= 0; i--) {
+            addInventory(BOSS_LOOT[i]);
+          }
+
+          playerPosition = { x: 5, y: 5 };
+          boss_mode = false;
+        }, 3000);
       }
 
       if (playerHealth == 1) {
         PLAYER_EMOJI = "😵‍💫";
+      }
+      
+      if (bossPosition.x > 9 || bossPosition.y > 9 || bossPosition.x < 0 || bossPosition.y < 0) {
+        bossPosition = { x:1, y:1 };
       }
       
       if (!win) {
@@ -5305,6 +5427,7 @@ var dungeon_map = [
         } else {
           BOSS_EMOJI = BOSS;
         }
+        if (bossHealth < 0) {bossHealth = 0;}
       }
             
       // Calculate projectiles
