@@ -1,4 +1,4 @@
-# Emojicraft
+# EmojiCraft
 
 Play here: https://itsdragonic.github.io/emojicraft/
 
